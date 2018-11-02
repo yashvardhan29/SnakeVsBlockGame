@@ -37,7 +37,7 @@ public class Controller {
 
     Snake snake; //Reference to the snake.
 
-    boolean WallIsPresent;
+    boolean WallIsPresent;  // True if wall is present on screen.
     boolean BlockIsPresent; // True if even a single block is present on screen.
     boolean MagnetIsPresent; // True if Magnet is present on screen.
     boolean ShieldIsPresent; // True if Shield is present on screen.
@@ -221,7 +221,6 @@ public class Controller {
             root.getChildren().add(thewall.realg);
             WallIsPresent = true;
             wall = thewall;
-            System.out.println("Hello");
         }
     }
 
@@ -404,16 +403,16 @@ public class Controller {
                 if(cloc.getY() + diameter == hloc.getY()){
 
                     if(cloc.getX() == hloc.getX()){
-                        ConsumeCoin(i);
+                        ConsumeCoin(i,coins[i]);
                     }
                 }
                 else if((hloc.getY() - cloc.getY() <= 15 && hloc.getY() - cloc.getY() >= 0) || (hloc.getY() - cloc.getY() >= 15 && hloc.getY() - cloc.getY() <= 0)){
                     int xdiff = hloc.getX() - cloc.getX();
                     if(xdiff >= 0){
-                        if(xdiff <= 10) ConsumeCoin(i);
+                        if(xdiff <= 10) ConsumeCoin(i,coins[i]);
                     }
                     else{
-                        if(xdiff >= -10) ConsumeCoin(i);
+                        if(xdiff >= -10) ConsumeCoin(i,coins[i]);
                     }
                 }
             }
@@ -445,8 +444,8 @@ public class Controller {
     }
 
 
-    private void ConsumeCoin(int i){
-        snake.incLength(diameter /2);
+    private void ConsumeCoin(int i,Coin currc){
+        for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
         root.getChildren().remove(coins[i].realg);
         coins[i] = null;
         coinlocs[i] = null;
