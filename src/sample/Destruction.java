@@ -14,7 +14,7 @@ public class Destruction {
         time = 0;
 
         realg = new StackPane();
-        Image img = new Image("file:/Users/yash/Desktop/fireworks.png");
+        Image img = new Image("file:src/fireworks.png");
         icon = new ImageView(img);
 
         realg.getChildren().add(icon);

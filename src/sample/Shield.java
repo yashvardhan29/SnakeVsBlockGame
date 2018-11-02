@@ -14,7 +14,7 @@ public class Shield {
         time = 0;
 
         realg = new StackPane();
-        Image img = new Image("file:/Users/yash/Desktop/antivirus.png");
+        Image img = new Image("file:src/antivirus.png");
         icon = new ImageView(img);
 
         realg.getChildren().add(icon);

@@ -14,7 +14,7 @@ public class Magnet {
         time = 0;
 
         realg = new StackPane();
-        Image img = new Image("file:/Users/yash/Desktop/magnet.png");
+        Image img = new Image("file:src/magnet.png");
         icon = new ImageView(img);
 
         realg.getChildren().add(icon);

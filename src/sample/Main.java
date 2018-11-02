@@ -17,90 +17,51 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
-//        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-//        Scene scene = new Scene(root);
-//        Button startgame = (Button) root.lookup("#game");
-//        Button lb = (Button) root.lookup("#lb");
-//        Button store = (Button) root.lookup("#store");
-//        Button lo = (Button) root.lookup("#logout");
-//        Button exit = (Button) root.lookup("#exit");
-//
-//        startgame.setOnAction(e -> {
-//            Scene scene1 = startGame();
-//            primaryStage.setScene(scene1);
-//            primaryStage.show();
-//        });
-//
-//        lb.setOnAction(e -> {
-//            try{
-//                Scene scene1 = startLB();
-//                primaryStage.setScene(scene1);
-//                primaryStage.show();
-//            }
-//            catch (Exception as){}
-//        });
-//
-//        store.setOnAction(e -> {
-//            try{
-//                Scene scene1 = startStore();
-//                primaryStage.setScene(scene1);
-//                primaryStage.show();
-//            }
-//            catch (Exception as){}
-//        });
-//
-//        lo.setOnAction(e -> {
-//            try{
-//                Scene scene1 = logout();
-//                primaryStage.setScene(scene1);
-//                primaryStage.show();
-//            }
-//            catch (Exception as){}
-//        });
-//
-//        exit.setOnAction(e -> {
-//            exitGame();
-//        });
+        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        Scene scene = new Scene(root);
+        Button startgame = (Button) root.lookup("#game");
+        Button lb = (Button) root.lookup("#lb");
+        Button store = (Button) root.lookup("#store");
+        Button profile = (Button) root.lookup("#profile");
+        Button exit = (Button) root.lookup("#exit");
 
-        Controller Admin = new Controller(); //Instantiation of controller object
-
-        Scene scene = new Scene(Admin.getRoot(), 500, 500, Color.BLACK);
-
-        //KeyHandler for KeyPresses
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                switch (keyEvent.getCode()){
-                    case LEFT:
-                        Admin.xvel = -1;
-                        Admin.yvel = 0;
-                        break;
-                    case RIGHT:
-                        Admin.xvel = 1;
-                        Admin.yvel = 0;
-                        break;
-                    case P:
-                        Admin.snake.incLength(5);
-                }
-            }
+        startgame.setOnAction(e -> {
+            Scene scene1 = startGame();
+            primaryStage.setScene(scene1);
+            primaryStage.show();
         });
 
-        //KeyHandler for KeyReleases
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                switch (keyEvent.getCode()){
-                    case LEFT:
-                        Admin.xvel = 0;
-                        break;
-                    case RIGHT:
-                        Admin.xvel = 0;
-                        break;
-                }
+        lb.setOnAction(e -> {
+            try{
+                Scene scene1 = startLB();
+                primaryStage.setScene(scene1);
+                primaryStage.show();
             }
+            catch (Exception as){}
         });
 
-//        Scene scene = startGame();
+        store.setOnAction(e -> {
+            try{
+                Scene scene1 = startStore();
+                primaryStage.setScene(scene1);
+                primaryStage.show();
+            }
+            catch (Exception as){}
+        });
+
+        profile.setOnAction(e -> {
+            try{
+                Scene scene1 = openProfile();
+                primaryStage.setScene(scene1);
+                primaryStage.show();
+            }
+            catch (Exception as){}
+        });
+
+        exit.setOnAction(e -> {
+            exitGame();
+        });
+
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -111,7 +72,10 @@ public class Main extends Application {
         return new Scene(root);
     }
 
-    public Scene logout(){return null;}
+    public Scene openProfile() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("profile.fxml"));
+        return new Scene(root);
+    }
     public void exitGame(){}
 
     public Scene startLB() throws IOException {

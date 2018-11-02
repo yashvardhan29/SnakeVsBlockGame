@@ -4,6 +4,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -28,9 +30,9 @@ public class Controller {
 
     Coin coins[]; // Array that stores references to the coins on screen.
     Block theblocks[]; //Array that stores references to the blocks on screen.
-    Magnet magnet;
-    Shield shield;
-    Destruction destruction;
+    Magnet magnet; // Reference to the magnet on screen.
+    Shield shield; // Reference to the shield on screen.
+    Destruction destruction; // Reference to the destruction token on screen.
     Wall wall; // Solitary realg only for purpose of deadline 2.
 
     Point coinlocs[]; //Location of coins.
@@ -48,43 +50,65 @@ public class Controller {
     int score;
     Text score_text;
 
+    ChoiceBox<String> cb;
+
     Controller(){
         root = new Pane();
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
 
-        setupSnake();
-
-        root.getChildren().add(snake.head);
-
+        score = 0;
         Coin_count = 0;
 
-        BlockIsPresent = false;
-        WallIsPresent = false;
-        MagnetIsPresent = false;
-        ShieldIsPresent = false;
-        DestructionIsPresent = false;
-        isAlive = true;
-
-        score = 0;
-        score_text = new Text(475,13,"0");
-        score_text.setFill(Color.WHITE);
-        score_text.setFont(new Font(15));
-        root.getChildren().add(score_text);
-
-        theblocks = new Block[10];
-        coins = new Coin[5];
-        coinlocs = new Point[5];
-
+        setupChoiceBox();
+        setupSnake();
+        setupScoreDisplay();
+        InitialiseBooleans();
+        setupObjectArrays();
 
         startAnimationTimers();
 
 
     }
 
+    private void setupObjectArrays(){
+        theblocks = new Block[10];
+        coins = new Coin[5];
+        coinlocs = new Point[5];
+    }
+
+    private void InitialiseBooleans(){
+        BlockIsPresent = false;
+        WallIsPresent = false;
+        MagnetIsPresent = false;
+        ShieldIsPresent = false;
+        DestructionIsPresent = false;
+        isAlive = true;
+    }
+
+    private void setupScoreDisplay(){
+        score_text = new Text(475,13,"0");
+        score_text.setFill(Color.WHITE);
+        score_text.setFont(new Font(15));
+        root.getChildren().add(score_text);
+    }
+
     private void setupSnake(){
         snake = new Snake(WIDTH,HEIGHT,diameter,root);
         xvel = 0;
         yvel = 0;
+        root.getChildren().add(snake.head);
+    }
+
+    private void setupChoiceBox(){
+        cb = new ChoiceBox<>();
+        cb.getItems().addAll("Restart Game", "Quit Game");
+        cb.setLayoutX(0);
+        cb.setLayoutY(0);
+        cb.setValue("Restart Game");
+        cb.setBackground(Background.EMPTY);
+        String style = "-fx-background-color: rgba(255,255,255);";
+        cb.setStyle(style);
+        root.getChildren().add(cb);
     }
 
     private void startAnimationTimers(){
@@ -442,7 +466,6 @@ public class Controller {
             }
         }
     }
-
 
     private void ConsumeCoin(int i,Coin currc){
         for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
