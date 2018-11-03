@@ -15,9 +15,11 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+    Parent root;
+
     @Override
     public void start(Stage primaryStage) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
         Button startgame = (Button) root.lookup("#game");
         Button lb = (Button) root.lookup("#lb");
@@ -36,6 +38,16 @@ public class Main extends Application {
                 Scene scene1 = startLB();
                 primaryStage.setScene(scene1);
                 primaryStage.show();
+
+                Button lbmm = (Button) root.lookup("#lb_mm");
+                lbmm.setOnAction(f -> {
+                    try{
+                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }
+                    catch (Exception g){}
+                });
             }
             catch (Exception as){}
         });
@@ -45,6 +57,17 @@ public class Main extends Application {
                 Scene scene1 = startStore();
                 primaryStage.setScene(scene1);
                 primaryStage.show();
+
+                Button storemm = (Button) root.lookup("#store_mm");
+                storemm.setOnAction(f -> {
+                    try{
+                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                        System.out.println("Hello");
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }
+                    catch (Exception g){}
+                });
             }
             catch (Exception as){}
         });
@@ -62,24 +85,26 @@ public class Main extends Application {
             exitGame();
         });
 
+
+
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     public Scene startStore() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Store.fxml"));
+        root = FXMLLoader.load(getClass().getResource("Store.fxml"));
         return new Scene(root);
     }
 
     public Scene openProfile() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("profile.fxml"));
+        root = FXMLLoader.load(getClass().getResource("profile.fxml"));
         return new Scene(root);
     }
     public void exitGame(){}
 
     public Scene startLB() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
+        root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
         return new Scene(root);
     }
 

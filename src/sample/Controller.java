@@ -483,11 +483,7 @@ public class Controller {
     // Useless for now.
     private void CheckIfAlive(){
         if(!isAlive){
-//            Pane endscene = new Pane();
-//            Text todisp = new Text("Game over, Bro!");
-//            endscene.getChildren().add(todisp);
-
-            //root.getChildren().removeAll();
+         System.exit(0);
         }
     }
 
