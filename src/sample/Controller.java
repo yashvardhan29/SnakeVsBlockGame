@@ -33,7 +33,7 @@ public class Controller {
     Magnet magnet; // Reference to the magnet on screen.
     Shield shield; // Reference to the shield on screen.
     Destruction destruction; // Reference to the destruction token on screen.
-    Wall wall; // Solitary realg only for purpose of deadline 2.
+    Wall wall; // Solitary wall only for purpose of deadline 2.
 
     Point coinlocs[]; //Location of coins.
 

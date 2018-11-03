@@ -21,7 +21,8 @@
                   <Image url="@../logo2.2.png" />
                </image>
             </ImageView>
-            <Button fx:id="game" mnemonicParsing="false" text="Start Game" />
+            <Button fx:id="game" mnemonicParsing="false" text="Start New Game" />
+            <Button mnemonicParsing="false" text="Resume Game" />
             <Button fx:id="lb" mnemonicParsing="false" text="LeaderBoard" />
             <Button fx:id="store" mnemonicParsing="false" text="Store" />
             <Button fx:id="profile" mnemonicParsing="false" text="Profile" />
