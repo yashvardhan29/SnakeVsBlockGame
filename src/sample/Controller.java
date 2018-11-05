@@ -29,18 +29,22 @@ public class Controller {
     int Coin_count; //Number of coins currently on screen.
 
     Coin coins[]; // Array that stores references to the coins on screen.
-    Block theblocks[]; //Array that stores references to the blocks on screen.
+    Block theblocks1[]; // Array that stores references to the blocks on screen.
+    Block theblocks2[];
+
     Magnet magnet; // Reference to the magnet on screen.
     Shield shield; // Reference to the shield on screen.
     Destruction destruction; // Reference to the destruction token on screen.
     Wall wall; // Solitary wall only for purpose of deadline 2.
 
-    Point coinlocs[]; //Location of coins.
+    Point coinlocs[]; // Location of coins.
 
     Snake snake; //Reference to the snake.
 
     boolean WallIsPresent;  // True if wall is present on screen.
-    boolean BlockIsPresent; // True if even a single block is present on screen.
+    boolean BlockR1IsPresent; // True if block row1 is present on screen.
+    boolean BlockR2IsPresent; // True if block row2 is present on screen.
+    boolean BlockR3IsPresent; // True if block row3 is present on screen.
     boolean MagnetIsPresent; // True if Magnet is present on screen.
     boolean ShieldIsPresent; // True if Shield is present on screen.
     boolean DestructionIsPresent; // True if Destruction Token is present on screen.
@@ -71,13 +75,14 @@ public class Controller {
     }
 
     private void setupObjectArrays(){
-        theblocks = new Block[10];
-        coins = new Coin[5];
+        theblocks1 = new Block[10];
+        theblocks2 = new Block[WIDTH/5];
         coinlocs = new Point[5];
+        coins = new Coin[5];
     }
 
     private void InitialiseBooleans(){
-        BlockIsPresent = false;
+        BlockR1IsPresent = false;
         WallIsPresent = false;
         MagnetIsPresent = false;
         ShieldIsPresent = false;
@@ -241,7 +246,7 @@ public class Controller {
 
     private void SpawnWalls(){
         if(!WallIsPresent){
-            Wall thewall = new Wall(theblocks);
+            Wall thewall = new Wall(theblocks1);
             root.getChildren().add(thewall.realg);
             WallIsPresent = true;
             wall = thewall;
@@ -265,7 +270,7 @@ public class Controller {
 
     private void SpawnBlocks(){
         // Spawns blocks
-        if(!BlockIsPresent){
+        if(!BlockR1IsPresent){
             for(int i = 0;i<10;i++){
                 //50% chance of block spawning.
                 Random rand = new Random();
@@ -274,15 +279,39 @@ public class Controller {
                     Point bloc = new Point(i*(WIDTH/10),0);
                     Block curr = new Block(WIDTH,bloc);
                     root.getChildren().add(curr.realg);
-                    theblocks[i] = curr;
-                    BlockIsPresent = true;
+                    theblocks1[i] = curr;
+                    BlockR1IsPresent = true;
                     int val = rand.nextInt(5) + 1;
                     curr.setValue(val);
                     curr.valOfBlock = val;
                 }
-
             }
         }
+        for(int i = 0;i<theblocks1.length;i++){
+            if(theblocks1[i] != null){
+                Block cb = theblocks1[i];
+                if(cb.location.getY() > 250){
+                    if(!BlockR2IsPresent){
+                        for(int j = 0;j<10;j++){
+                            //50% chance of block spawning.
+                            Random rand = new Random();
+                            int decide = rand.nextInt(2);
+                            if(decide == 1){
+                                Point bloc = new Point(j*(WIDTH/10),0);
+                                Block curr = new Block(WIDTH,bloc);
+                                root.getChildren().add(curr.realg);
+                                theblocks2[j] = curr;
+                                BlockR2IsPresent = true;
+                                int val = rand.nextInt(5) + 1;
+                                curr.setValue(val);
+                                curr.valOfBlock = val;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     private void SpawnShield(){
@@ -314,18 +343,33 @@ public class Controller {
 
     private void MoveBlocks(){
         //Moves the blocks downwards.
-        if(BlockIsPresent){
+        if(BlockR1IsPresent){
             for(int i = 0;i<10;i++){
-                if(theblocks[i] != null){
-                    Block currb = theblocks[i];
+                if(theblocks1[i] != null){
+                    Block currb = theblocks1[i];
                     currb.location.translate(0,1);
                     currb.setPosition(currb.location);
                     if(currb.location.getY() >= 480){
                         root.getChildren().remove(currb.realg);
-                        theblocks[i] = null;
-                        BlockIsPresent = false;
+                        theblocks1[i] = null;
+                        BlockR1IsPresent = false;
                     }
-                    else BlockIsPresent = true;
+                    else BlockR1IsPresent = true;
+                }
+            }
+        }
+        if(BlockR2IsPresent){
+            for(int i = 0;i<10;i++){
+                if(theblocks2[i] != null){
+                    Block currb = theblocks2[i];
+                    currb.location.translate(0,1);
+                    currb.setPosition(currb.location);
+                    if(currb.location.getY() >= 480){
+                        root.getChildren().remove(currb.realg);
+                        theblocks2[i] = null;
+                        BlockR2IsPresent = false;
+                    }
+                    else BlockR2IsPresent = true;
                 }
             }
         }
@@ -445,8 +489,8 @@ public class Controller {
 
     private void CheckBlockCollision(){
         for(int i = 0;i<10;i++){
-            if(theblocks[i] != null){
-                Block currb = theblocks[i];
+            if(theblocks1[i] != null){
+                Block currb = theblocks1[i];
                 int lbx = currb.location.getX();
                 int ubx = lbx + (WIDTH/10);
                 int yb = currb.location.getY() + (HEIGHT/10);
@@ -457,8 +501,27 @@ public class Controller {
                             //System.out.println(i+"i");
                             snake.decrLength(val);
                             score += val;
-                            root.getChildren().remove(theblocks[i].realg);
-                            theblocks[i] = null;
+                            root.getChildren().remove(theblocks1[i].realg);
+                            theblocks1[i] = null;
+                        }
+                        else isAlive = false;
+                    }
+                }
+            }
+            if(theblocks2[i] != null){
+                Block currb = theblocks2[i];
+                int lbx = currb.location.getX();
+                int ubx = lbx + (WIDTH/10);
+                int yb = currb.location.getY() + (HEIGHT/10);
+                if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
+                    if(snake.hlocation.getY() + diameter/2 == yb){
+                        int val = currb.valOfBlock;
+                        if(val <= snake.length){
+                            //System.out.println(i+"i");
+                            snake.decrLength(val);
+                            score += val;
+                            root.getChildren().remove(theblocks2[i].realg);
+                            theblocks2[i] = null;
                         }
                         else isAlive = false;
                     }

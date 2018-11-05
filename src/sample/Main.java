@@ -62,7 +62,6 @@ public class Main extends Application {
                 storemm.setOnAction(f -> {
                     try{
                         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-                        System.out.println("Hello");
                         primaryStage.setScene(scene);
                         primaryStage.show();
                     }
