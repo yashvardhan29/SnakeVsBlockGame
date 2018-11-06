@@ -118,15 +118,15 @@ public class Main extends Application {
             public void handle(KeyEvent keyEvent) {
                 switch (keyEvent.getCode()){
                     case LEFT:
-                        Admin.xvel = -1;
-                        Admin.yvel = 0;
+                        Admin.grid.snake.xvel = -1;
+                        Admin.grid.snake.yvel = 0;
                         break;
                     case RIGHT:
-                        Admin.xvel = 1;
-                        Admin.yvel = 0;
+                        Admin.grid.snake.xvel = 1;
+                        Admin.grid.snake.yvel = 0;
                         break;
                     case P:
-                        Admin.snake.incLength(5);
+                        Admin.grid.snake.incLength(5);
                 }
             }
         });
@@ -137,10 +137,10 @@ public class Main extends Application {
             public void handle(KeyEvent keyEvent) {
                 switch (keyEvent.getCode()){
                     case LEFT:
-                        Admin.xvel = 0;
+                        Admin.grid.snake.xvel = 0;
                         break;
                     case RIGHT:
-                        Admin.xvel = 0;
+                        Admin.grid.snake.xvel = 0;
                         break;
                 }
             }

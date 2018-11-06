@@ -15,6 +15,9 @@ public class Snake {
     ArrayList<Circle> circles; //References to all circles that make up the snake.
     Pane root; //Reference to root.
 
+    int xvel; // x-velocity of snake.
+    int yvel; // y-velocity of snake.
+
     Snake(int WIDTH,int HEIGHT,int side,Pane root){
         length = 0;
         hlocation = new Point(WIDTH/2,HEIGHT/2);
