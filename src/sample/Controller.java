@@ -62,21 +62,21 @@ public class Controller {
     }
 
     public void MagnetAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(15),new MagnetHandler());
+        KeyFrame kf = new KeyFrame(Duration.seconds(35),new MagnetHandler());
         Timeline timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
     public void ShieldAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(30),new ShieldHandler());
+        KeyFrame kf = new KeyFrame(Duration.seconds(60),new ShieldHandler());
         Timeline timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
     public void DestructionAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(45),new DestructionHandler());
+        KeyFrame kf = new KeyFrame(Duration.seconds(90),new DestructionHandler());
         Timeline timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -99,6 +99,7 @@ public class Controller {
             grid.MoveSnake();
             grid.CheckIfAlive();
             grid.UpdateScore();
+            grid.UpdateTokenValidity();
         }
     }
 

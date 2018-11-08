@@ -29,8 +29,6 @@ public class Grid {
     Destruction destruction; // Reference to the destruction token on screen.
     Wall wall; // Solitary wall only for purpose of deadline 2.
 
-
-
     Snake snake; //Reference to the snake.
 
     boolean WallIsPresent;  // True if wall is present on screen.
@@ -41,6 +39,12 @@ public class Grid {
     boolean DestructionIsPresent; // True if Destruction Token is present on screen.
 
     boolean isAlive; // True while snake is alive.
+
+    private long MagnetActivatedAt = Long.MAX_VALUE;
+    private final int MagnetDuration = 7000;
+
+    private long ShieldActivatedAt = Long.MAX_VALUE;
+    private  final int ShieldDuration = 10000;
 
     ArrayList<Token> TokensOnScreen;
 
@@ -344,6 +348,9 @@ public class Grid {
     }
 
     public void CollisionCheck(){
+        if(snake.hasMagnet){
+            AttractCoins();
+        }
         //Checks for Collisions between Token and Snake.
         CheckTokenCollision();
 
@@ -362,8 +369,12 @@ public class Grid {
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
                     if(snake.hlocation.getY() + diameter/2 == yb){
                         int val = currb.valOfBlock;
-                        if(val <= snake.length){
-                            //System.out.println(i+"i");
+                        if(snake.hasShield){
+                            score += val;
+                            root.getChildren().remove(theblocks1[i].realg);
+                            theblocks1[i] = null;
+                        }
+                        else if(val <= snake.length){
                             snake.decrLength(val);
                             score += val;
                             root.getChildren().remove(theblocks1[i].realg);
@@ -381,8 +392,12 @@ public class Grid {
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
                     if(snake.hlocation.getY() + diameter/2 == yb){
                         int val = currb.valOfBlock;
-                        if(val <= snake.length){
-                            //System.out.println(i+"i");
+                        if(snake.hasShield){
+                            score += val;
+                            root.getChildren().remove(theblocks2[i].realg);
+                            theblocks2[i] = null;
+                        }
+                        else if(val <= snake.length){
                             snake.decrLength(val);
                             score += val;
                             root.getChildren().remove(theblocks2[i].realg);
@@ -437,13 +452,20 @@ public class Grid {
 
     private void ConsumeMagnet(Token currt){
         Magnet currm = (Magnet) currt;
-
-
+        Activate("Magnet");
+        TokensOnScreen.remove(currm);
+        root.getChildren().remove(currm.realg);
+        MagnetIsPresent = false;
+        snake.hasMagnet = true;
     }
 
     private void ConsumeShield(Token currt){
         Shield currs = (Shield) currt;
-
+        Activate("Shield");
+        TokensOnScreen.remove(currs);
+        root.getChildren().remove(currs.realg);
+        ShieldIsPresent = false;
+        snake.hasShield = true;
     }
 
     private void ConsumeDestruction(Token currt){
@@ -465,8 +487,8 @@ public class Grid {
                 BlockR2IsPresent = false;
             }
         }
-        TokensOnScreen.remove(destruction);
-        root.getChildren().remove(destruction.realg);
+        TokensOnScreen.remove(currd);
+        root.getChildren().remove(currd.realg);
         DestructionIsPresent = false;
     }
 
@@ -524,6 +546,53 @@ public class Grid {
             }
         }
         return rx;
+    }
+
+    private void Activate(String name){
+        if(name.equals("Magnet")){
+            MagnetActivatedAt = System.currentTimeMillis();
+            return;
+        }
+        if(name.equals("Shield")) ShieldActivatedAt = System.currentTimeMillis();
+    }
+
+    private boolean isActive(String name){
+        if(name.equals("Magnet")){
+            long activeFor = System.currentTimeMillis() - MagnetActivatedAt;
+            return activeFor >= 0 && activeFor <= MagnetDuration;
+        }
+        if(name.equals("Shield")){
+            long activeFor = System.currentTimeMillis() - ShieldActivatedAt;
+            return activeFor >= 0 && activeFor <= ShieldDuration;
+        }
+        return false;
+    }
+
+    public void UpdateTokenValidity(){
+        if(!isActive("Magnet")){
+            snake.hasMagnet = false;
+        }
+        if(!isActive("Shield")){
+            snake.hasShield = false;
+        }
+    }
+
+    private void AttractCoins(){
+        for(int i = 0;i<coins.length;i++){
+            if(coins[i] != null){
+                Coin currc = coins[i];
+                Point cloc = currc.location;
+                Point sloc = snake.hlocation;
+                if(cloc.getY() == sloc.getY()){
+                    if((sloc.getX() > cloc.getX() && sloc.getX() - cloc.getX() <= 150) || (cloc.getX() > sloc.getX() && cloc.getX() - sloc.getX() <= 150)){
+                        for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
+                        root.getChildren().remove(currc.realg);
+                        TokensOnScreen.remove(currc);
+                        Coin_count--;
+                    }
+                }
+            }
+        }
     }
 
     // Useless for now.

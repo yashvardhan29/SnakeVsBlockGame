@@ -15,6 +15,9 @@ public class Snake {
     ArrayList<Circle> circles; //References to all circles that make up the snake.
     Pane root; //Reference to root.
 
+    boolean hasMagnet;
+    boolean hasShield;
+
     int xvel; // x-velocity of snake.
     int yvel; // y-velocity of snake.
 
@@ -22,8 +25,12 @@ public class Snake {
         length = 0;
         hlocation = new Point(WIDTH/2,HEIGHT/2);
         setupHead(hlocation,side);
+
         points = new ArrayList<>();
         circles = new ArrayList<>();
+        hasMagnet = false;
+        hasShield = false;
+
         points.add(hlocation);
         circles.add(head);
         this.root = root;
