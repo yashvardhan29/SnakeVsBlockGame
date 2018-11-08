@@ -21,6 +21,17 @@ public class Snake {
     int xvel; // x-velocity of snake.
     int yvel; // y-velocity of snake.
 
+    //   new
+    public void stopSnake(){
+        xvel = 0;
+        yvel = 0;
+    }
+
+    public void reverseSnake(){
+        yvel =0;
+        xvel = xvel*(-1);
+    }
+
     Snake(int WIDTH,int HEIGHT,int side,Pane root){
         length = 0;
         hlocation = new Point(WIDTH/2,HEIGHT/2);

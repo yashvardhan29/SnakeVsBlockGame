@@ -21,10 +21,13 @@ public class Controller {
     Pane root;
     Grid grid;
 
+    Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+
+
     Controller(){
         root = new Pane();
-        grid = new Grid(root);
         startAnimationTimers();
+        grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
     }
 
     private void startAnimationTimers(){
@@ -40,54 +43,55 @@ public class Controller {
     public void SnakeAnimation(){
         //Calls the class SnakeHandler
         KeyFrame kf = new KeyFrame(Duration.millis(50),new SnakeHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        snakeTimeline = new Timeline(kf);
+        snakeTimeline.setCycleCount(Animation.INDEFINITE);
+        snakeTimeline.play();
     }
 
     public void CoinAnimation(){
         //Calls the class CoinHandler
         KeyFrame kf = new KeyFrame(Duration.millis(1200),new CoinHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        coinTimeline = new Timeline(kf);
+        coinTimeline.setCycleCount(Animation.INDEFINITE);
+        coinTimeline.play();
+
     }
 
     public void BlockAnimation(){
         //Calls the class BlockHandler
         KeyFrame kf = new KeyFrame(Duration.millis(500),new BlockHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        blockTimeline = new Timeline(kf);
+        blockTimeline.setCycleCount(Animation.INDEFINITE);
+        blockTimeline.play();
     }
 
     public void MagnetAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(35),new MagnetHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        KeyFrame kf = new KeyFrame(Duration.seconds(15),new MagnetHandler());
+        magnetTimeline = new Timeline(kf);
+        magnetTimeline.setCycleCount(Animation.INDEFINITE);
+        magnetTimeline.play();
     }
 
     public void ShieldAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(60),new ShieldHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        KeyFrame kf = new KeyFrame(Duration.seconds(30),new ShieldHandler());
+        shieldTimeline = new Timeline(kf);
+        shieldTimeline.setCycleCount(Animation.INDEFINITE);
+        shieldTimeline.play();
     }
 
     public void DestructionAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(90),new DestructionHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        KeyFrame kf = new KeyFrame(Duration.seconds(45),new DestructionHandler());
+        destructTimeline = new Timeline(kf);
+        destructTimeline.setCycleCount(Animation.INDEFINITE);
+        destructTimeline.play();
     }
 
     public void ObjectMover(){
         //Calls the class ObjectHandler
         KeyFrame kf = new KeyFrame(Duration.millis(100),new ObjectHandler());
-        Timeline timeline = new Timeline(kf);
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        omtimeline = new Timeline(kf);
+        omtimeline.setCycleCount(Animation.INDEFINITE);
+        omtimeline.play();
     }
 
     private class SnakeHandler implements EventHandler<ActionEvent>{

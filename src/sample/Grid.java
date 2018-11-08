@@ -5,11 +5,13 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
+import javafx.animation.Timeline;
 
 
 public class Grid {
@@ -55,9 +57,20 @@ public class Grid {
 
     Timer mgt;
 
-    Grid(Pane root){
+    Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+
+
+    Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
         this.root = root;
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
+
+        snakeTimeline = t1;
+        coinTimeline = t2;
+        blockTimeline = t3;
+        magnetTimeline = t4;
+        shieldTimeline = t5;
+        destructTimeline = t6;
+        omtimeline = t7;
 
         score = 0;
         Coin_count = 0;
@@ -357,6 +370,16 @@ public class Grid {
         // Code for collision b/w Block and Snake.
         CheckBlockCollision();
 
+        // Code fo collision b/w Snake and Wall.
+        CheckWallCollision();
+    }
+
+    private void CheckWallCollision(){
+        if(wall != null){
+            if(snake.hlocation.getX() >= wall.location.getX() && snake.hlocation.getX() <= (wall.location.getX() + 5)) {
+                if(snake.hlocation.getY() >= wall.location.getY() && snake.hlocation.getY() <= wall.location.getY() + 100) snake.reverseSnake();
+            }
+        }
     }
 
     private void CheckBlockCollision(){
@@ -375,6 +398,33 @@ public class Grid {
                             theblocks1[i] = null;
                         }
                         else if(val <= snake.length){
+                            if(val >= 2){
+                                try{
+                                    snakeTimeline.pause();
+                                    blockTimeline.pause();
+                                    coinTimeline.pause();
+                                    omtimeline.pause();
+                                    snake.stopSnake();
+//                                    int DIM = 500;
+//                                    Rectangle block = new Rectangle(DIM/10,DIM/10);
+//                                    block.setLayoutX(currb.location.getX());
+//                                    block.setLayoutY(currb.location.getY());
+//                                    block.setFill(Color.WHITE);
+//                                    block.setArcHeight(DIM/20);
+//                                    block.setArcWidth(DIM/20);
+                                    Thread.sleep(200);
+//                                    root.getChildren().add(block);
+
+//                                    root.getChildren().remove(block);
+                                    Thread.sleep(800);
+                                    omtimeline.play();
+                                    snakeTimeline.play();
+                                    coinTimeline.play();
+                                    blockTimeline.play();
+                                }catch (Exception e){
+                                    System.out.println("");
+                                }
+                            }
                             snake.decrLength(val);
                             score += val;
                             root.getChildren().remove(theblocks1[i].realg);
@@ -398,6 +448,33 @@ public class Grid {
                             theblocks2[i] = null;
                         }
                         else if(val <= snake.length){
+                            if(val >= 2){
+                                try{
+                                    snakeTimeline.pause();
+                                    blockTimeline.pause();
+                                    coinTimeline.pause();
+                                    omtimeline.pause();
+                                    snake.stopSnake();
+//                                    int DIM = 500;
+//                                    Rectangle block = new Rectangle(DIM/10,DIM/10);
+//                                    block.setLayoutX(currb.location.getX());
+//                                    block.setLayoutY(currb.location.getY());
+//                                    block.setFill(Color.WHITE);
+//                                    block.setArcHeight(DIM/20);
+//                                    block.setArcWidth(DIM/20);
+                                    Thread.sleep(200);
+//                                    root.getChildren().add(block);
+
+//                                    root.getChildren().remove(block);
+                                    Thread.sleep(800);
+                                    omtimeline.play();
+                                    snakeTimeline.play();
+                                    coinTimeline.play();
+                                    blockTimeline.play();
+                                }catch (Exception e){
+                                    System.out.println("");
+                                }
+                            }
                             snake.decrLength(val);
                             score += val;
                             root.getChildren().remove(theblocks2[i].realg);

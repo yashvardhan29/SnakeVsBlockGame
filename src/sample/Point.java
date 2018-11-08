@@ -68,5 +68,15 @@ public class Point {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(o != null){
+            Point p = (Point) o;
+            if(p.getX() == this.getX() && p.getY() == this.getY()) return true;
+            else return false;
+        }
+        else return false;
+    }
+
 }
 
