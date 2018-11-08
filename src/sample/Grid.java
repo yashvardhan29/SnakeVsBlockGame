@@ -7,9 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+
 
 public class Grid {
     Pane root; // The Parent container that contains everything else. This is directly added to the scene.
@@ -28,7 +29,7 @@ public class Grid {
     Destruction destruction; // Reference to the destruction token on screen.
     Wall wall; // Solitary wall only for purpose of deadline 2.
 
-    Point coinlocs[]; // Location of coins.
+
 
     Snake snake; //Reference to the snake.
 
@@ -41,10 +42,14 @@ public class Grid {
 
     boolean isAlive; // True while snake is alive.
 
+    ArrayList<Token> TokensOnScreen;
+
     int score;
     Text score_text;
 
     ChoiceBox<String> cb;
+
+    Timer mgt;
 
     Grid(Pane root){
         this.root = root;
@@ -64,8 +69,9 @@ public class Grid {
     private void setupObjectArrays(){
         theblocks1 = new Block[10];
         theblocks2 = new Block[WIDTH/5];
-        coinlocs = new Point[5];
+
         coins = new Coin[5];
+        TokensOnScreen = new ArrayList<>();
     }
 
     private void InitialiseBooleans(){
@@ -117,11 +123,12 @@ public class Grid {
         if(Coin_count < 5){
             for(int i = 0;i<5;i++){
                 if(coins[i] == null){
-                    Coin newcoin = new Coin(diameter /2,coinlocs);
+                    int rx = assignRandomX();
+                    Coin newcoin = new Coin(diameter /2,rx);
                     root.getChildren().add(newcoin.realg);
                     Coin_count++;
                     coins[i] = newcoin;
-                    coinlocs[i] = newcoin.location;
+                    TokensOnScreen.add(newcoin);
                 }
             }
         }
@@ -129,41 +136,51 @@ public class Grid {
 
     public void SpawnBlocks(){
         // Spawns blocks
-        if(!BlockR1IsPresent){
-            for(int i = 0;i<10;i++){
-                //50% chance of block spawning.
-                Random rand = new Random();
-                int decide = rand.nextInt(2);
-                if(decide == 1){
-                    Point bloc = new Point(i*(WIDTH/10),0);
-                    Block curr = new Block(WIDTH,bloc);
-                    root.getChildren().add(curr.realg);
-                    theblocks1[i] = curr;
-                    BlockR1IsPresent = true;
-                    int val = rand.nextInt(5) + 1;
-                    curr.setValue(val);
-                    curr.valOfBlock = val;
-                }
+        boolean to_proceed = true;
+        for(int j = 0;j<TokensOnScreen.size();j++){
+            if(TokensOnScreen.get(j).location.getY() <=50){
+                to_proceed = false;
+                break;
             }
         }
-        for(int i = 0;i<theblocks1.length;i++){
-            if(theblocks1[i] != null){
-                Block cb = theblocks1[i];
-                if(cb.location.getY() > 250){
-                    if(!BlockR2IsPresent){
-                        for(int j = 0;j<10;j++){
-                            //50% chance of block spawning.
-                            Random rand = new Random();
-                            int decide = rand.nextInt(2);
-                            if(decide == 1){
-                                Point bloc = new Point(j*(WIDTH/10),0);
-                                Block curr = new Block(WIDTH,bloc);
-                                root.getChildren().add(curr.realg);
-                                theblocks2[j] = curr;
-                                BlockR2IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
-                                curr.setValue(val);
-                                curr.valOfBlock = val;
+        if(to_proceed){
+            if(!BlockR1IsPresent){
+                for(int i = 0;i<10;i++){
+                    //50% chance of block spawning.
+                    Random rand = new Random();
+                    int decide = rand.nextInt(2);
+                    if(decide == 1){
+                        Point bloc = new Point(i*(WIDTH/10),0);
+                        Block curr = new Block(WIDTH,bloc);
+                        root.getChildren().add(curr.realg);
+                        theblocks1[i] = curr;
+                        BlockR1IsPresent = true;
+                        int val = rand.nextInt(5) + 1;
+                        curr.setValue(val);
+                        curr.valOfBlock = val;
+                    }
+                }
+            }
+
+            for(int i = 0;i<theblocks1.length;i++){
+                if(theblocks1[i] != null){
+                    Block cb = theblocks1[i];
+                    if(cb.location.getY() > 250){
+                        if(!BlockR2IsPresent){
+                            for(int j = 0;j<10;j++){
+                                //50% chance of block spawning.
+                                Random rand = new Random();
+                                int decide = rand.nextInt(2);
+                                if(decide == 1){
+                                    Point bloc = new Point(j*(WIDTH/10),0);
+                                    Block curr = new Block(WIDTH,bloc);
+                                    root.getChildren().add(curr.realg);
+                                    theblocks2[j] = curr;
+                                    BlockR2IsPresent = true;
+                                    int val = rand.nextInt(5) + 1;
+                                    curr.setValue(val);
+                                    curr.valOfBlock = val;
+                                }
                             }
                         }
                     }
@@ -171,33 +188,42 @@ public class Grid {
             }
         }
 
+
+
     }
 
     public void SpawnShield(){
         if(!ShieldIsPresent){
-            Shield theshield = new Shield();
+            int rx = assignRandomX();
+            Shield theshield = new Shield(rx);
             root.getChildren().add(theshield.realg);
             ShieldIsPresent = true;
             shield = theshield;
+            TokensOnScreen.add(theshield);
         }
     }
 
     public void SpawnMagnet(){
         if(!MagnetIsPresent){
-            Magnet themagnet = new Magnet();
+            int rx = assignRandomX();
+            Magnet themagnet = new Magnet(rx);
             root.getChildren().add(themagnet.realg);
             MagnetIsPresent = true;
             magnet = themagnet;
+            TokensOnScreen.add(themagnet);
         }
     }
 
     public void SpawnDestructionToken(){
         if(!DestructionIsPresent){
-            Destruction chaos = new Destruction();
+            int rx = assignRandomX();
+            Destruction chaos = new Destruction(rx);
             root.getChildren().add(chaos.realg);
             DestructionIsPresent = true;
             destruction = chaos;
+            TokensOnScreen.add(chaos);
         }
+
     }
 
     public void MoveBlocks(){
@@ -244,8 +270,8 @@ public class Grid {
                     currc.setPosition(currc.location);
                     if(currc.location.getY() >= 490){
                         root.getChildren().remove(currc.realg);
+                        TokensOnScreen.remove(coins[i]);
                         coins[i] = null;
-                        coinlocs[i] = null;
                         Coin_count--;
                     }
                 }
@@ -259,6 +285,7 @@ public class Grid {
             magnet.setPosition(magnet.location);
             if(magnet.location.getY() >= 490){
                 root.getChildren().remove(magnet.realg);
+                TokensOnScreen.remove(magnet);
                 magnet = null;
                 MagnetIsPresent = false;
             }
@@ -271,6 +298,7 @@ public class Grid {
             shield.setPosition(shield.location);
             if(shield.location.getY() >= 490){
                 root.getChildren().remove(shield.realg);
+                TokensOnScreen.remove(shield);
                 shield = null;
                 ShieldIsPresent = false;
             }
@@ -283,6 +311,7 @@ public class Grid {
             destruction.setPosition(destruction.location);
             if(destruction.location.getY() >= 490){
                 root.getChildren().remove(destruction.realg);
+                TokensOnScreen.remove(destruction);
                 destruction = null;
                 DestructionIsPresent = false;
             }
@@ -315,35 +344,12 @@ public class Grid {
     }
 
     public void CollisionCheck(){
-        //Checks for Collisions between Snake and Objects
-        CheckCoinCollision();
+        //Checks for Collisions between Token and Snake.
+        CheckTokenCollision();
 
         // Code for collision b/w Block and Snake.
         CheckBlockCollision();
-    }
 
-    public void CheckCoinCollision(){
-        for(int i = 0;i<5;i++){
-            if(coins[i] != null){
-                Point cloc = coins[i].location;
-                Point hloc = snake.hlocation;
-                if(cloc.getY() + diameter == hloc.getY()){
-
-                    if(cloc.getX() == hloc.getX()){
-                        ConsumeCoin(i,coins[i]);
-                    }
-                }
-                else if((hloc.getY() - cloc.getY() <= 15 && hloc.getY() - cloc.getY() >= 0) || (hloc.getY() - cloc.getY() >= 15 && hloc.getY() - cloc.getY() <= 0)){
-                    int xdiff = hloc.getX() - cloc.getX();
-                    if(xdiff >= 0){
-                        if(xdiff <= 10) ConsumeCoin(i,coins[i]);
-                    }
-                    else{
-                        if(xdiff >= -10) ConsumeCoin(i,coins[i]);
-                    }
-                }
-            }
-        }
     }
 
     private void CheckBlockCollision(){
@@ -389,12 +395,79 @@ public class Grid {
         }
     }
 
-    private void ConsumeCoin(int i,Coin currc){
+    private void CheckTokenCollision(){
+        for(int i = 0;i<TokensOnScreen.size();i++){
+            Token currt = TokensOnScreen.get(i);
+            Point tloc = currt.location;
+            Point hloc = snake.hlocation;
+            boolean docollide = false;
+            if((hloc.getY() - tloc.getY() <= 15 && hloc.getY() - tloc.getY() >= 0) || (tloc.getY() - hloc.getY() <= 15 && tloc.getY() - hloc.getY() >= 0)){
+                int xdiff = hloc.getX() - tloc.getX();
+                if(xdiff >=0 && xdiff <= 20){
+                    docollide = true;
+                }
+                else if(xdiff < 0 && xdiff >= -20){
+                    docollide = true;
+                }
+            }
+            if(docollide){
+                if(currt instanceof Coin){
+                    ConsumeCoin(currt);
+                }
+                else if(currt instanceof Magnet){
+                    ConsumeMagnet(currt);
+                }
+                else if(currt instanceof Shield){
+                    ConsumeShield(currt);
+                }
+                else if(currt instanceof Destruction){
+                    ConsumeDestruction(currt);
+                }
+            }
+        }
+    }
+
+    private void ConsumeCoin(Token currt){
+        Coin currc = (Coin) currt;
         for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
-        root.getChildren().remove(coins[i].realg);
-        coins[i] = null;
-        coinlocs[i] = null;
+        root.getChildren().remove(currc.realg);
+        TokensOnScreen.remove(currc);
         Coin_count--;
+    }
+
+    private void ConsumeMagnet(Token currt){
+        Magnet currm = (Magnet) currt;
+
+
+    }
+
+    private void ConsumeShield(Token currt){
+        Shield currs = (Shield) currt;
+
+    }
+
+    private void ConsumeDestruction(Token currt){
+        Destruction currd = (Destruction) currt;
+        for(int i = 0;i<theblocks1.length;i++){
+            if(theblocks1[i] != null){
+                int val = theblocks1[i].valOfBlock;
+                score += val;
+                root.getChildren().remove(theblocks1[i].realg);
+                theblocks1[i] = null;
+                BlockR1IsPresent = false;
+            }
+
+            if(theblocks2[i] != null){
+                int val = theblocks2[i].valOfBlock;
+                score += val;
+                root.getChildren().remove(theblocks2[i].realg);
+                theblocks2[i] = null;
+                BlockR2IsPresent = false;
+            }
+        }
+        TokensOnScreen.remove(destruction);
+        root.getChildren().remove(destruction.realg);
+        DestructionIsPresent = false;
     }
 
     public void UpdateScore(){
@@ -402,6 +475,56 @@ public class Grid {
         score_text.setText(scorestring);
     }
 
+    private int assignRandomX(){
+        Random rand = new Random();
+        int rx = 0;
+
+        boolean flag = false;
+        while(!flag){
+            flag = true;
+            rx = rand.nextInt(490);
+            for(int i = 0;i<TokensOnScreen.size();i++){
+                Token curr = TokensOnScreen.get(i);
+                Point loc = curr.location;
+                if(loc.getY() <= 60){
+                    if((rx > loc.getX() && rx - loc.getX() <= 40) || (rx < loc.getX() && loc.getX() - rx <= 40)){
+                        //Change if changing grid size
+                        flag = false;
+                    }
+                }
+            }
+
+            if(BlockR1IsPresent) {
+                for(int i = 0;i<theblocks1.length;i++){
+                    if(theblocks1[i] != null){
+                        Block currb = theblocks1[i];
+                        Point loc = currb.location;
+                        if(loc.getY() <= 50){
+                            if((rx > loc.getX() && rx - loc.getX() <= 50) || (rx < loc.getX() && loc.getX() - rx <= 30)) {
+                                // Change if changing grid size
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+            }
+            if(BlockR2IsPresent){
+                for(int i = 0;i<theblocks2.length;i++){
+                    if(theblocks2[i] != null){
+                        Block currb = theblocks2[i];
+                        Point loc = currb.location;
+                        if(loc.getY() <= 80){
+                            if((rx > loc.getX() && rx - loc.getX() <= 50) || (rx < loc.getX() && loc.getX() - rx <= 30)) {
+                                // Change if changing grid size
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return rx;
+    }
 
     // Useless for now.
     public void CheckIfAlive(){

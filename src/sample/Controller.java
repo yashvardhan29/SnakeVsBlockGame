@@ -90,7 +90,6 @@ public class Controller {
         timeline.play();
     }
 
-
     private class SnakeHandler implements EventHandler<ActionEvent>{
         /*Checks the velocity of snake and moves it accordingly.
           Also calls the collision checker.

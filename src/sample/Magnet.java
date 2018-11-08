@@ -4,27 +4,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class Magnet {
-    StackPane realg;
+public class Magnet extends Token {
     ImageView icon;
     int time;
-    Point location;
 
-    Magnet(){
+    Magnet(int rx){
+        super(rx);
         time = 0;
 
-        realg = new StackPane();
         Image img = new Image("file:src/magnet.png");
         icon = new ImageView(img);
 
-        realg.getChildren().add(icon);
-        realg.setLayoutX(400);
-        realg.setLayoutY(400);
-        location = new Point(150,100); //Yet, to randomise spawn location
+        super.realg.getChildren().add(icon);
+
+
     }
 
-    public void setPosition(Point p){
-        realg.setLayoutX(p.getX());
-        realg.setLayoutY(p.getY());
-    }
 }
