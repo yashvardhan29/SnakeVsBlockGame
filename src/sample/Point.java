@@ -46,8 +46,8 @@ public class Point {
     public void wrap(){
         if(this.getX() > 500) this.setX(0);
         if(this.getX() < 0) this.setX(500);
-        if(this.getY() > 500) this.setY(0);
-        if(this.getY() < 0) this.setY(500);
+        if(this.getY() > 1000) this.setY(0);
+        if(this.getY() < 0) this.setY(1000);
     }
 
     //Setter for x

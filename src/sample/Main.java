@@ -110,7 +110,7 @@ public class Main extends Application {
     public Scene startGame(){
         Controller Admin = new Controller(); //Instantiation of controller object
 
-        Scene scene = new Scene(Admin.getRoot(), 500, 500, Color.BLACK);
+        Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
 
         //KeyHandler for KeyPresses
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
