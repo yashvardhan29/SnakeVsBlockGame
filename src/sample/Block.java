@@ -35,7 +35,7 @@ public class Block implements Serializable {
     }
 
     private void setupRectangle(int DIM,int col,Point p){
-        block = new Rectangle(DIM/10,DIM/10);
+        block = new Rectangle(DIM/7,DIM/7);
         block.setLayoutX(p.getX());
         block.setLayoutY(p.getY());
         block.setFill(colors[col]);

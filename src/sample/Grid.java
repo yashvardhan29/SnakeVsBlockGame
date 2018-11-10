@@ -88,8 +88,8 @@ public class Grid implements Serializable {
     }
 
     private void setupObjectArrays(){
-        theblocks1 = new Block[WIDTH/50];
-        theblocks2 = new Block[WIDTH/50];
+        theblocks1 = new Block[7];
+        theblocks2 = new Block[7];
 
         coins = new Coin[5];
         TokensOnScreen = new ArrayList<>();
@@ -159,7 +159,7 @@ public class Grid implements Serializable {
         // Spawns blocks
         boolean to_proceed = true;
         for(int j = 0;j<TokensOnScreen.size();j++){
-            if(TokensOnScreen.get(j).location.getY() <=50){
+            if(TokensOnScreen.get(j).location.getY() <= WIDTH/7){
                 to_proceed = false;
                 break;
             }
@@ -171,7 +171,7 @@ public class Grid implements Serializable {
                     Random rand = new Random();
                     int decide = rand.nextInt(2);
                     if(decide == 1){
-                        Point bloc = new Point(i*(WIDTH/10),0);
+                        Point bloc = new Point(i*(WIDTH/7),0);
                         Block curr = new Block(WIDTH,bloc);
                         root.getChildren().add(curr.realg);
                         theblocks1[i] = curr;
@@ -193,7 +193,7 @@ public class Grid implements Serializable {
                                 Random rand = new Random();
                                 int decide = rand.nextInt(2);
                                 if(decide == 1){
-                                    Point bloc = new Point(j*(WIDTH/10),0);
+                                    Point bloc = new Point(j*(WIDTH/7),0);
                                     Block curr = new Block(WIDTH,bloc);
                                     root.getChildren().add(curr.realg);
                                     theblocks2[j] = curr;
@@ -246,7 +246,6 @@ public class Grid implements Serializable {
         }
 
     }
-
 
     public void MoveBlocks(){
         //Moves the blocks downwards.
@@ -393,14 +392,13 @@ public class Grid implements Serializable {
         for(int i = 0;i<theblocks1.length;i++){
             if(theblocks1[i] != null){
                 Block currb = theblocks1[i];
-                int lbx = currb.location.getX();
-                int ubx = lbx + (WIDTH/10);
-                int yb = currb.location.getY() + (50);
+                double lbx = currb.location.getX();
+                double ubx = lbx + (WIDTH/7);
+                double yb = currb.location.getY() + (WIDTH/7);
+                int ryb = (int) yb;
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
-                    if(snake.hlocation.getY() + diameter/2 == yb){
+                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb){
                         int val = currb.valOfBlock;
-//                        System.out.println("val: "+val);
-//                        System.out.println("snake: " + snake.length);
                         if(snake.hasShield){
                             score += val;
                             root.getChildren().remove(theblocks1[i].realg);
@@ -414,17 +412,7 @@ public class Grid implements Serializable {
                                     coinTimeline.pause();
                                     omtimeline.pause();
                                     snake.stopSnake();
-//                                    int DIM = 500;
-//                                    Rectangle block = new Rectangle(DIM/10,DIM/10);
-//                                    block.setLayoutX(currb.location.getX());
-//                                    block.setLayoutY(currb.location.getY());
-//                                    block.setFill(Color.WHITE);
-//                                    block.setArcHeight(DIM/20);
-//                                    block.setArcWidth(DIM/20);
                                     Thread.sleep(200);
-//                                    root.getChildren().add(block);
-
-//                                    root.getChildren().remove(block);
                                     Thread.sleep(800);
                                     omtimeline.play();
                                     snakeTimeline.play();
@@ -440,17 +428,17 @@ public class Grid implements Serializable {
                             theblocks1[i] = null;
                         }
                         else isAlive = false;
-//                        else System.out.println("441");
                     }
                 }
             }
             if(theblocks2[i] != null){
                 Block currb = theblocks2[i];
-                int lbx = currb.location.getX();
-                int ubx = lbx + (WIDTH/10);
-                int yb = currb.location.getY() + (50);
+                double lbx = currb.location.getX();
+                double ubx = lbx + (WIDTH/7);
+                double yb = currb.location.getY() + (WIDTH/7);
+                int ryb = (int) yb;
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
-                    if(snake.hlocation.getY() + diameter/2 == yb){
+                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb ){
                         int val = currb.valOfBlock;
                         if(snake.hasShield){
                             score += val;
@@ -465,17 +453,7 @@ public class Grid implements Serializable {
                                     coinTimeline.pause();
                                     omtimeline.pause();
                                     snake.stopSnake();
-//                                    int DIM = 500;
-//                                    Rectangle block = new Rectangle(DIM/10,DIM/10);
-//                                    block.setLayoutX(currb.location.getX());
-//                                    block.setLayoutY(currb.location.getY());
-//                                    block.setFill(Color.WHITE);
-//                                    block.setArcHeight(DIM/20);
-//                                    block.setArcWidth(DIM/20);
                                     Thread.sleep(200);
-//                                    root.getChildren().add(block);
-
-//                                    root.getChildren().remove(block);
                                     Thread.sleep(800);
                                     omtimeline.play();
                                     snakeTimeline.play();
@@ -491,7 +469,6 @@ public class Grid implements Serializable {
                             theblocks2[i] = null;
                         }
                         else isAlive = false;
-//                        else System.out.println("492");
                     }
                 }
             }
@@ -505,7 +482,7 @@ public class Grid implements Serializable {
             Point hloc = snake.hlocation;
             boolean docollide = false;
             if((hloc.getY() - tloc.getY() <= 15 && hloc.getY() - tloc.getY() >= 0) || (tloc.getY() - hloc.getY() <= 15 && tloc.getY() - hloc.getY() >= 0)){
-                int xdiff = hloc.getX() - tloc.getX();
+                double xdiff = hloc.getX() - tloc.getX();
                 if(xdiff >=0 && xdiff <= 20){
                     docollide = true;
                 }
@@ -689,7 +666,7 @@ public class Grid implements Serializable {
     // Useless for now.
     public void CheckIfAlive(){
         if(!isAlive){
-            System.exit(0);
+            //System.exit(0);
         }
     }
 }

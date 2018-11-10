@@ -216,10 +216,12 @@ public class Main extends Application {
     public void saveState() throws IOException {
         ObjectOutputStream out = null;
         try{
+
             out = new ObjectOutputStream(new FileOutputStream("data.txt"));
             out.writeObject(database);
+            out.close();
         } catch (IOException e){
-
+            System.out.println(e);
         } finally {
             if(out != null) out.close();
         }

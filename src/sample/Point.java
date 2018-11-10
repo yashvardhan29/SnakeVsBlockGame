@@ -3,27 +3,27 @@ package sample;
 import java.io.Serializable;
 
 public class Point implements Serializable {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
     //Constructor
-    public Point(int x, int y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
     //Getter for x
-    public int getX() {
+    public double getX() {
         return x;
     }
 
     //Getter for y
-    public int getY() {
+    public double getY() {
         return y;
     }
 
     //Changes hlocation according to the velocity.
-    public Point translate(int xvel,int yvel){
+    public Point translate(double xvel,double yvel){
         if(xvel == 1){
             x += 10;
             wrap();

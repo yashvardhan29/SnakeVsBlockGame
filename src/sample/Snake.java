@@ -60,8 +60,8 @@ public class Snake implements Serializable {
         // Still not perfect
         if(length < 7){
             Point lpoint = points.get(points.size()-1);
-            int newx = lpoint.getX();
-            int newy = lpoint.getY() + 2*radius;
+            double newx = lpoint.getX();
+            double newy = lpoint.getY() + 2*radius;
             Point npoint = new Point(newx,newy);
             Circle lp = new Circle(radius);
             lp.setFill(Color.YELLOW);
