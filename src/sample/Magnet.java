@@ -4,7 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-public class Magnet extends Token {
+import java.io.Serializable;
+
+public class Magnet extends Token implements Serializable {
     ImageView icon;
     int time;
 

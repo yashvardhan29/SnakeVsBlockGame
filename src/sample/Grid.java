@@ -7,12 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.Timeline;
 
 
-public class Grid {
+public class Grid implements Serializable {
     Pane root; // The Parent container that contains everything else. This is directly added to the scene.
     int diameter = 20; // Diameter of snake
     int WIDTH = 500; // Width of grid in pixels.
@@ -57,6 +59,7 @@ public class Grid {
     Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
 
+
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
         this.root = root;
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
@@ -78,6 +81,10 @@ public class Grid {
         InitialiseBooleans();
         setupObjectArrays();
 
+    }
+
+    public Snake getSnake() {
+        return snake;
     }
 
     private void setupObjectArrays(){

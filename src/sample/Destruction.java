@@ -3,7 +3,9 @@ package sample;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Destruction extends Token{
+import java.io.Serializable;
+
+public class Destruction extends Token implements Serializable {
     ImageView icon;
 
     Destruction(int rx){

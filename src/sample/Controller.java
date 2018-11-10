@@ -13,21 +13,31 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Controller {
+public class Controller implements Serializable {
     Pane root;
     Grid grid;
 
     Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
+    Database database;
 
     Controller(){
         root = new Pane();
         startAnimationTimers();
         grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
+    }
+
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+
+    public Grid getGrid() {
+        return grid;
     }
 
     private void startAnimationTimers(){

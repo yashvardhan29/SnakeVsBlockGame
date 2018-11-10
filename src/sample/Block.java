@@ -5,9 +5,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Block {
+public class Block implements Serializable {
     Text value; //Displays numerical valOfCoin of block and is added to StackPane.
     int valOfBlock; //Integer storing numerical valOfCoin of block.
     Rectangle block; //Rectangle representing block that is added to StackPane.

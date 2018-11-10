@@ -6,19 +6,40 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import javax.swing.plaf.basic.BasicGraphicsUtils;
+import java.io.*;
 
 
+//public class Main extends Application implements Runnable {
 public class Main extends Application {
 
     Parent root;
 
+    Database database;
+
+//    @Override
+//    public void run(){
+//        while(true){
+//            try{
+//                loadState();
+//                Thread.sleep(1000);
+//                saveState();
+//            }
+//            catch (Exception e){
+//
+//            }
+//        }
+//    }
+
     @Override
     public void start(Stage primaryStage) throws IOException{
+//        Thread thread = new Thread(this);
+//        thread.start();
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
         Button startgame = (Button) root.lookup("#game");
@@ -26,9 +47,28 @@ public class Main extends Application {
         Button store = (Button) root.lookup("#store");
         Button profile = (Button) root.lookup("#profile");
         Button exit = (Button) root.lookup("#exit");
+        Button resume = (Button) root.lookup("#resume");
+        Label userLabel = (Label) root.lookup("#user");
+        Label coinLabel = (Label) root.lookup("#coins");
 
+        database = new Database(new Controller());
+
+        if(database.getCurrentUser() != null){
+            userLabel.setText(database.getCurrentUser().getName());
+            coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+        }
+        else{
+            userLabel.setText("Guest");
+            coinLabel.setText("0");
+        }
         startgame.setOnAction(e -> {
-            Scene scene1 = startGame();
+            Scene scene1 = startGame(null);
+            primaryStage.setScene(scene1);
+            primaryStage.show();
+        });
+
+        resume.setOnAction(e -> {
+            Scene scene1 = resumeGame();
             primaryStage.setScene(scene1);
             primaryStage.show();
         });
@@ -91,6 +131,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public Scene resumeGame()  {
+        return null;
+    }
+
     public Scene startStore() throws IOException {
         root = FXMLLoader.load(getClass().getResource("Store.fxml"));
         return new Scene(root);
@@ -107,8 +151,12 @@ public class Main extends Application {
         return new Scene(root);
     }
 
-    public Scene startGame(){
-        Controller Admin = new Controller(); //Instantiation of controller object
+    public Scene startGame(Controller controller){
+        Controller Admin;
+        if(controller == null) Admin = new Controller(); //Instantiation of controller object
+        else Admin = controller;
+
+        this.database.setController(Admin);
 
         Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
 
@@ -149,8 +197,34 @@ public class Main extends Application {
         return scene;
     }
 
+    public void saveState() throws IOException {
+        ObjectOutputStream out = null;
+        try{
+            out = new ObjectOutputStream(new FileOutputStream("data.txt"));
+            out.writeObject(database);
+        } catch (Exception e){
+
+        } finally {
+            if(out != null) out.close();
+        }
+    }
+
+    public void loadState() throws IOException {
+        ObjectInputStream in = null;
+        try{
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            database = (Database) in.readObject();
+        }
+        catch (Exception e){
+
+        }
+        finally {
+            in.close();
+        }
+    }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }

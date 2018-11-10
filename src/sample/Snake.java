@@ -4,10 +4,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Snake {
+public class Snake implements Serializable {
     Circle head; //Shape that references head of snake.
     int length; //Length of snake
     Point hlocation; //Location of head of snake

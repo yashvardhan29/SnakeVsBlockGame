@@ -4,9 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Coin extends Token{
+public class Coin extends Token implements Serializable {
     int valOfCoin; //Value of coin
     Circle coin; //Circle that represents the coin
     Text value;

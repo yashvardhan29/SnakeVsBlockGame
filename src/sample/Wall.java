@@ -3,7 +3,9 @@ package sample;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Wall {
+import java.io.Serializable;
+
+public class Wall implements Serializable {
     Rectangle realg;
     Point location;
     Block theblocks[];
