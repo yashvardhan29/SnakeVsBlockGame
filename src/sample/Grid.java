@@ -399,6 +399,8 @@ public class Grid implements Serializable {
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
                     if(snake.hlocation.getY() + diameter/2 == yb){
                         int val = currb.valOfBlock;
+//                        System.out.println("val: "+val);
+//                        System.out.println("snake: " + snake.length);
                         if(snake.hasShield){
                             score += val;
                             root.getChildren().remove(theblocks1[i].realg);
@@ -438,6 +440,7 @@ public class Grid implements Serializable {
                             theblocks1[i] = null;
                         }
                         else isAlive = false;
+//                        else System.out.println("441");
                     }
                 }
             }
@@ -488,6 +491,7 @@ public class Grid implements Serializable {
                             theblocks2[i] = null;
                         }
                         else isAlive = false;
+//                        else System.out.println("492");
                     }
                 }
             }

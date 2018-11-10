@@ -10,15 +10,11 @@ public class Database implements Serializable {
     private User currentUser;
     private Controller controller;
     private Grid grid;
-    private Snake snake;
 
-    Database(Controller c){
+    Database(){
         users = new HashMap<>();
         currentUser = null;
-        controller = c;
-        c.setDatabase(this);
-        grid = controller.getGrid();
-        snake = grid.getSnake();
+
     }
 
     public User login(String n, String p){
@@ -29,11 +25,17 @@ public class Database implements Serializable {
         else return null;
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void setController(Controller c) {
+        controller = c;
+        c.setDatabase(this);
+        grid = controller.getGrid();
     }
 }

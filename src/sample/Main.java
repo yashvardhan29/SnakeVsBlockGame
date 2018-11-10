@@ -51,7 +51,8 @@ public class Main extends Application {
         Label userLabel = (Label) root.lookup("#user");
         Label coinLabel = (Label) root.lookup("#coins");
 
-        database = new Database(new Controller());
+        if(database == null) database = new Database();
+
 
         if(database.getCurrentUser() != null){
             userLabel.setText(database.getCurrentUser().getName());
@@ -71,6 +72,7 @@ public class Main extends Application {
             Scene scene1 = resumeGame();
             primaryStage.setScene(scene1);
             primaryStage.show();
+
         });
 
         lb.setOnAction(e -> {
@@ -132,7 +134,14 @@ public class Main extends Application {
     }
 
     public Scene resumeGame()  {
-        return null;
+        try{
+            loadState();
+            System.out.println("loaded");
+        }catch (Exception lol){
+
+        }
+        Scene scene1 = startGame(database.getController());
+        return scene1;
     }
 
     public Scene startStore() throws IOException {
@@ -152,8 +161,9 @@ public class Main extends Application {
     }
 
     public Scene startGame(Controller controller){
+//        System.out.println("lol");
         Controller Admin;
-        if(controller == null) Admin = new Controller(); //Instantiation of controller object
+        if(controller == null) Admin = new Controller();
         else Admin = controller;
 
         this.database.setController(Admin);
@@ -174,7 +184,13 @@ public class Main extends Application {
                         Admin.grid.snake.yvel = 0;
                         break;
                     case P:
-                        Admin.grid.snake.incLength(5);
+//                        Admin.grid.snake.incLength(5);
+                        try {
+                            saveState();
+                            System.out.println("done");
+                        }catch (Exception e){
+
+                        }
                 }
             }
         });
@@ -202,7 +218,7 @@ public class Main extends Application {
         try{
             out = new ObjectOutputStream(new FileOutputStream("data.txt"));
             out.writeObject(database);
-        } catch (Exception e){
+        } catch (IOException e){
 
         } finally {
             if(out != null) out.close();
@@ -211,20 +227,21 @@ public class Main extends Application {
 
     public void loadState() throws IOException {
         ObjectInputStream in = null;
-        try{
-            in = new ObjectInputStream(new FileInputStream("data.txt"));
-            database = (Database) in.readObject();
-        }
-        catch (Exception e){
-
-        }
-        finally {
-            in.close();
-        }
+//        while(true) {
+            try {
+                in = new ObjectInputStream(new FileInputStream("data.txt"));
+                database = (Database) in.readObject();
+                System.out.println("loaded123");
+//                break;
+            } catch (Exception e) {
+                System.out.println("l");
+            } finally {
+                in.close();
+            }
+//        }
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 }
