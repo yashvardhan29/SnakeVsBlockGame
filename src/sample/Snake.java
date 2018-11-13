@@ -57,7 +57,6 @@ public class Snake implements Serializable {
     }
 
     public void incLength(int radius){
-        // Still not perfect
         if(length < 7){
             Point lpoint = points.get(points.size()-1);
             double newx = lpoint.getX();
@@ -71,27 +70,21 @@ public class Snake implements Serializable {
             length++;
             circles.add(lp);
             root.getChildren().add(lp);
-            //System.out.println(length + "l");
         }
         else {
             length++;
-            //System.out.println(length + "l");
         }
     }
 
     //Function to decrease length.
     public void decrLength(int todecr){
-        // Still not perfect
         int newlength = length - todecr;
         if(newlength < 7){
-            //System.out.println(length + "inilength");
             if(length >= 8){
              todecr = 7 - newlength;
             }
             for(int i = circles.size()-1;i > circles.size()-todecr-1;i--){
                 root.getChildren().remove(circles.get(i));
-                //length--;
-
             }
             int i = points.size()-1;
             int bound = points.size()- todecr -1;
@@ -101,7 +94,6 @@ public class Snake implements Serializable {
                 i--;
             }
             length = newlength;
-            //System.out.println(length + "final");
         }
         else length = newlength;
     }

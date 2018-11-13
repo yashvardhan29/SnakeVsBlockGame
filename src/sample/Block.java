@@ -39,8 +39,8 @@ public class Block implements Serializable {
         block.setLayoutX(p.getX());
         block.setLayoutY(p.getY());
         block.setFill(colors[col]);
-        block.setArcHeight(DIM/20);
-        block.setArcWidth(DIM/20);
+        block.setArcHeight(DIM/14);
+        block.setArcWidth(DIM/14);
 
     }
 

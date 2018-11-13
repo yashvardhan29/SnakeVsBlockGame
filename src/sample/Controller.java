@@ -98,7 +98,7 @@ public class Controller implements Serializable {
 
     public void ObjectMover(){
         //Calls the class ObjectHandler
-        KeyFrame kf = new KeyFrame(Duration.millis(100),new ObjectHandler());
+        KeyFrame kf = new KeyFrame(Duration.millis(75),new ObjectHandler()); //Prev Value 100
         omtimeline = new Timeline(kf);
         omtimeline.setCycleCount(Animation.INDEFINITE);
         omtimeline.play();

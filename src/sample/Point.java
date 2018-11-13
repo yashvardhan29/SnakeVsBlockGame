@@ -34,7 +34,7 @@ public class Point implements Serializable {
         }
         if(yvel == 1){
             y += 10;
-            wrap();
+            if(y >= 0 ) wrap();
         }
         if(yvel == -1){
             y -= 10;

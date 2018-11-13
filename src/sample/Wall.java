@@ -8,30 +8,21 @@ import java.io.Serializable;
 public class Wall implements Serializable {
     Rectangle realg;
     Point location;
-    Block theblocks[];
-    int length;
+    double length;
     int width;
 
-    Wall(Block theblocks[]){
+    Wall(int WIDTH){
         width = 5;
-        length = 100;
+        length = 310 - WIDTH/7;
         realg = new Rectangle(width,length);
-        realg.setFill(Color.RED);
-        this.theblocks = theblocks;
-        for(int i = 0;i<theblocks.length;i++){
-            if(theblocks[i] != null){
-                Block currb = theblocks[i];
-                location = new Point(currb.location.getX()+50,currb.location.getY()+50);
-                setPosition(location);
-            }
-        }
-
+        realg.setFill(Color.WHITE);
+        realg.setArcWidth(width/4);
+        realg.setArcHeight(width/4);
     }
 
     public void setPosition(Point p){
         realg.setLayoutX(p.getX());
         realg.setLayoutY(p.getY());
     }
-
 
 }

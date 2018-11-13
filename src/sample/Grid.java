@@ -25,18 +25,19 @@ public class Grid implements Serializable {
     Coin coins[]; // Array that stores references to the coins on screen.
     Block theblocks1[]; // Array that stores references to the blocks on screen.
     Block theblocks2[];
-    Wall thewalls[];
+    Block theblocks3[];
+    ArrayList<Wall> thewalls;
 
     Magnet magnet; // Reference to the magnet on screen.
     Shield shield; // Reference to the shield on screen.
     Destruction destruction; // Reference to the destruction token on screen.
-    Wall wall; // Solitary wall only for purpose of deadline 2.
 
     Snake snake; //Reference to the snake.
 
     boolean WallIsPresent;  // True if wall is present on screen.
     boolean BlockR1IsPresent; // True if block row1 is present on screen.
     boolean BlockR2IsPresent; // True if block row2 is present on screen.
+    boolean BlockR3IsPresent; // True if block row3 is present on screen.
     boolean MagnetIsPresent; // True if Magnet is present on screen.
     boolean ShieldIsPresent; // True if Shield is present on screen.
     boolean DestructionIsPresent; // True if Destruction Token is present on screen.
@@ -83,13 +84,11 @@ public class Grid implements Serializable {
 
     }
 
-    public Snake getSnake() {
-        return snake;
-    }
-
     private void setupObjectArrays(){
         theblocks1 = new Block[7];
         theblocks2 = new Block[7];
+        theblocks3 = new Block[7];
+        thewalls = new ArrayList<>();
 
         coins = new Coin[5];
         TokensOnScreen = new ArrayList<>();
@@ -97,6 +96,8 @@ public class Grid implements Serializable {
 
     private void InitialiseBooleans(){
         BlockR1IsPresent = false;
+        BlockR2IsPresent = false;
+        BlockR3IsPresent = false;
         WallIsPresent = false;
         MagnetIsPresent = false;
         ShieldIsPresent = false;
@@ -131,12 +132,43 @@ public class Grid implements Serializable {
     }
 
     public void SpawnWalls(){
-        if(!WallIsPresent){
-            Wall thewall = new Wall(theblocks1);
-            root.getChildren().add(thewall.realg);
-            WallIsPresent = true;
-            wall = thewall;
+        double length = 310 - WIDTH/7;
+        ArrayList<Integer> OnScreenInd1 = new ArrayList<>();
+        ArrayList<Integer> OnScreenInd2 = new ArrayList<>();
+        Block nnb1 = null;
+        Block nnb2 = null;
+        for(int i = 0;i<theblocks1.length;i++){
+            if(theblocks1[i] != null){
+                nnb1 = theblocks1[i];
+                OnScreenInd1.add(i);
+
+            }
+            if(theblocks2[i] != null){
+                nnb2 = theblocks2[i];
+                OnScreenInd2.add(i);
+            }
         }
+        if(nnb1 != null && nnb1.location.getY() == 0){
+            Random rand = new Random();
+            int randint = rand.nextInt(OnScreenInd1.size());
+            Block req = theblocks1[OnScreenInd1.get(randint)];
+            Wall toadd = new Wall(WIDTH);
+            toadd.location = new Point(req.location.getX(),-1*length);
+            toadd.setPosition(toadd.location);
+            root.getChildren().add(toadd.realg);
+            thewalls.add(toadd);
+        }
+        if(nnb2 != null && nnb2.location.getY() == 0){
+            Random rand = new Random();
+            int randint = rand.nextInt(OnScreenInd2.size());
+            Block req = theblocks2[OnScreenInd2.get(randint)];
+            Wall toadd = new Wall(WIDTH);
+            toadd.location = new Point(req.location.getX(),-1*length);
+            toadd.setPosition(toadd.location);
+            root.getChildren().add(toadd.realg);
+            thewalls.add(toadd);
+        }
+
     }
 
     public void SpawnCoins(){
@@ -166,51 +198,97 @@ public class Grid implements Serializable {
         }
         if(to_proceed){
             if(!BlockR1IsPresent){
-                for(int i = 0;i<theblocks1.length;i++){
-                    //50% chance of block spawning.
-                    Random rand = new Random();
-                    int decide = rand.nextInt(2);
-                    if(decide == 1){
-                        Point bloc = new Point(i*(WIDTH/7),0);
-                        Block curr = new Block(WIDTH,bloc);
-                        root.getChildren().add(curr.realg);
-                        theblocks1[i] = curr;
-                        BlockR1IsPresent = true;
-                        int val = rand.nextInt(5) + 1;
-                        curr.setValue(val);
-                        curr.valOfBlock = val;
+                Block b2 = null;
+                Block b3 = null;
+                for(int i = 0;i<theblocks2.length;i++){
+                    if(theblocks2[i] != null) b2 = theblocks2[i];
+                    if(theblocks3[i] != null) b3 = theblocks3[i];
+                }
+                double b2pos = -1;
+                double b3pos = -1;
+                if(b2 != null) b2pos = b2.location.getY();
+                if(b3 != null) b3pos = b3.location.getY();
+                if( b2pos >= HEIGHT/3 || b2pos == -1 ){
+                    if(b3pos == -1 || b3pos >= HEIGHT/3){
+                        for(int i = 0;i<theblocks1.length;i++){
+                            //50% chance of block spawning.
+                            Random rand = new Random();
+                            int decide = rand.nextInt(2);
+                            if(decide == 1){
+                                Point bloc = new Point(i*(WIDTH/7),0);
+                                Block curr = new Block(WIDTH,bloc);
+                                root.getChildren().add(curr.realg);
+                                theblocks1[i] = curr;
+                                BlockR1IsPresent = true;
+                                int val = rand.nextInt(5) + 1;
+                                curr.setValue(val);
+                                curr.valOfBlock = val;
+                            }
+                        }
                     }
                 }
             }
 
+            Block r1rep = null;
+
             for(int i = 0;i<theblocks1.length;i++){
                 if(theblocks1[i] != null){
-                    Block cb = theblocks1[i];
-                    if(cb.location.getY() > 250){
-                        if(!BlockR2IsPresent){
-                            for(int j = 0;j<theblocks2.length;j++){
-                                //50% chance of block spawning.
-                                Random rand = new Random();
-                                int decide = rand.nextInt(2);
-                                if(decide == 1){
-                                    Point bloc = new Point(j*(WIDTH/7),0);
-                                    Block curr = new Block(WIDTH,bloc);
-                                    root.getChildren().add(curr.realg);
-                                    theblocks2[j] = curr;
-                                    BlockR2IsPresent = true;
-                                    int val = rand.nextInt(5) + 1;
-                                    curr.setValue(val);
-                                    curr.valOfBlock = val;
-                                }
+                    r1rep = theblocks1[i];
+                }
+            }
+            // Remove the if condition.
+            if(r1rep != null){
+                if(!BlockR2IsPresent){
+                    if(r1rep.location.getY() >= HEIGHT/3){
+                        for(int j = 0;j<theblocks2.length;j++){
+                            //50% chance of block spawning.
+                            Random rand = new Random();
+                            int decide = rand.nextInt(2);
+                            if(decide == 1){
+                                Point bloc = new Point(j*(WIDTH/7),0);
+                                Block curr = new Block(WIDTH,bloc);
+                                root.getChildren().add(curr.realg);
+                                theblocks2[j] = curr;
+                                BlockR2IsPresent = true;
+                                int val = rand.nextInt(5) + 1;
+                                curr.setValue(val);
+                                curr.valOfBlock = val;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Block r2rep = null;
+
+            for(int i = 0;i<theblocks2.length;i++){
+                if(theblocks2[i] != null){
+                    r2rep = theblocks2[i];
+                }
+            }
+
+            if(r2rep != null && r1rep != null){
+                if(!BlockR3IsPresent){
+                    if(r2rep.location.getY() >= HEIGHT/3){
+                        for(int j = 0;j<theblocks3.length;j++){
+                            //50% chance of block spawning.
+                            Random rand = new Random();
+                            int decide = rand.nextInt(2);
+                            if(decide == 1){
+                                Point bloc = new Point(j*(WIDTH/7),0);
+                                Block curr = new Block(WIDTH,bloc);
+                                root.getChildren().add(curr.realg);
+                                theblocks3[j] = curr;
+                                BlockR3IsPresent = true;
+                                int val = rand.nextInt(5) + 1;
+                                curr.setValue(val);
+                                curr.valOfBlock = val;
                             }
                         }
                     }
                 }
             }
         }
-
-
-
     }
 
     public void SpawnShield(){
@@ -262,6 +340,7 @@ public class Grid implements Serializable {
                     }
                     else BlockR1IsPresent = true;
                 }
+
             }
         }
         if(BlockR2IsPresent){
@@ -276,6 +355,21 @@ public class Grid implements Serializable {
                         BlockR2IsPresent = false;
                     }
                     else BlockR2IsPresent = true;
+                }
+            }
+        }
+        if(BlockR3IsPresent){
+            for(int i = 0;i<theblocks3.length;i++){
+                if(theblocks3[i] != null){
+                    Block currb = theblocks3[i];
+                    currb.location.translate(0,1);
+                    currb.setPosition(currb.location);
+                    if(currb.location.getY() >= 980){
+                        root.getChildren().remove(currb.realg);
+                        theblocks3[i] = null;
+                        BlockR3IsPresent = false;
+                    }
+                    else BlockR3IsPresent = true;
                 }
             }
         }
@@ -340,13 +434,13 @@ public class Grid implements Serializable {
     }
 
     public void MoveWalls(){
-        if(WallIsPresent){
-            wall.location.translate(0,1);
-            wall.setPosition(wall.location);
-            if(wall.location.getY() >= 790){
-                root.getChildren().remove(wall.realg);
-                wall = null;
-                WallIsPresent = false;
+        for(int i = 0;i<thewalls.size();i++){
+            Wall currw = thewalls.get(i);
+            currw.location.translate(0,1);
+            currw.setPosition(currw.location);
+            if(currw.location.getY() >= 790){
+                root.getChildren().remove(currw.realg);
+                thewalls.remove(currw);
             }
         }
     }
@@ -379,12 +473,25 @@ public class Grid implements Serializable {
     }
 
     private void CheckWallCollision(){
-        if(wall != null){
-            if(snake == null) System.out.println("Hello");
-            if(wall == null) System.out.println("Bye");
-            if(snake.hlocation.getX() >= wall.location.getX() && snake.hlocation.getX() <= (wall.location.getX() + 5)) {
-                if(snake.hlocation.getY() >= wall.location.getY() && snake.hlocation.getY() <= wall.location.getY() + 100) snake.reverseSnake();
+        for(int i = 0;i<thewalls.size();i++){
+            Wall currw = thewalls.get(i);
+            Point wloc = currw.location;
+            Point hloc = snake.hlocation;
+            if(hloc.getY() > wloc.getY() && hloc.getY() - wloc.getY() < currw.length){
+                double xdiff = hloc.getX() - wloc.getX();
+                if(xdiff < 0){
+                    if(xdiff > -5){
+                        snake.reverseSnake();
+                    }
+                }
+                else{
+                    if(xdiff < 5){
+                        snake.reverseSnake();
+                    }
+                }
+
             }
+
         }
     }
 
@@ -472,6 +579,48 @@ public class Grid implements Serializable {
                     }
                 }
             }
+
+            if(theblocks3[i] != null){
+                Block currb = theblocks3[i];
+                double lbx = currb.location.getX();
+                double ubx = lbx + (WIDTH/7);
+                double yb = currb.location.getY() + (WIDTH/7);
+                int ryb = (int) yb;
+                if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
+                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb ){
+                        int val = currb.valOfBlock;
+                        if(snake.hasShield){
+                            score += val;
+                            root.getChildren().remove(theblocks3[i].realg);
+                            theblocks3[i] = null;
+                        }
+                        else if(val <= snake.length){
+                            if(val >= 2){
+                                try{
+                                    snakeTimeline.pause();
+                                    blockTimeline.pause();
+                                    coinTimeline.pause();
+                                    omtimeline.pause();
+                                    snake.stopSnake();
+                                    Thread.sleep(200);
+                                    Thread.sleep(800);
+                                    omtimeline.play();
+                                    snakeTimeline.play();
+                                    coinTimeline.play();
+                                    blockTimeline.play();
+                                }catch (Exception e){
+                                    System.out.println("");
+                                }
+                            }
+                            snake.decrLength(val);
+                            score += val;
+                            root.getChildren().remove(theblocks3[i].realg);
+                            theblocks3[i] = null;
+                        }
+                        else isAlive = false;
+                    }
+                }
+            }
         }
     }
 
@@ -509,9 +658,17 @@ public class Grid implements Serializable {
 
     private void ConsumeCoin(Token currt){
         Coin currc = (Coin) currt;
-        for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
+        for(int j = 0;j<currc.valOfCoin;j++) {
+            snake.incLength(diameter /2);
+        }
         root.getChildren().remove(currc.realg);
         TokensOnScreen.remove(currc);
+        for(int i = 0;i<coins.length;i++){
+            if(coins[i] == currc){
+                coins[i] = null;
+                break;
+            }
+        }
         Coin_count--;
     }
 
@@ -572,11 +729,11 @@ public class Grid implements Serializable {
         boolean flag = false;
         while(!flag){
             flag = true;
-            rx = rand.nextInt(490);
+            rx = rand.nextInt(480);
             for(int i = 0;i<TokensOnScreen.size();i++){
                 Token curr = TokensOnScreen.get(i);
                 Point loc = curr.location;
-                if(loc.getY() <= 60){
+                if(loc.getY() <= 40){
                     if((rx > loc.getX() && rx - loc.getX() <= 40) || (rx < loc.getX() && loc.getX() - rx <= 40)){
                         //Change if changing grid size
                         flag = false;
@@ -589,7 +746,7 @@ public class Grid implements Serializable {
                     if(theblocks1[i] != null){
                         Block currb = theblocks1[i];
                         Point loc = currb.location;
-                        if(loc.getY() <= 50){
+                        if(loc.getY() <= 40){
                             if((rx > loc.getX() && rx - loc.getX() <= 50) || (rx < loc.getX() && loc.getX() - rx <= 30)) {
                                 // Change if changing grid size
                                 flag = false;
@@ -603,12 +760,35 @@ public class Grid implements Serializable {
                     if(theblocks2[i] != null){
                         Block currb = theblocks2[i];
                         Point loc = currb.location;
-                        if(loc.getY() <= 80){
+                        if(loc.getY() <= 40){
                             if((rx > loc.getX() && rx - loc.getX() <= 50) || (rx < loc.getX() && loc.getX() - rx <= 30)) {
                                 // Change if changing grid size
                                 flag = false;
                             }
                         }
+                    }
+                }
+            }
+            if(BlockR3IsPresent){
+                for(int i = 0;i<theblocks3.length;i++){
+                    if(theblocks3[i] != null){
+                        Block currb = theblocks3[i];
+                        Point loc = currb.location;
+                        if(loc.getY() <= 40){
+                            if((rx > loc.getX() && rx - loc.getX() <= 50) || (rx < loc.getX() && loc.getX() - rx <= 30)) {
+                                // Change if changing grid size
+                                flag = false;
+                            }
+                        }
+                    }
+                }
+            }
+            for(int i = 0;i<thewalls.size();i++){
+                Wall currw = thewalls.get(i);
+                Point loc = currw.location;
+                if(loc.getY() <= 40){
+                    if((rx > loc.getX() && rx - loc.getX() <= 30) || (rx < loc.getX() && loc.getX() - rx <= 30)){
+                        flag = false;
                     }
                 }
             }
@@ -656,6 +836,7 @@ public class Grid implements Serializable {
                         for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
                         root.getChildren().remove(currc.realg);
                         TokensOnScreen.remove(currc);
+                        coins[i] = null;
                         Coin_count--;
                     }
                 }
