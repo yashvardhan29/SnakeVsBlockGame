@@ -15,30 +15,31 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.io.*;
 
 
-//public class Main extends Application implements Runnable {
-public class Main extends Application {
+public class Main extends Application implements Runnable {
+//public class Main extends Application {
 
     Parent root;
 
     Database database;
+    Thread thread;
 
-//    @Override
-//    public void run(){
-//        while(true){
-//            try{
-//                loadState();
-//                Thread.sleep(1000);
-//                saveState();
-//            }
-//            catch (Exception e){
-//
-//            }
-//        }
-//    }
+    @Override
+    public void run(){
+        while(true){
+            try{
+                saveState();
+                Thread.sleep(1000);
+            }
+            catch (Exception e){
+
+            }
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException{
-//        Thread thread = new Thread(this);
+//        thread = new Thread(this);
+//        thread.setDaemon(true);
 //        thread.start();
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
@@ -161,6 +162,9 @@ public class Main extends Application {
 
     public Scene startGame(Controller controller){
 //        System.out.println("lol");
+        thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
         Controller Admin;
         if(controller == null) Admin = new Controller();
         else Admin = controller;
