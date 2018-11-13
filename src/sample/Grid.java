@@ -99,25 +99,53 @@ public class Grid implements Serializable {
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
 
 
-
         for (Coin coin: coins) if(coin != null) coin.restore();
-        for (Block block: theblocks1) if(block != null) block.restore();
-        for (Block block: theblocks2) if(block != null) block.restore();
-        for (Block block: theblocks3) if(block != null) block.restore();
-        for (Wall wall: thewalls) if(wall != null) wall.restore();
-        for (Token token: TokensOnScreen) if(token != null) token.restore();
+        for (Block block: theblocks1) if(block != null) {
+            block.restore();
+            root.getChildren().add(block.realg);
+        }
+        for (Block block: theblocks2) if(block != null) {
+            block.restore();
+            root.getChildren().add(block.realg);
+        }
+        for (Block block: theblocks3) if(block != null) {
+            block.restore();
+            root.getChildren().add(block.realg);
+        }
+        for (Wall wall: thewalls) if(wall != null) {
+            wall.restore();
+            root.getChildren().add(wall.realg);
+        }
+        for (Coin coin: coins ) if(coin != null) {
+            coin.restore();
+            root.getChildren().add(coin.realg);
+        }
+//        for (Token token: TokensOnScreen) if(token != null) {
+//            token.restore();
+//            //root.getChildren().add(token.realg);
+//        }
 
 
-        if(magnet != null) magnet.restore();
-        if(shield != null) shield.restore();
-        if(destruction != null) destruction.restore();
+        if(magnet != null) {
+            magnet.restore();
+            root.getChildren().add(magnet.realg);
+
+        }
+        if(shield != null) {
+            shield.restore();
+            root.getChildren().add(shield.realg);
+
+        }
+        if(destruction != null) {
+            destruction.restore();
+            root.getChildren().add(destruction.realg);
+
+        }
         if(snake != null) snake.restore(root);
 
+
         setupChoiceBox();
-        setupSnake();
-        setupScoreDisplay();
-        InitialiseBooleans();
-        setupObjectArrays();
+        restoreScoreDisplay();
     }
 
     private void setupObjectArrays(){
@@ -143,6 +171,14 @@ public class Grid implements Serializable {
 
     private void setupScoreDisplay(){
         score_text = new Text(475,13,"0");
+        score_text.setFill(Color.WHITE);
+        score_text.setFont(new Font(15));
+        root.getChildren().add(score_text);
+    }
+
+    private void restoreScoreDisplay(){
+        String scorestring = Integer.toString(score);
+        score_text = new Text(475,13,scorestring);
         score_text.setFill(Color.WHITE);
         score_text.setFont(new Font(15));
         root.getChildren().add(score_text);

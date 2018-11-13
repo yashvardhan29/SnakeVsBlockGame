@@ -170,7 +170,6 @@ public class Main extends Application {
         if(Admin.getRoot() == null) {
             System.out.println("yhis happens");
             Admin.restore();
-            Admin.startAnimationTimers();
         }
         Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
 
@@ -189,7 +188,6 @@ public class Main extends Application {
                         Admin.grid.snake.yvel = 0;
                         break;
                     case P:
-//                        Admin.grid.snake.incLength(5);
                         try {
                             saveState();
                             System.out.println("done");

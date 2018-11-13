@@ -26,24 +26,7 @@ public class Snake implements Serializable {
     int yvel; // y-velocity of snake.
 
     //   new
-    public void stopSnake(){
-        xvel = 0;
-        yvel = 0;
-    }
 
-    public void reverseSnake(){
-        yvel =0;
-        xvel = xvel*(-1);
-    }
-
-    public void restore(Pane root){
-        setupHead(hlocation,side);
-
-        circles = new ArrayList<>();
-
-        circles.add(head);
-        this.root = root;
-    }
 
     Snake(int WIDTH,int HEIGHT,int s,Pane root){
         length = 0;
@@ -58,6 +41,36 @@ public class Snake implements Serializable {
 
         points.add(hlocation);
         circles.add(head);
+        this.root = root;
+    }
+
+    public void stopSnake(){
+        xvel = 0;
+        yvel = 0;
+    }
+
+    public void reverseSnake(){
+        yvel =0;
+        xvel = xvel*(-1);
+    }
+
+    public void restore(Pane root){
+        setupHead(hlocation,side);
+
+        circles = new ArrayList<>();
+        circles.add(head);
+        root.getChildren().add(head);
+        for(int i = 1;i<points.size();i++){
+            Circle dup = new Circle(10);
+            dup.setFill(Color.YELLOW);
+            Point duploc = points.get(i);
+            dup.setLayoutX(duploc.getX());
+            dup.setLayoutY(duploc.getY());
+            circles.add(dup);
+            root.getChildren().add(dup);
+
+        }
+
         this.root = root;
     }
 
