@@ -7,7 +7,7 @@ import javafx.scene.layout.StackPane;
 import java.io.Serializable;
 
 public class Magnet extends Token implements Serializable {
-    ImageView icon;
+    transient ImageView icon;
     int time;
 
     Magnet(int rx){
@@ -20,6 +20,14 @@ public class Magnet extends Token implements Serializable {
         super.realg.getChildren().add(icon);
 
 
+    }
+
+    public void restore(){
+        super.restore();
+        Image img = new Image("file:src/magnet.png");
+        icon = new ImageView(img);
+
+        super.realg.getChildren().add(icon);
     }
 
 }

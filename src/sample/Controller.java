@@ -19,10 +19,10 @@ import java.util.Random;
 
 
 public class Controller implements Serializable {
-    Pane root;
+    transient Pane root;
     Grid grid;
 
-    Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
     Database database;
 
@@ -30,6 +30,13 @@ public class Controller implements Serializable {
         root = new Pane();
         startAnimationTimers();
         grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
+    }
+
+    public void restore(){
+        root = new Pane();
+        grid.restore(root);
+        startAnimationTimers();
+        grid.setTimelines(snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
     }
 
     public void setDatabase(Database database) {
@@ -40,7 +47,7 @@ public class Controller implements Serializable {
         return grid;
     }
 
-    private void startAnimationTimers(){
+    public void startAnimationTimers(){
         this.SnakeAnimation();
         this.CoinAnimation();
         this.BlockAnimation();

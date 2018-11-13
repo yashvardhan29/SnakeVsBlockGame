@@ -9,11 +9,13 @@ import java.util.Random;
 
 public class Coin extends Token implements Serializable {
     int valOfCoin; //Value of coin
-    Circle coin; //Circle that represents the coin
-    Text value;
+    transient Circle coin; //Circle that represents the coin
+    transient Text value;
+    int radius;
 
-    Coin(int radius,int rx){
+    Coin(int rd,int rx){
         super(rx);
+        radius = rd;
         //Assignment of random valOfCoin to coin
         Random rand = new Random();
         valOfCoin = rand.nextInt(5) + 1;
@@ -26,6 +28,18 @@ public class Coin extends Token implements Serializable {
         value = new Text(ftext);
 
         super.realg.getChildren().addAll(coin,value);
+    }
+
+    public void restore(){
+        super.restore();
+        coin = new Circle(radius);
+        coin.setFill(Color.YELLOW);
+
+        String ftext = Integer.toString(valOfCoin);
+        value = new Text(ftext);
+
+        super.realg.getChildren().addAll(coin,value);
+
     }
 
 }

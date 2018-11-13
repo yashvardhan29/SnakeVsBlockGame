@@ -136,7 +136,6 @@ public class Main extends Application {
     public Scene resumeGame()  {
         try{
             loadState();
-            System.out.println("loaded");
         }catch (Exception lol){
 
         }
@@ -168,7 +167,13 @@ public class Main extends Application {
 
         this.database.setController(Admin);
 
+        if(Admin.getRoot() == null) {
+            System.out.println("yhis happens");
+            Admin.restore();
+            Admin.startAnimationTimers();
+        }
         Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
+
 
         //KeyHandler for KeyPresses
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -218,10 +223,13 @@ public class Main extends Application {
         try{
 
             out = new ObjectOutputStream(new FileOutputStream("data.txt"));
+            System.out.println("11");
             out.writeObject(database);
+            System.out.println("22");
             out.close();
+            System.out.println("saved123");
         } catch (IOException e){
-            System.out.println(e);
+            System.out.println("lol");
         } finally {
             if(out != null) out.close();
         }

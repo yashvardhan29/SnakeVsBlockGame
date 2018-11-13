@@ -9,19 +9,20 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Block implements Serializable {
-    Text value; //Displays numerical valOfCoin of block and is added to StackPane.
+    transient Text value; //Displays numerical valOfCoin of block and is added to StackPane.
     int valOfBlock; //Integer storing numerical valOfCoin of block.
-    Rectangle block; //Rectangle representing block that is added to StackPane.
-    StackPane realg; // StackPane that is added to the pane.
+    transient Rectangle block; //Rectangle representing block that is added to StackPane.
+    transient StackPane realg; // StackPane that is added to the pane.
     Point location; //Stores location of top left corner of block.
-    Color colors[]; //Array that has 7 colors. Helps in generation of random colours for blocks.
+    transient Color colors[]; //Array that has 7 colors. Helps in generation of random colours for blocks.
+    int DIM;
 
-    Block(int DIM,Point p){
+    Block(int D,Point p){
 
         location = p;
 
         setupColors();
-
+        DIM = D;
         Random rand = new Random();
         int col = rand.nextInt(7);
 
@@ -32,6 +33,17 @@ public class Block implements Serializable {
 
         realg.getChildren().addAll(block,value); //Adding Rectangle and TextHolder to StackPane.
 
+    }
+
+    public void restore(){
+        setupColors();
+        Random rand = new Random();
+        int col = rand.nextInt(7);
+        setupRectangle(DIM,col,location);
+        realg = new StackPane(); //Setting up StackPane
+        setPosition(location);
+        value = new Text(); //Setting up TextHolder
+        realg.getChildren().addAll(block,value); //Adding Rectangle and TextHolder to StackPane.
     }
 
     private void setupRectangle(int DIM,int col,Point p){

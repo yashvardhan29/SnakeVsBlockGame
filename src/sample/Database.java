@@ -9,7 +9,6 @@ public class Database implements Serializable {
     private HashMap<String,User> users;
     private User currentUser;
     private Controller controller;
-    private Grid grid;
 
     Database(){
         users = new HashMap<>();
@@ -36,6 +35,6 @@ public class Database implements Serializable {
     public void setController(Controller c) {
         controller = c;
         c.setDatabase(this);
-        grid = controller.getGrid();
+//        grid = controller.getGrid();
     }
 }

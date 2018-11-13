@@ -15,7 +15,7 @@ import javafx.animation.Timeline;
 
 
 public class Grid implements Serializable {
-    Pane root; // The Parent container that contains everything else. This is directly added to the scene.
+    transient Pane root; // The Parent container that contains everything else. This is directly added to the scene.
     int diameter = 20; // Diameter of snake
     int WIDTH = 500; // Width of grid in pixels.
     int HEIGHT = 800; // Height of grid in pixels.
@@ -53,11 +53,11 @@ public class Grid implements Serializable {
     ArrayList<Token> TokensOnScreen;
 
     int score;
-    Text score_text;
+    transient Text score_text;
 
-    ChoiceBox<String> cb;
+    transient ChoiceBox<String> cb;
 
-    Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
 
 
@@ -82,6 +82,42 @@ public class Grid implements Serializable {
         InitialiseBooleans();
         setupObjectArrays();
 
+    }
+
+    public void setTimelines( Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
+        snakeTimeline = t1;
+        coinTimeline = t2;
+        blockTimeline = t3;
+        magnetTimeline = t4;
+        shieldTimeline = t5;
+        destructTimeline = t6;
+        omtimeline = t7;
+    }
+
+    public void restore(Pane root){
+        this.root = root;
+        root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
+
+
+
+        for (Coin coin: coins) if(coin != null) coin.restore();
+        for (Block block: theblocks1) if(block != null) block.restore();
+        for (Block block: theblocks2) if(block != null) block.restore();
+        for (Block block: theblocks3) if(block != null) block.restore();
+        for (Wall wall: thewalls) if(wall != null) wall.restore();
+        for (Token token: TokensOnScreen) if(token != null) token.restore();
+
+
+        if(magnet != null) magnet.restore();
+        if(shield != null) shield.restore();
+        if(destruction != null) destruction.restore();
+        if(snake != null) snake.restore(root);
+
+        setupChoiceBox();
+        setupSnake();
+        setupScoreDisplay();
+        InitialiseBooleans();
+        setupObjectArrays();
     }
 
     private void setupObjectArrays(){

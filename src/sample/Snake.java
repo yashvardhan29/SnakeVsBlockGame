@@ -10,15 +10,17 @@ import java.util.ArrayList;
 
 
 public class Snake implements Serializable {
-    Circle head; //Shape that references head of snake.
+    transient Circle head; //Shape that references head of snake.
     int length; //Length of snake
     Point hlocation; //Location of head of snake
     ArrayList<Point> points; //Locations of all parts of the snake.
-    ArrayList<Circle> circles; //References to all circles that make up the snake.
-    Pane root; //Reference to root.
+    transient ArrayList<Circle> circles; //References to all circles that make up the snake.
+    transient Pane root; //Reference to root.
 
     boolean hasMagnet;
     boolean hasShield;
+
+    int side;
 
     int xvel; // x-velocity of snake.
     int yvel; // y-velocity of snake.
@@ -34,8 +36,18 @@ public class Snake implements Serializable {
         xvel = xvel*(-1);
     }
 
-    Snake(int WIDTH,int HEIGHT,int side,Pane root){
+    public void restore(Pane root){
+        setupHead(hlocation,side);
+
+        circles = new ArrayList<>();
+
+        circles.add(head);
+        this.root = root;
+    }
+
+    Snake(int WIDTH,int HEIGHT,int s,Pane root){
         length = 0;
+        side = s;
         hlocation = new Point(WIDTH/2,HEIGHT/2);
         setupHead(hlocation,side);
 

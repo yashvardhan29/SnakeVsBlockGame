@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 import java.io.Serializable;
 
 public class Wall implements Serializable {
-    Rectangle realg;
+    transient Rectangle realg;
     Point location;
     double length;
     int width;
@@ -23,6 +23,14 @@ public class Wall implements Serializable {
     public void setPosition(Point p){
         realg.setLayoutX(p.getX());
         realg.setLayoutY(p.getY());
+    }
+
+    public void restore(){
+        realg = new Rectangle(width,length);
+        realg.setFill(Color.WHITE);
+        realg.setArcWidth(width/4);
+        realg.setArcHeight(width/4);
+        setPosition(location);
     }
 
 }
