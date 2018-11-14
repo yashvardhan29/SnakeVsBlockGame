@@ -51,36 +51,36 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                <Label text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                <Label text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-                <Label text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                <Label fx:id="u1" text="User" textFill="WHITE" GridPane.columnIndex="2" />
+                <Label fx:id="s1" text="Score" textFill="WHITE" GridPane.columnIndex="3" />
+                <Label fx:id="d1" text="Date" textFill="WHITE" GridPane.columnIndex="4" />
+                <Label fx:id="u2" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label fx:id="s2" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                <Label fx:id="d2" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                <Label fx:id="u3" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label fx:id="u4" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <Label fx:id="u5" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <Label fx:id="u6" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <Label fx:id="u7" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                <Label fx:id="u8" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                <Label fx:id="u9" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                <Label fx:id="u10" text="User" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                <Label fx:id="s3" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                <Label fx:id="s4" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                <Label fx:id="s5" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                <Label fx:id="s6" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                <Label fx:id="s7" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                <Label fx:id="s8" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                <Label fx:id="s9" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                <Label fx:id="s10" text="Score" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                <Label fx:id="d3" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                <Label fx:id="d4" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                <Label fx:id="d5" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                <Label fx:id="d6" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                <Label fx:id="d7" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                <Label fx:id="d8" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                <Label fx:id="d9" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                <Label fx:id="d10" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="9" />
             <Button fx:id="lb_mm" mnemonicParsing="false" prefHeight="21.0" prefWidth="70.0" text="Main Menu" GridPane.columnIndex="6" GridPane.rowIndex="11">
                <font>
                   <Font size="9.0" />

@@ -156,6 +156,16 @@ public class Main extends Application implements Runnable {
 
     public Scene startLB() throws IOException {
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
+        String[][] tties  = database.getTopTenScores();
+        int ttiesLength = database.getTtsLength();
+        for (int i = 0; i < ttiesLength; i++) {
+            Label label = (Label) root.lookup("u" + i + 1);
+            label.setText(tties[i][0]);
+            Label label1 = (Label) root.lookup("s" + i + 1);
+            label1.setText(tties[i][1]);
+            Label label2 = (Label) root.lookup("d" + i + 1);
+            label2.setText(tties[i][2]);
+        }
         return new Scene(root);
     }
 
@@ -253,7 +263,70 @@ public class Main extends Application implements Runnable {
     }
 
     public static void main(String[] args) {
-        launch(args);
+////        launch(args);
+//        Database d = new Database();
+//        d.topTenScores =
+        String[][] one = new String[6][3];
+        for (int i = 0; i < 5; i++) {
+            one[i][0] = ("a" + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            one[i][1] = Integer.toString(25 - i*i);
+        }
+        for (int i = 0; i < 5; i++) {
+            one[i][2] = ("b" + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println(one[i][0] + " " + one[i][1] + " " + one[i][2]);
+        }
+        int a[] = new int[5];
+        for (int i = 0; i < 5; i++) {
+            a[i] = Integer.parseInt(one[i][1]);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println(a[i] + " ");
+        }
+
+        quicksort(a,0,4,one);
+        for (int i = 0; i < 5; i++) {
+            System.out.println(one[i][0] + " " + one[i][1] + " " + one[i][2]);
+        }
+//        String x = "a";
+//        System.out.println(x + 1);
+    }
+    static int partirion(int arr[], int l, int h, String orig[][]){
+        int pivot = arr[h];
+        int i = l - 1;
+        for(int j = l; j < h; j++){
+            if(arr[j] < pivot){
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                for (int k = 0; k < 3; k++) {
+                    String temps = orig[i][k];
+                    orig[i][k] = orig[j][k];
+                    orig[j][k] = temps;
+                }
+            }
+        }
+        int temp = arr[h];
+        arr[h] = arr[i+1];
+        arr[i+1] = temp;
+        for (int k = 0; k < 3; k++) {
+            String temps = orig[h][k];
+            orig[h][k] = orig[i+1][k];
+            orig[i+1][k] = temps;
+        }
+        return i + 1;
+    }
+
+    static void quicksort(int arr[], int l, int h, String orig[][]){
+        if(l < h) {
+            int p = partirion(arr,l,h,orig);
+            quicksort(arr,l,p - 1,orig);
+            quicksort(arr,p + 1, h,orig);
+        }
     }
 }
 
