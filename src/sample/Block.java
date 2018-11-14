@@ -43,6 +43,7 @@ public class Block implements Serializable {
         realg = new StackPane(); //Setting up StackPane
         setPosition(location);
         value = new Text(); //Setting up TextHolder
+        this.setValue(valOfBlock);
         realg.getChildren().addAll(block,value); //Adding Rectangle and TextHolder to StackPane.
     }
 

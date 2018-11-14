@@ -128,7 +128,6 @@ public class Main extends Application implements Runnable {
         });
 
 
-
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.show();
