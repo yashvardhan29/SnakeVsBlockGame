@@ -60,7 +60,6 @@ public class Grid implements Serializable {
     transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
 
-
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
         this.root = root;
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
@@ -120,11 +119,6 @@ public class Grid implements Serializable {
             coin.restore();
             root.getChildren().add(coin.realg);
         }
-//        for (Token token: TokensOnScreen) if(token != null) {
-//            token.restore();
-//            //root.getChildren().add(token.realg);
-//        }
-
 
         if(magnet != null) {
             magnet.restore();
@@ -189,6 +183,7 @@ public class Grid implements Serializable {
         snake.xvel = 0;
         snake.yvel = 0;
         root.getChildren().add(snake.head);
+        root.getChildren().add(snake.sldisp);
     }
 
     private void setupChoiceBox(){
@@ -400,50 +395,13 @@ public class Grid implements Serializable {
     public void MoveBlocks(){
         //Moves the blocks downwards.
         if(BlockR1IsPresent){
-            for(int i = 0;i<theblocks1.length;i++){
-                if(theblocks1[i] != null){
-                    Block currb = theblocks1[i];
-                    currb.location.translate(0,1);
-                    currb.setPosition(currb.location);
-                    if(currb.location.getY() >= 980){
-                        root.getChildren().remove(currb.realg);
-                        theblocks1[i] = null;
-                        BlockR1IsPresent = false;
-                    }
-                    else BlockR1IsPresent = true;
-                }
-
-            }
+            BlockR1IsPresent = moveBlockRow(theblocks1);
         }
         if(BlockR2IsPresent){
-            for(int i = 0;i<theblocks2.length;i++){
-                if(theblocks2[i] != null){
-                    Block currb = theblocks2[i];
-                    currb.location.translate(0,1);
-                    currb.setPosition(currb.location);
-                    if(currb.location.getY() >= 980){
-                        root.getChildren().remove(currb.realg);
-                        theblocks2[i] = null;
-                        BlockR2IsPresent = false;
-                    }
-                    else BlockR2IsPresent = true;
-                }
-            }
+            BlockR2IsPresent = moveBlockRow(theblocks2);
         }
         if(BlockR3IsPresent){
-            for(int i = 0;i<theblocks3.length;i++){
-                if(theblocks3[i] != null){
-                    Block currb = theblocks3[i];
-                    currb.location.translate(0,1);
-                    currb.setPosition(currb.location);
-                    if(currb.location.getY() >= 980){
-                        root.getChildren().remove(currb.realg);
-                        theblocks3[i] = null;
-                        BlockR3IsPresent = false;
-                    }
-                    else BlockR3IsPresent = true;
-                }
-            }
+            BlockR3IsPresent = moveBlockRow(theblocks3);
         }
     }
 
@@ -528,6 +486,27 @@ public class Grid implements Serializable {
             currc.setLayoutX(currp.getX());
             currc.setLayoutY(currp.getY());
         }
+        snake.sldisp.setX(snake.hlocation.getX()-6);
+    }
+
+    private boolean moveBlockRow(Block theblocks[]){
+        boolean flag = true;
+        for(int i = 0;i<theblocks.length;i++){
+            if(theblocks[i] != null){
+                Block currb = theblocks[i];
+                if(i == 1){
+                    System.out.println(currb.location.getY() + "loc");
+                }
+                currb.location.translate(0,1);
+                currb.setPosition(currb.location);
+                if(currb.location.getY() >= 980){
+                    root.getChildren().remove(currb.realg);
+                    theblocks[i] = null;
+                    flag = false;
+                }
+            }
+        }
+        return flag;
     }
 
     public void CollisionCheck(){
@@ -568,103 +547,27 @@ public class Grid implements Serializable {
     }
 
     private void CheckBlockCollision(){
-        for(int i = 0;i<theblocks1.length;i++){
-            if(theblocks1[i] != null){
-                Block currb = theblocks1[i];
-                double lbx = currb.location.getX();
-                double ubx = lbx + (WIDTH/7);
-                double yb = currb.location.getY() + (WIDTH/7);
-                int ryb = (int) yb;
-                if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
-                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb){
-                        int val = currb.valOfBlock;
-                        if(snake.hasShield){
-                            score += val;
-                            root.getChildren().remove(theblocks1[i].realg);
-                            theblocks1[i] = null;
-                        }
-                        else if(val <= snake.length){
-                            if(val >= 2){
-                                try{
-                                    snakeTimeline.pause();
-                                    blockTimeline.pause();
-                                    coinTimeline.pause();
-                                    omtimeline.pause();
-                                    snake.stopSnake();
-                                    Thread.sleep(200);
-                                    Thread.sleep(800);
-                                    omtimeline.play();
-                                    snakeTimeline.play();
-                                    coinTimeline.play();
-                                    blockTimeline.play();
-                                }catch (Exception e){
-                                    System.out.println("");
-                                }
-                            }
-                            snake.decrLength(val);
-                            score += val;
-                            root.getChildren().remove(theblocks1[i].realg);
-                            theblocks1[i] = null;
-                        }
-                        else isAlive = false;
-                    }
-                }
-            }
-            if(theblocks2[i] != null){
-                Block currb = theblocks2[i];
-                double lbx = currb.location.getX();
-                double ubx = lbx + (WIDTH/7);
-                double yb = currb.location.getY() + (WIDTH/7);
-                int ryb = (int) yb;
-                if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
-                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb ){
-                        int val = currb.valOfBlock;
-                        if(snake.hasShield){
-                            score += val;
-                            root.getChildren().remove(theblocks2[i].realg);
-                            theblocks2[i] = null;
-                        }
-                        else if(val <= snake.length){
-                            if(val >= 2){
-                                try{
-                                    snakeTimeline.pause();
-                                    blockTimeline.pause();
-                                    coinTimeline.pause();
-                                    omtimeline.pause();
-                                    snake.stopSnake();
-                                    Thread.sleep(200);
-                                    Thread.sleep(800);
-                                    omtimeline.play();
-                                    snakeTimeline.play();
-                                    coinTimeline.play();
-                                    blockTimeline.play();
-                                }catch (Exception e){
-                                    System.out.println("");
-                                }
-                            }
-                            snake.decrLength(val);
-                            score += val;
-                            root.getChildren().remove(theblocks2[i].realg);
-                            theblocks2[i] = null;
-                        }
-                        else isAlive = false;
-                    }
-                }
-            }
+        blockRowCollision(theblocks1);
+        blockRowCollision(theblocks2);
+        blockRowCollision(theblocks3);
+        snake.updateSnakeLengthDisp();
+    }
 
-            if(theblocks3[i] != null){
-                Block currb = theblocks3[i];
+    private void blockRowCollision(Block theblocks[]){
+        for(int i = 0;i<theblocks.length;i++){
+            if(theblocks[i] != null){
+                Block currb = theblocks[i];
                 double lbx = currb.location.getX();
                 double ubx = lbx + (WIDTH/7);
                 double yb = currb.location.getY() + (WIDTH/7);
                 int ryb = (int) yb;
                 if(lbx<=snake.hlocation.getX() && ubx>=snake.hlocation.getX()){
-                    if(snake.hlocation.getY() + diameter/2 + 1 == ryb ){
+                    if(320 < currb.location.getY() && currb.location.getY() < 335){
                         int val = currb.valOfBlock;
                         if(snake.hasShield){
                             score += val;
-                            root.getChildren().remove(theblocks3[i].realg);
-                            theblocks3[i] = null;
+                            root.getChildren().remove(theblocks[i].realg);
+                            theblocks[i] = null;
                         }
                         else if(val <= snake.length){
                             if(val >= 2){
@@ -674,8 +577,6 @@ public class Grid implements Serializable {
                                     coinTimeline.pause();
                                     omtimeline.pause();
                                     snake.stopSnake();
-                                    Thread.sleep(200);
-                                    Thread.sleep(800);
                                     omtimeline.play();
                                     snakeTimeline.play();
                                     coinTimeline.play();
@@ -686,8 +587,8 @@ public class Grid implements Serializable {
                             }
                             snake.decrLength(val);
                             score += val;
-                            root.getChildren().remove(theblocks3[i].realg);
-                            theblocks3[i] = null;
+                            root.getChildren().remove(theblocks[i].realg);
+                            theblocks[i] = null;
                         }
                         else isAlive = false;
                     }
@@ -781,6 +682,13 @@ public class Grid implements Serializable {
                 root.getChildren().remove(theblocks2[i].realg);
                 theblocks2[i] = null;
                 BlockR2IsPresent = false;
+            }
+            if(theblocks3[i] != null){
+                int val = theblocks3[i].valOfBlock;
+                score += val;
+                root.getChildren().remove(theblocks3[i].realg);
+                theblocks3[i] = null;
+                BlockR3IsPresent = false;
             }
         }
         TokensOnScreen.remove(currd);

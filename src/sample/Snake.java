@@ -3,6 +3,7 @@ package sample;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 public class Snake implements Serializable {
     transient Circle head; //Shape that references head of snake.
+    Text sldisp;
     int length; //Length of snake
     Point hlocation; //Location of head of snake
     ArrayList<Point> points; //Locations of all parts of the snake.
@@ -31,6 +33,8 @@ public class Snake implements Serializable {
     Snake(int WIDTH,int HEIGHT,int s,Pane root){
         length = 0;
         side = s;
+        sldisp = new Text(244,403,"0");
+        sldisp.setFill(Color.WHITE);
         hlocation = new Point(WIDTH/2,HEIGHT/2);
         setupHead(hlocation,side);
 
@@ -52,6 +56,11 @@ public class Snake implements Serializable {
     public void reverseSnake(){
         yvel =0;
         xvel = xvel*(-1);
+    }
+
+    public void updateSnakeLengthDisp(){
+        String sl = Integer.toString(length);
+        sldisp.setText(sl);
     }
 
     public void restore(Pane root){

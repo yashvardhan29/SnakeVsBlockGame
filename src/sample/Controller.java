@@ -22,14 +22,17 @@ public class Controller implements Serializable {
     transient Pane root;
     Grid grid;
 
-    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline;
 
     Database database;
+
+    int objectanimdur;
 
     Controller(){
         root = new Pane();
         startAnimationTimers();
         grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
+        objectanimdur = 15;
     }
 
     public void restore(){
@@ -55,14 +58,22 @@ public class Controller implements Serializable {
         this.ShieldAnimation();
         this.DestructionAnimation();
         this.ObjectMover();
+        this.CollisionCheckingTimer();
     }
 
     public void SnakeAnimation(){
         //Calls the class SnakeHandler
-        KeyFrame kf = new KeyFrame(Duration.millis(50),new SnakeHandler());
+        KeyFrame kf = new KeyFrame(Duration.millis(7.5),new SnakeHandler());
         snakeTimeline = new Timeline(kf);
         snakeTimeline.setCycleCount(Animation.INDEFINITE);
         snakeTimeline.play();
+    }
+
+    public void CollisionCheckingTimer(){
+        KeyFrame kf = new KeyFrame(Duration.millis(1),new CollHandler());
+        collTimeline = new Timeline(kf);
+        collTimeline.setCycleCount(Animation.INDEFINITE);
+        collTimeline.play();
     }
 
     public void CoinAnimation(){
@@ -76,7 +87,7 @@ public class Controller implements Serializable {
 
     public void BlockAnimation(){
         //Calls the class BlockHandler
-        KeyFrame kf = new KeyFrame(Duration.millis(500),new BlockHandler());
+        KeyFrame kf = new KeyFrame(Duration.millis(100),new BlockHandler());
         blockTimeline = new Timeline(kf);
         blockTimeline.setCycleCount(Animation.INDEFINITE);
         blockTimeline.play();
@@ -105,7 +116,7 @@ public class Controller implements Serializable {
 
     public void ObjectMover(){
         //Calls the class ObjectHandler
-        KeyFrame kf = new KeyFrame(Duration.millis(75),new ObjectHandler()); //Prev Value 100
+        KeyFrame kf = new KeyFrame(Duration.millis(15),new ObjectHandler()); //Prev Value 100
         omtimeline = new Timeline(kf);
         omtimeline.setCycleCount(Animation.INDEFINITE);
         omtimeline.play();
@@ -116,11 +127,17 @@ public class Controller implements Serializable {
           Also calls the collision checker.
          */
         public void handle(ActionEvent event){
-            grid.CollisionCheck();
             grid.MoveSnake();
             grid.CheckIfAlive();
             grid.UpdateScore();
             grid.UpdateTokenValidity();
+        }
+    }
+
+    private class CollHandler implements EventHandler<ActionEvent>{
+
+        public void handle(ActionEvent event){
+            grid.CollisionCheck();
         }
     }
 

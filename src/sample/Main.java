@@ -234,13 +234,10 @@ public class Main extends Application implements Runnable {
         try{
 
             out = new ObjectOutputStream(new FileOutputStream("data.txt"));
-            System.out.println("11");
             out.writeObject(database);
-            System.out.println("22");
             out.close();
-            System.out.println("saved123");
         } catch (IOException e){
-            System.out.println("lol");
+
         } finally {
             if(out != null) out.close();
         }
@@ -248,85 +245,22 @@ public class Main extends Application implements Runnable {
 
     public void loadState() throws IOException {
         ObjectInputStream in = null;
-//        while(true) {
-            try {
-                in = new ObjectInputStream(new FileInputStream("data.txt"));
-                database = (Database) in.readObject();
-                System.out.println("loaded123");
-//                break;
-            } catch (Exception e) {
-                System.out.println("l");
-            } finally {
-                in.close();
-            }
-//        }
+
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            database = (Database) in.readObject();
+        }
+        catch (Exception e) {
+
+        }
+        finally {
+            in.close();
+        }
+
     }
 
     public static void main(String[] args) {
         launch(args);
-//        Database d = new Database();
-//        d.topTenScores =
-//        String[][] one = new String[6][3];
-//        for (int i = 0; i < 5; i++) {
-//            one[i][0] = ("a" + i);
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            one[i][1] = Integer.toString(25 - i*i);
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            one[i][2] = ("b" + i);
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println(one[i][0] + " " + one[i][1] + " " + one[i][2]);
-//        }
-//        int a[] = new int[5];
-//        for (int i = 0; i < 5; i++) {
-//            a[i] = Integer.parseInt(one[i][1]);
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println(a[i] + " ");
-//        }
-//
-//        quicksort(a,0,4,one);
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println(one[i][0] + " " + one[i][1] + " " + one[i][2]);
-//        }
-////        String x = "a";
-////        System.out.println(x + 1);
     }
-//    static int partirion(int arr[], int l, int h, String orig[][]){
-//        int pivot = arr[h];
-//        int i = l - 1;
-//        for(int j = l; j < h; j++){
-//            if(arr[j] < pivot){
-//                i++;
-//                int temp = arr[i];
-//                arr[i] = arr[j];
-//                arr[j] = temp;
-//                for (int k = 0; k < 3; k++) {
-//                    String temps = orig[i][k];
-//                    orig[i][k] = orig[j][k];
-//                    orig[j][k] = temps;
-//                }
-//            }
-//        }
-//        int temp = arr[h];
-//        arr[h] = arr[i+1];
-//        arr[i+1] = temp;
-//        for (int k = 0; k < 3; k++) {
-//            String temps = orig[h][k];
-//            orig[h][k] = orig[i+1][k];
-//            orig[i+1][k] = temps;
-//        }
-//        return i + 1;
-//    }
-//
-//    static void quicksort(int arr[], int l, int h, String orig[][]){
-//        if(l < h) {
-//            int p = partirion(arr,l,h,orig);
-//            quicksort(arr,l,p - 1,orig);
-//            quicksort(arr,p + 1, h,orig);
-//        }
-//    }
 }
 
