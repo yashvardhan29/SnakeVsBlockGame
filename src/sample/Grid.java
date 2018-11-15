@@ -271,6 +271,7 @@ public class Grid implements Serializable {
                     if(theblocks2[i] != null) b2 = theblocks2[i];
                     if(theblocks3[i] != null) b3 = theblocks3[i];
                 }
+
                 double b2pos = -1;
                 double b3pos = -1;
                 if(b2 != null) b2pos = b2.location.getY();
@@ -495,7 +496,7 @@ public class Grid implements Serializable {
             if(theblocks[i] != null){
                 Block currb = theblocks[i];
                 if(i == 1){
-                    System.out.println(currb.location.getY() + "loc");
+//                    System.out.println(currb.location.getY() + "loc");
                 }
                 currb.location.translate(0,1);
                 currb.setPosition(currb.location);

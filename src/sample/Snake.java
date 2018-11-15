@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Snake implements Serializable {
     transient Circle head; //Shape that references head of snake.
-    Text sldisp;
+    transient Text sldisp;
     int length; //Length of snake
     Point hlocation; //Location of head of snake
     ArrayList<Point> points; //Locations of all parts of the snake.
@@ -65,6 +65,10 @@ public class Snake implements Serializable {
 
     public void restore(Pane root){
         setupHead(hlocation,side);
+
+        sldisp = new Text(244,403,"0");
+        sldisp.setFill(Color.WHITE);
+        updateSnakeLengthDisp();
 
         circles = new ArrayList<>();
         circles.add(head);

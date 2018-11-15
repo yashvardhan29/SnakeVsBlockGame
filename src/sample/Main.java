@@ -22,6 +22,7 @@ public class Main extends Application implements Runnable {
 
     Database database;
     Thread thread;
+//    Controller controller;
 
     @Override
     public void run(){
@@ -41,6 +42,7 @@ public class Main extends Application implements Runnable {
 //        thread = new Thread(this);
 //        thread.setDaemon(true);
 //        thread.start();
+//        controller = new Controller();
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
         Button startgame = (Button) root.lookup("#game");
@@ -137,7 +139,7 @@ public class Main extends Application implements Runnable {
         try{
             loadState();
         }catch (Exception lol){
-
+            System.out.println("lol");
         }
         Scene scene1 = startGame(database.getController());
         return scene1;
@@ -235,9 +237,10 @@ public class Main extends Application implements Runnable {
 
             out = new ObjectOutputStream(new FileOutputStream("data.txt"));
             out.writeObject(database);
+            System.out.println("this1");
             out.close();
         } catch (IOException e){
-
+            System.out.println("here");
         } finally {
             if(out != null) out.close();
         }
@@ -251,7 +254,7 @@ public class Main extends Application implements Runnable {
             database = (Database) in.readObject();
         }
         catch (Exception e) {
-
+            System.out.println("here");
         }
         finally {
             in.close();
