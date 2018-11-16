@@ -338,11 +338,19 @@ public class Main extends Application implements Runnable {
                 TextField userName = (TextField) root.lookup("#userName");
                 TextField password = (TextField) root.lookup("#password");
                 Button login = (Button) root.lookup("#logIn");
+                Button logout = (Button) root.lookup("#logOut");
                 login.setOnAction(e123 -> {
                     String un = userName.getText();
                     String pwd = password.getText();
                     System.out.println(un + " " + pwd);
                     database.login(un,pwd);
+                    userLabel.setText(database.getCurrentUser().getName() + ": ");
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+                });
+                logout.setOnAction(e123 -> {
+                    database.login("Guest","");
                     userLabel.setText(database.getCurrentUser().getName() + ": ");
                     coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
                     primaryStage.setScene(scene);
