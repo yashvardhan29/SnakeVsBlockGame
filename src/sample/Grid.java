@@ -86,11 +86,7 @@ public class Grid implements Serializable {
 
     }
 
-    public Snake getSnake() {
-        return snake;
-    }
-
-    public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
+    public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7) {
         snakeTimeline = t1;
         coinTimeline = t2;
         blockTimeline = t3;
@@ -98,6 +94,10 @@ public class Grid implements Serializable {
         shieldTimeline = t5;
         destructTimeline = t6;
         omtimeline = t7;
+    }
+
+    public Snake getSnake() {
+        return snake;
     }
 
     public void restore(Pane root){
@@ -585,12 +585,13 @@ public class Grid implements Serializable {
                                     coinTimeline.pause();
                                     omtimeline.pause();
                                     snake.stopSnake();
+                                    System.out.println("works");
                                     omtimeline.play();
                                     snakeTimeline.play();
                                     coinTimeline.play();
                                     blockTimeline.play();
                                 }catch (Exception e){
-                                    System.out.println("");
+                                    System.out.println("null");
                                 }
                             }
                             snake.decrLength(val);
@@ -832,29 +833,59 @@ public class Grid implements Serializable {
         }
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void pauseTimelines(){
+        snakeTimeline.pause();
+        coinTimeline.pause();
+        blockTimeline.pause();
+        magnetTimeline.pause();
+        shieldTimeline.pause();
+        destructTimeline.pause();
+        omtimeline.pause();
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
     // Useless for now.
     public void CheckIfAlive(){
         if(!isAlive){
-            try{
-                System.out.println("works");
-                root.getChildren().removeAll();
-                root = FXMLLoader.load(getClass().getResource("youded.fxml"));
-                Label scoreLabel = (Label) root.lookup("#scoreLabel");
-                scoreLabel.setText("Your Score: " + Integer.toString(score));
-                Button mm = (Button) root.lookup("#mainMenu");
-                Button exit = (Button) root.lookup("#exitGame");
-                exit.setOnAction(e1 -> {
-                    System.exit(0);
-                });
-                mm.setOnAction(e1 -> {
-                    System.out.println("go to main menu");
-                });
-            }
-            catch (Exception e){
-                System.out.println("lol");
-            }
+//            try{
+//                System.out.println("works");
+//                root.getChildren().removeAll();
+//                root = FXMLLoader.load(getClass().getResource("youded.fxml"));
+//                Label scoreLabel = (Label) root.lookup("#scoreLabel");
+//                scoreLabel.setText("Your Score: " + Integer.toString(score));
+//                Button mm = (Button) root.lookup("#mainMenu");
+//                Button exit = (Button) root.lookup("#exitGame");
+//                exit.setOnAction(e1 -> {
+//                    System.exit(0);
+//                });
+//                mm.setOnAction(e1 -> {
+//                    System.out.println("go to main menu");
+//                });
+//            }
+//            catch (Exception e){
+//                System.out.println("lol");
+//            }
+//            if(snakeTimeline == null) System.out.println(1234);
+            pauseTimelines();
+            Text text1 = new Text(150,400,"YOU DIED");
+            text1.setFill(Color.WHITE);
+            text1.setFont(new Font(50));
+            root.getChildren().add(text1);
 
-            //System.exit(0);
+            Text text2 = new Text(175,430,"Your Score: " + Integer.toString(score));
+            text2.setFill(Color.WHITE);
+            text2.setFont(new Font(30));
+            root.getChildren().add(text2);
+
+
+//            System.exit(0);
         }
     }
 }

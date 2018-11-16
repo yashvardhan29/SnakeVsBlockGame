@@ -26,12 +26,36 @@ public class Main extends Application implements Runnable {
     Database database;
     Thread thread;
     Controller controller;
+    Stage PS;
+    Scene mainScene;
 
     @Override
     public void run(){
         while(true){
             try{
                 saveState();
+//                if(!controller.getGrid().isAlive()) {
+//                    try{
+//                        System.out.println(0);
+//                        root = FXMLLoader.load(getClass().getResource("youded.fxml"));
+//                        Scene scene = new Scene(root);
+//                        PS.setScene(scene);
+//                        PS.show();
+//                        Label scoreLabel = (Label) root.lookup("#scoreLabel");
+//                        scoreLabel.setText("Your Score: " + Integer.toString(controller.getGrid().getScore()));
+//                        Button mm = (Button) root.lookup("#mainMenu");
+//                        Button exit = (Button) root.lookup("#exitGame");
+//                        System.out.println(1);
+//                        exit.setOnAction(e1 -> {
+//                            System.exit(0);
+//                        });
+//                        mm.setOnAction(e1 -> {
+//                            System.out.println("go to main menu");
+//                        });
+//                    }
+//                    catch(Exception e){
+//                        System.out.println("lol"); }
+//                    }
                 Thread.sleep(1000);
             }
             catch (Exception e){
@@ -181,9 +205,11 @@ public class Main extends Application implements Runnable {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
+        PS = primaryStage;
         controller = new Controller();
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
+        mainScene = scene;
         Button startgame = (Button) root.lookup("#game");
         Button lb = (Button) root.lookup("#lb");
         Button store = (Button) root.lookup("#store");
@@ -440,12 +466,11 @@ public class Main extends Application implements Runnable {
                         Admin.grid.snake.xvel = 1;
                         Admin.grid.snake.yvel = 0;
                         break;
-                    case P:
-                        try {
-                            saveState();
-                            System.out.println("done");
-                        }catch (Exception e){
-
+                    case ENTER:
+                        if(!Admin.getGrid().isAlive()) {
+                            System.out.println("setting scene");
+                            PS.setScene(scene);
+                            PS.show();
                         }
                 }
             }

@@ -59,6 +59,7 @@ public class Controller implements Serializable {
         this.DestructionAnimation();
         this.ObjectMover();
         this.CollisionCheckingTimer();
+        grid.setTimelines(snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
     }
 
     public void SnakeAnimation(){
