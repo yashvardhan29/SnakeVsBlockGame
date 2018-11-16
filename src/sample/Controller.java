@@ -30,7 +30,7 @@ public class Controller implements Serializable {
 
     Controller(){
         root = new Pane();
-        startAnimationTimers();
+//        startAnimationTimers();
         grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
         objectanimdur = 15;
     }

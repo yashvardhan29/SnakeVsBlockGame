@@ -11,11 +11,11 @@
    <children>
       <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="125.0" prefHeight="85.0" prefWidth="467.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <TextField>
+            <TextField fx:id="userName">
                <HBox.margin>
                   <Insets right="5.0" top="10.0" />
                </HBox.margin></TextField>
-            <TextField>
+            <TextField fx:id="password">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin></TextField>
@@ -28,11 +28,11 @@
       </HBox>
       <HBox alignment="TOP_CENTER" layoutX="23.0" layoutY="197.0" prefHeight="297.0" prefWidth="455.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-            <Button mnemonicParsing="false" text="Log In">
+            <Button fx:id="logIn" mnemonicParsing="false" text="Log In">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" text="Log Out">
+            <Button fx:id="logOut" mnemonicParsing="false" text="Log Out">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin></Button>

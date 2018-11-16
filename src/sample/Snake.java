@@ -18,12 +18,12 @@ public class Snake implements Serializable {
     ArrayList<Point> points; //Locations of all parts of the snake.
     transient ArrayList<Circle> circles; //References to all circles that make up the snake.
     transient Pane root; //Reference to root.
-
+    transient Color color;
     boolean hasMagnet;
     boolean hasShield;
-
+    transient Color colorList[];
     int side;
-
+    int colorNo;
     int xvel; // x-velocity of snake.
     int yvel; // y-velocity of snake.
 
@@ -37,12 +37,12 @@ public class Snake implements Serializable {
         sldisp.setFill(Color.WHITE);
         hlocation = new Point(WIDTH/2,HEIGHT/2);
         setupHead(hlocation,side);
-
         points = new ArrayList<>();
         circles = new ArrayList<>();
         hasMagnet = false;
         hasShield = false;
-
+        colorList = new Color[]{Color.YELLOW, Color.GREEN,Color.PURPLE,Color.PINK,Color.WHITE};
+        color = colorList[colorNo];
         points.add(hlocation);
         circles.add(head);
         this.root = root;
@@ -51,6 +51,10 @@ public class Snake implements Serializable {
     public void stopSnake(){
         xvel = 0;
         yvel = 0;
+    }
+
+    public int getColorNo() {
+        return colorNo;
     }
 
     public void reverseSnake(){
@@ -69,13 +73,13 @@ public class Snake implements Serializable {
         sldisp = new Text(244,403,"0");
         sldisp.setFill(Color.WHITE);
         updateSnakeLengthDisp();
-
+        color = colorList[colorNo];
         circles = new ArrayList<>();
         circles.add(head);
         root.getChildren().add(head);
         for(int i = 1;i<points.size();i++){
             Circle dup = new Circle(10);
-            dup.setFill(Color.YELLOW);
+            dup.setFill(color);
             Point duploc = points.get(i);
             dup.setLayoutX(duploc.getX());
             dup.setLayoutY(duploc.getY());
@@ -86,6 +90,23 @@ public class Snake implements Serializable {
 
         this.root = root;
     }
+
+    public void setColor(int c) {
+        color = colorList[c];
+    }
+
+    //    public void changeColor(Color color1){
+//        for(int i = 1;i<points.size();i++){
+//            Circle dup = new Circle(10);
+//            dup.setFill(color1);
+//            Point duploc = points.get(i);
+//            dup.setLayoutX(duploc.getX());
+//            dup.setLayoutY(duploc.getY());
+//            circles.add(dup);
+//            root.getChildren().add(dup);
+//
+//        }
+//    }
 
     public void setupHead(Point location, int side){
         head = new Circle(side/2);
@@ -101,7 +122,7 @@ public class Snake implements Serializable {
             double newy = lpoint.getY() + 2*radius;
             Point npoint = new Point(newx,newy);
             Circle lp = new Circle(radius);
-            lp.setFill(Color.YELLOW);
+            lp.setFill(color);
             lp.setLayoutX(newx);
             lp.setLayoutY(newy);
             points.add(npoint);

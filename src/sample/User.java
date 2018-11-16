@@ -9,12 +9,12 @@ public class User implements Serializable {
     private String name,password;
     private int coins;
     ArrayList<Integer> scores;
-    ArrayList<Color> unlockedThemes, unlockedSkins;
+    ArrayList<Integer> unlockedThemes, unlockedSkins;
 
     User(String n, String p){
         name = n;
         password = p;
-        coins = 0;
+        coins = 50000;
         scores = new ArrayList<>();
         unlockedSkins = new ArrayList<>();
         unlockedThemes = new ArrayList<>();
@@ -40,19 +40,20 @@ public class User implements Serializable {
         this.coins += coins;
     }
 
-    public ArrayList<Color> getUnlockedSkins() {
+    public ArrayList<Integer> getUnlockedSkins() {
         return unlockedSkins;
     }
 
-    public ArrayList<Color> getUnlockedThemes() {
+    public ArrayList<Integer> getUnlockedThemes() {
         return unlockedThemes;
     }
 
-    public void addSkins(Color c){
+    public void addSkins(int c){
+        coins -= 500;
         unlockedSkins.add(c);
     }
 
-    public void addThemes(Color c){
+    public void addThemes(int c){
         unlockedThemes.add(c);
     }
 

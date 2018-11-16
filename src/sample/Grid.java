@@ -83,7 +83,11 @@ public class Grid implements Serializable {
 
     }
 
-    public void setTimelines( Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
+    public Snake getSnake() {
+        return snake;
+    }
+
+    public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
         snakeTimeline = t1;
         coinTimeline = t2;
         blockTimeline = t3;

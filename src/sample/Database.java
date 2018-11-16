@@ -13,7 +13,8 @@ public class Database implements Serializable {
     private int ttsLength;
     Database(){
         users = new HashMap<>();
-        currentUser = null;
+        currentUser = new User("Guest","");
+        users.put("Guest", currentUser);
         topTenScores = new String[10][3];
         ttsLength = 0;
 //        for (int i = 0; i < 10; i++) for (int j = 0; j < 3; j++) topTenScores[i][j] = "";
@@ -92,12 +93,12 @@ public class Database implements Serializable {
         }
     }
 
-    public User login(String n, String p){
-        if(users.containsKey(n) && users.get(n).getPassword().equals(p)) {
-            currentUser = users.get(n);
-            return currentUser;
+    public void login(String n, String p){
+        if(users.containsKey(n) && users.get(n).getPassword().equals(p)) currentUser = users.get(n);
+        else {
+            currentUser = new User(n,p);
+            users.put(n,currentUser);
         }
-        else return null;
     }
 
     public Controller getController() {
