@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -832,6 +835,25 @@ public class Grid implements Serializable {
     // Useless for now.
     public void CheckIfAlive(){
         if(!isAlive){
+            try{
+                System.out.println("works");
+                root.getChildren().removeAll();
+                root = FXMLLoader.load(getClass().getResource("youded.fxml"));
+                Label scoreLabel = (Label) root.lookup("#scoreLabel");
+                scoreLabel.setText("Your Score: " + Integer.toString(score));
+                Button mm = (Button) root.lookup("#mainMenu");
+                Button exit = (Button) root.lookup("#exitGame");
+                exit.setOnAction(e1 -> {
+                    System.exit(0);
+                });
+                mm.setOnAction(e1 -> {
+                    System.out.println("go to main menu");
+                });
+            }
+            catch (Exception e){
+                System.out.println("lol");
+            }
+
             //System.exit(0);
         }
     }
