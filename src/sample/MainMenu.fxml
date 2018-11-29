@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainMenu">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" layoutY="62.0" prefHeight="438.0" prefWidth="500.0" spacing="15.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
@@ -21,12 +21,12 @@
                   <Image url="@../logo2.2.png" />
                </image>
             </ImageView>
-            <Button fx:id="game" mnemonicParsing="false" onAction="#StartGame" text="Start New Game" />
+            <Button fx:id="game" mnemonicParsing="false" text="Start New Game" />
             <Button fx:id="resume" mnemonicParsing="false" text="Resume Game" />
-            <Button fx:id="lb" mnemonicParsing="false" onAction="#ShowLeaderboard" text="LeaderBoard" />
-            <Button fx:id="store" mnemonicParsing="false" onAction="#OpenStore" text="Store" />
-            <Button fx:id="profile" mnemonicParsing="false" onAction="#OpenProfile" text="Profile" />
-            <Button fx:id="exit" mnemonicParsing="false" onAction="#Exit" text="Exit" />
+            <Button fx:id="lb" mnemonicParsing="false" text="LeaderBoard" />
+            <Button fx:id="store" mnemonicParsing="false" text="Store" />
+            <Button fx:id="profile" mnemonicParsing="false" text="Profile" />
+            <Button fx:id="exit" mnemonicParsing="false" text="Exit" />
          </children>
       </VBox>
       <HBox layoutX="4.0" prefHeight="65.0" prefWidth="490.0" spacing="5.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
