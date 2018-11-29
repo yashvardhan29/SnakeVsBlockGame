@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LeaderBoard">
     <children>
         <VBox alignment="CENTER" layoutX="5.0" layoutY="6.0" prefHeight="67.0" prefWidth="490.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <children>
@@ -81,7 +81,7 @@
                 <Label fx:id="d8" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="7" />
                 <Label fx:id="d9" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="8" />
                 <Label fx:id="d10" text="Date" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-            <Button fx:id="lb_mm" mnemonicParsing="false" prefHeight="21.0" prefWidth="70.0" text="Main Menu" GridPane.columnIndex="6" GridPane.rowIndex="11">
+            <Button fx:id="lb_mm" mnemonicParsing="false" onAction="#MainMenu" prefHeight="21.0" prefWidth="70.0" text="Main Menu" GridPane.columnIndex="6" GridPane.rowIndex="11">
                <font>
                   <Font size="9.0" />
                </font>

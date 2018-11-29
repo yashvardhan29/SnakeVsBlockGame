@@ -585,7 +585,6 @@ public class Grid implements Serializable {
                                     coinTimeline.pause();
                                     omtimeline.pause();
                                     snake.stopSnake();
-                                    System.out.println("works");
                                     omtimeline.play();
                                     snakeTimeline.play();
                                     coinTimeline.play();
@@ -857,7 +856,7 @@ public class Grid implements Serializable {
 //            try{
 //                System.out.println("works");
 //                root.getChildren().removeAll();
-//                root = FXMLLoader.load(getClass().getResource("youded.fxml"));
+//                root = FXMLLoader.load(getClass().getResource("EndGame.fxml"));
 //                Label scoreLabel = (Label) root.lookup("#scoreLabel");
 //                scoreLabel.setText("Your Score: " + Integer.toString(score));
 //                Button mm = (Button) root.lookup("#mainMenu");
@@ -873,16 +872,16 @@ public class Grid implements Serializable {
 //                System.out.println("lol");
 //            }
 //            if(snakeTimeline == null) System.out.println(1234);
-            pauseTimelines();
-            Text text1 = new Text(150,400,"YOU DIED");
-            text1.setFill(Color.WHITE);
-            text1.setFont(new Font(50));
-            root.getChildren().add(text1);
-
-            Text text2 = new Text(175,430,"Your Score: " + Integer.toString(score));
-            text2.setFill(Color.WHITE);
-            text2.setFont(new Font(30));
-            root.getChildren().add(text2);
+//            pauseTimelines();
+//            Text text1 = new Text(150,400,"YOU DIED");
+//            text1.setFill(Color.WHITE);
+//            text1.setFont(new Font(50));
+//            root.getChildren().add(text1);
+//
+//            Text text2 = new Text(175,430,"Your Score: " + Integer.toString(score));
+//            text2.setFill(Color.WHITE);
+//            text2.setFont(new Font(30));
+//            root.getChildren().add(text2);
 
 
 //            System.exit(0);

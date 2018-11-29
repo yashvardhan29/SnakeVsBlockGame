@@ -10,12 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.io.*;
-import java.sql.SQLOutput;
 
 
 public class Main extends Application implements Runnable {
@@ -50,171 +47,172 @@ public class Main extends Application implements Runnable {
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(root);
         mainScene = scene;
-        Button startgame = (Button) root.lookup("#game");
-        Button lb = (Button) root.lookup("#lb");
-        Button store = (Button) root.lookup("#store");
-        Button profile = (Button) root.lookup("#profile");
-        Button exit = (Button) root.lookup("#exit");
-        Button resume = (Button) root.lookup("#resume");
-        Label userLabel = (Label) root.lookup("#user");
-        Label coinLabel = (Label) root.lookup("#coins");
-        if(database == null) database = new Database();
-        database.setController(controller);
 
-        if(database.getCurrentUser() != null){
-            userLabel.setText(database.getCurrentUser().getName());
-            coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
-        }
-        else{
-            userLabel.setText("Guest");
-            coinLabel.setText("0");
-        }
-        startgame.setOnAction(e -> {
-            Scene scene1 = startGame(controller);
-            controller.startAnimationTimers();
-            primaryStage.setScene(scene1);
-            primaryStage.show();
-        });
-
-        resume.setOnAction(e -> {
-            Scene scene1 = resumeGame();
-            primaryStage.setScene(scene1);
-            primaryStage.show();
-
-        });
-
-        lb.setOnAction(e -> {
-            try{
-                Scene scene1 = startLB();
-                primaryStage.setScene(scene1);
-                primaryStage.show();
-
-                Button lbmm = (Button) root.lookup("#lb_mm");
-                lbmm.setOnAction(f -> {
-                    try{
-                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-                        primaryStage.setScene(scene);
-                        primaryStage.show();
-                    }
-                    catch (Exception g){}
-                });
-            }
-            catch (Exception as){}
-        });
-
-        store.setOnAction(e -> {
-            try{
-                Scene scene1 = startStore();
-                primaryStage.setScene(scene1);
-                primaryStage.show();
-                Button storemm = (Button) root.lookup("#store_mm");
-                storemm.setOnAction(f -> {
-                    try{
-                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-                        primaryStage.setScene(scene);
-                        primaryStage.show();
-                    }
-                    catch (Exception g){}
-                });
-                System.out.println("asd");
-//                Button bg0 = (Button) root.lookup("#gc0");
-//                Button bg1 = (Button) root.lookup("#gc1");
-//                Button bg2 = (Button) root.lookup("#gc2");
-//                Button bg3 = (Button) root.lookup("#gc3");
-//                Button bg4 = (Button) root.lookup("#gc4");
-                if(root == null) System.out.println("bkl");
-                Button s0 = (Button) root.lookup("#sc0");
-                System.out.println("Afg");
-                Button s1 = (Button) root.lookup("#sc1");
-                Button s2 = (Button) root.lookup("#sc2");
-                Button s3 = (Button) root.lookup("#sc3");
-                Button s4 = (Button) root.lookup("#sc4");
-
-                if(database.getController() == null) System.out.println("this");
-
-                //int skinColorInt = database.getController().getGrid().getSnake().getColorNo();
-                System.out.println("a");
-                s0.setOnAction(e1 -> {
-                    if(database.getCurrentUser().getUnlockedSkins().contains(0)) database.getController().getGrid().getSnake().setColor(0);
-                    else if(database.getCurrentUser().getCoins() >= 500) {
-                        database.getController().getGrid().getSnake().setColor(0);
-                        database.getCurrentUser().addSkins(0);
-                    }
-                });
-                s1.setOnAction(e1 -> {
-                    if(database.getCurrentUser().getUnlockedSkins().contains(1)) database.getController().getGrid().getSnake().setColor(1);
-                    else if(database.getCurrentUser().getCoins() >= 500) {
-                        database.getController().getGrid().getSnake().setColor(1);
-                        database.getCurrentUser().addSkins(1);
-                    }
-                });
-                s2.setOnAction(e1 -> {
-                    if(database.getCurrentUser().getUnlockedSkins().contains(2)) database.getController().getGrid().getSnake().setColor(2);
-                    else if(database.getCurrentUser().getCoins() >= 500) {
-                        database.getController().getGrid().getSnake().setColor(2);
-                        database.getCurrentUser().addSkins(2);
-                    }
-                });
-                s3.setOnAction(e1 -> {
-                    if(database.getCurrentUser().getUnlockedSkins().contains(3)) database.getController().getGrid().getSnake().setColor(3);
-                    else if(database.getCurrentUser().getCoins() >= 500) {
-                        database.getController().getGrid().getSnake().setColor(3);
-                        database.getCurrentUser().addSkins(3);
-                    }
-                    System.out.println("fdfs");
-
-                });
-                int z = 0;
-                s4.setOnAction(e1 -> {
-                    System.out.println("fdfs");
-                    if(database.getCurrentUser().getUnlockedSkins().contains(4)) database.getController().getGrid().getSnake().setColor(4);
-                    else if(database.getCurrentUser().getCoins() >= 500) {
-                        System.out.println("ll");
-                        database.getController().getGrid().getSnake().setColor(4);
-                        System.out.println("kk");
-                        database.getCurrentUser().addSkins(4);
-                    }
-                    System.out.println("fdfs");
-                });
-            }
-            catch (Exception as){
-                System.out.println(as.getStackTrace());
-            }
-        });
-
-        profile.setOnAction(e -> {
-            try{
-                Scene scene1 = openProfile();
-                TextField userName = (TextField) root.lookup("#userName");
-                TextField password = (TextField) root.lookup("#password");
-                Button login = (Button) root.lookup("#logIn");
-                Button logout = (Button) root.lookup("#logOut");
-                login.setOnAction(e123 -> {
-                    String un = userName.getText();
-                    String pwd = password.getText();
-                    System.out.println(un + " " + pwd);
-                    database.login(un,pwd);
-                    userLabel.setText(database.getCurrentUser().getName() + ": ");
-                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-                });
-                logout.setOnAction(e123 -> {
-                    database.login("Guest","");
-                    userLabel.setText(database.getCurrentUser().getName() + ": ");
-                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
-                    primaryStage.setScene(scene);
-                    primaryStage.show();
-                });
-                primaryStage.setScene(scene1);
-                primaryStage.show();
-            }
-            catch (Exception as){}
-        });
-
-        exit.setOnAction(e -> {
-            exitGame();
-        });
+//        Button startgame = (Button) root.lookup("#game");
+//        Button lb = (Button) root.lookup("#lb");
+//        Button store = (Button) root.lookup("#store");
+//        Button profile = (Button) root.lookup("#profile");
+//        Button exit = (Button) root.lookup("#exit");
+//        Button resume = (Button) root.lookup("#resume");
+//        Label userLabel = (Label) root.lookup("#user");
+//        Label coinLabel = (Label) root.lookup("#coins");
+//        if(database == null) database = new Database();
+//        database.setController(controller);
+//
+//        if(database.getCurrentUser() != null){
+//            userLabel.setText(database.getCurrentUser().getName());
+//            coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+//        }
+//        else{
+//            userLabel.setText("Guest");
+//            coinLabel.setText("0");
+//        }
+//        startgame.setOnAction(e -> {
+//            Scene scene1 = startGame(controller);
+//            controller.startAnimationTimers();
+//            primaryStage.setScene(scene1);
+//            primaryStage.show();
+//        });
+//
+//        resume.setOnAction(e -> {
+//            Scene scene1 = resumeGame();
+//            primaryStage.setScene(scene1);
+//            primaryStage.show();
+//
+//        });
+//
+//        lb.setOnAction(e -> {
+//            try{
+//                Scene scene1 = startLB();
+//                primaryStage.setScene(scene1);
+//                primaryStage.show();
+//
+//                Button lbmm = (Button) root.lookup("#lb_mm");
+//                lbmm.setOnAction(f -> {
+//                    try{
+//                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+//                        primaryStage.setScene(scene);
+//                        primaryStage.show();
+//                    }
+//                    catch (Exception g){}
+//                });
+//            }
+//            catch (Exception as){}
+//        });
+//
+//        store.setOnAction(e -> {
+//            try{
+//                Scene scene1 = startStore();
+//                primaryStage.setScene(scene1);
+//                primaryStage.show();
+//                Button storemm = (Button) root.lookup("#store_mm");
+//                storemm.setOnAction(f -> {
+//                    try{
+//                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+//                        primaryStage.setScene(scene);
+//                        primaryStage.show();
+//                    }
+//                    catch (Exception g){}
+//                });
+//                System.out.println("asd");
+////                Button bg0 = (Button) root.lookup("#gc0");
+////                Button bg1 = (Button) root.lookup("#gc1");
+////                Button bg2 = (Button) root.lookup("#gc2");
+////                Button bg3 = (Button) root.lookup("#gc3");
+////                Button bg4 = (Button) root.lookup("#gc4");
+//                if(root == null) System.out.println("bkl");
+//                Button s0 = (Button) root.lookup("#sc0");
+//                System.out.println("Afg");
+//                Button s1 = (Button) root.lookup("#sc1");
+//                Button s2 = (Button) root.lookup("#sc2");
+//                Button s3 = (Button) root.lookup("#sc3");
+//                Button s4 = (Button) root.lookup("#sc4");
+//
+//                if(database.getController() == null) System.out.println("this");
+//
+//                //int skinColorInt = database.getController().getGrid().getSnake().getColorNo();
+//                System.out.println("a");
+//                s0.setOnAction(e1 -> {
+//                    if(database.getCurrentUser().getUnlockedSkins().contains(0)) database.getController().getGrid().getSnake().setColor(0);
+//                    else if(database.getCurrentUser().getCoins() >= 500) {
+//                        database.getController().getGrid().getSnake().setColor(0);
+//                        database.getCurrentUser().addSkins(0);
+//                    }
+//                });
+//                s1.setOnAction(e1 -> {
+//                    if(database.getCurrentUser().getUnlockedSkins().contains(1)) database.getController().getGrid().getSnake().setColor(1);
+//                    else if(database.getCurrentUser().getCoins() >= 500) {
+//                        database.getController().getGrid().getSnake().setColor(1);
+//                        database.getCurrentUser().addSkins(1);
+//                    }
+//                });
+//                s2.setOnAction(e1 -> {
+//                    if(database.getCurrentUser().getUnlockedSkins().contains(2)) database.getController().getGrid().getSnake().setColor(2);
+//                    else if(database.getCurrentUser().getCoins() >= 500) {
+//                        database.getController().getGrid().getSnake().setColor(2);
+//                        database.getCurrentUser().addSkins(2);
+//                    }
+//                });
+//                s3.setOnAction(e1 -> {
+//                    if(database.getCurrentUser().getUnlockedSkins().contains(3)) database.getController().getGrid().getSnake().setColor(3);
+//                    else if(database.getCurrentUser().getCoins() >= 500) {
+//                        database.getController().getGrid().getSnake().setColor(3);
+//                        database.getCurrentUser().addSkins(3);
+//                    }
+//                    System.out.println("fdfs");
+//
+//                });
+//                int z = 0;
+//                s4.setOnAction(e1 -> {
+//                    System.out.println("fdfs");
+//                    if(database.getCurrentUser().getUnlockedSkins().contains(4)) database.getController().getGrid().getSnake().setColor(4);
+//                    else if(database.getCurrentUser().getCoins() >= 500) {
+//                        System.out.println("ll");
+//                        database.getController().getGrid().getSnake().setColor(4);
+//                        System.out.println("kk");
+//                        database.getCurrentUser().addSkins(4);
+//                    }
+//                    System.out.println("fdfs");
+//                });
+//            }
+//            catch (Exception as){
+//                System.out.println(as.getStackTrace());
+//            }
+//        });
+//
+//        profile.setOnAction(e -> {
+//            try{
+//                Scene scene1 = openProfile();
+//                TextField userName = (TextField) root.lookup("#userName");
+//                TextField password = (TextField) root.lookup("#password");
+//                Button login = (Button) root.lookup("#logIn");
+//                Button logout = (Button) root.lookup("#logOut");
+//                login.setOnAction(e123 -> {
+//                    String un = userName.getText();
+//                    String pwd = password.getText();
+//                    System.out.println(un + " " + pwd);
+//                    database.login(un,pwd);
+//                    userLabel.setText(database.getCurrentUser().getName() + ": ");
+//                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+//                    primaryStage.setScene(scene);
+//                    primaryStage.show();
+//                });
+//                logout.setOnAction(e123 -> {
+//                    database.login("Guest","");
+//                    userLabel.setText(database.getCurrentUser().getName() + ": ");
+//                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+//                    primaryStage.setScene(scene);
+//                    primaryStage.show();
+//                });
+//                primaryStage.setScene(scene1);
+//                primaryStage.show();
+//            }
+//            catch (Exception as){}
+//        });
+//
+//        exit.setOnAction(e -> {
+//            exitGame();
+//        });
 
 
         primaryStage.setTitle("Snake Game");
@@ -239,7 +237,7 @@ public class Main extends Application implements Runnable {
     }
 
     public Scene openProfile() throws IOException {
-        root = FXMLLoader.load(getClass().getResource("profile.fxml"));
+        root = FXMLLoader.load(getClass().getResource("Profile.fxml"));
         return new Scene(root);
     }
     public void exitGame(){}
