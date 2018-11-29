@@ -35,6 +35,7 @@ public class Controller implements Serializable {
         objectanimdur = 15;
     }
 
+
     public void restore(){
         root = new Pane();
         grid.restore(root);

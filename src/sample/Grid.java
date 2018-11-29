@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -22,6 +23,8 @@ public class Grid implements Serializable {
     int diameter = 20; // Diameter of snake
     int WIDTH = 500; // Width of grid in pixels.
     int HEIGHT = 800; // Height of grid in pixels.
+
+    transient Main main;
 
     int Coin_count; //Number of coins currently on screen.
 
@@ -84,6 +87,21 @@ public class Grid implements Serializable {
         InitialiseBooleans();
         setupObjectArrays();
 
+        cb.getSelectionModel()
+                .selectedItemProperty()
+                .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+
+                    if(newValue.equals("Restart Game")) {
+                        //insert code here
+                    }
+                    else {
+                        try{
+                            main.start(main.PS);
+                        }catch (Exception e){
+                            System.out.println("grid 99");
+                        }
+                    }
+                } );
     }
 
     public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7) {
@@ -94,6 +112,10 @@ public class Grid implements Serializable {
         shieldTimeline = t5;
         destructTimeline = t6;
         omtimeline = t7;
+    }
+
+    public void setMain(Main m){
+        main = m;
     }
 
     public Snake getSnake() {
@@ -195,10 +217,10 @@ public class Grid implements Serializable {
 
     private void setupChoiceBox(){
         cb = new ChoiceBox<>();
-        cb.getItems().addAll("Restart Game", "Quit Game");
+        cb.getItems().addAll("","Restart Game", "Quit Game");
         cb.setLayoutX(0);
         cb.setLayoutY(0);
-        cb.setValue("Restart Game");
+        cb.setValue("");
         cb.setBackground(Background.EMPTY);
         String style = "-fx-background-color: rgba(255,255,255);";
         cb.setStyle(style);
@@ -874,15 +896,29 @@ public class Grid implements Serializable {
 //            }
 //            if(snakeTimeline == null) System.out.println(1234);
             pauseTimelines();
-            Text text1 = new Text(150,400,"YOU DIED");
+            Text text1 = new Text(150,450,"YOU DIED");
             text1.setFill(Color.WHITE);
             text1.setFont(new Font(50));
             root.getChildren().add(text1);
 
-            Text text2 = new Text(175,430,"Your Score: " + Integer.toString(score));
+            Text text2 = new Text(175,480,"Your Score: " + Integer.toString(score));
             text2.setFill(Color.WHITE);
             text2.setFont(new Font(30));
             root.getChildren().add(text2);
+
+            Button back2menu = new Button("MainMenu");
+            back2menu.setLayoutX(220);
+            back2menu.setLayoutY(500);
+            root.getChildren().add(back2menu);
+
+            back2menu.setOnAction(e -> {
+                try{
+                    main.start(main.PS);
+                }catch (Exception e1){
+                    System.out.println("error in 902 grid.java");
+                }
+            });
+
 
 
 //            System.exit(0);
