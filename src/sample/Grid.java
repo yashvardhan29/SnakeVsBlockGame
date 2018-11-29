@@ -93,8 +93,12 @@ public class Grid implements Serializable {
 
                     if(newValue.equals("Restart Game")) {
                         //insert code here
+                        resetGame();
+                        cb.setValue("");
+
                     }
                     else {
+                        cb.setValue("");
                         try{
                             main.start(main.PS);
                         }catch (Exception e){
@@ -102,6 +106,19 @@ public class Grid implements Serializable {
                         }
                     }
                 } );
+    }
+
+    public void resetGame(){
+        score = 0;
+        Coin_count = 0;
+
+        root.getChildren().clear();
+
+        setupChoiceBox();
+        setupSnake();
+        setupScoreDisplay();
+        InitialiseBooleans();
+        setupObjectArrays();
     }
 
     public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7) {
