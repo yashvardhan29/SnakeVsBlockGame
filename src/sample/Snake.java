@@ -69,7 +69,7 @@ public class Snake implements Serializable {
 
     public void restore(Pane root){
         setupHead(hlocation,side);
-
+        colorList = new Color[]{Color.YELLOW, Color.GREEN,Color.PURPLE,Color.PINK,Color.WHITE};
         sldisp = new Text(244,403,"0");
         sldisp.setFill(Color.WHITE);
         updateSnakeLengthDisp();

@@ -12,9 +12,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.io.*;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -29,6 +33,7 @@ public class Main extends Application implements Runnable {
     Controller controller;
     Stage PS;
     Scene mainScene;
+    int[] firebaseCommmand;
     boolean r;
 
     int skinCo;
@@ -42,7 +47,21 @@ public class Main extends Application implements Runnable {
         while(true){
             try{
                 saveState();
-                Thread.sleep(1000);
+                firebaseCommmand = getFirebaseCommands();
+                if(firebaseCommmand[0] == 1){
+                    if (firebaseCommmand[1] == 1) {
+                        database.getController().getGrid().getSnake().xvel = 1;
+                        Thread.sleep(10);
+                        database.getController().getGrid().getSnake().xvel = 0;
+                    } else if (firebaseCommmand[1] == -1) {
+                        database.getController().getGrid().getSnake().xvel = -1;
+                        Thread.sleep(10);
+                        database.getController().getGrid().getSnake().xvel = 0;
+                    } else if (firebaseCommmand[1] == 0) {
+                        database.getController().getGrid().getSnake().xvel = 0;
+                    }
+                }
+                Thread.sleep(10);
             }
             catch (Exception e){
 
@@ -50,66 +69,39 @@ public class Main extends Application implements Runnable {
         }
     }
 
+    private String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
+    public int[] getFirebaseCommands() throws IOException {
+        String url = "https://snakevsblocks-1cec1.firebaseio.com/foo.json";
+        JSONObject json = readJsonFromUrl(url);
+        int[] x = new int[2];
+        x[0] = Integer.parseInt(json.get("control").toString());
+        x[1] = Integer.parseInt(json.get("move").toString());
+        return x;
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException{
-//        // Load the service account key JSON file
-//        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\vidit\\IdeaProjects\\SnakeVsBlockGame\\src\\sample\\snakevsblocks-1cec1-firebase-adminsdk-qxsp3-40d8eac8ba.json");
-//// Authenticate a Google credential with the service account
-//        GoogleCredential googleCred = GoogleCredential.fromStream(serviceAccount);
-//
-//// Add the required scopes to the Google credential
-//        GoogleCredential scoped = googleCred.createScoped(
-//                Arrays.asList(
-//                        "https://www.googleapis.com/auth/firebase.database",
-//                        "https://www.googleapis.com/auth/userinfo.email"
-//                )
-//        );
-//
-//// Use the Google credential to generate an access token
-//        scoped.
-//        String token = scoped.getAccessToken();
-//        try {
-//            String url = "https://snakevsblocks-1cec1.firebaseio.com/snakevsblocks-1cec1";
-//            Firebase firebase = new Firebase(url);
-////            FirebaseResponse response = firebase.delete();
-//
-//            FirebaseResponse response = firebase.get();
-//            System.out.println(response);
-//        }
-//        catch (FirebaseException f) {
-//
-//        }
-//        try {
-//            FileInputStream serviceAccount =
-//                    new FileInputStream("C:\\Users\\vidit\\IdeaProjects\\SnakeVsBlockGame\\src\\sample\\snakevsblocks-1cec1-firebase-adminsdk-qxsp3-40d8eac8ba.json");
-//
-//            FirebaseOptions options = new FirebaseOptions.Builder()
-//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                    .setDatabaseUrl("https://snakevsblocks-1cec1.firebaseio.com")
-//                    .build();
-//            defaultApp = FirebaseApp.initializeApp(options);
-////            defaultAuth = FirebaseAuth.getInstance(defaultApp);
-//            defaultDatabase = FirebaseDatabase.getInstance(defaultApp);
-//            dbRef = defaultDatabase.getReference();
-////            defaultAuth = FirebaseAuth.getInstance();
-//
-//            dbRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    System.out.println(dataSnapshot.child("move").getValue());
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-////            defaultDatabase.getReference().child("move").setValue(1,null);
-////            System.out.println(s);
-//        }
-//        catch (Exception e){
-//            System.out.println("doesn't work");
-//        }
+//        firebaseCommmand = new int[2];
         PS = primaryStage;
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
@@ -341,6 +333,11 @@ public class Main extends Application implements Runnable {
 
     public Scene startLB() throws IOException {
         System.out.println("hello");
+        try{
+            loadState();
+        }catch (Exception lol){
+            System.out.println("lol");
+        }
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
 
         String[][] tties  = database.getTopTenScores();
