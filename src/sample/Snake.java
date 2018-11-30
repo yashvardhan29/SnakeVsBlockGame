@@ -93,6 +93,7 @@ public class Snake implements Serializable {
 
     public void setColor(int c) {
         color = colorList[c];
+        System.out.println(c);
     }
 
     //    public void changeColor(Color color1){

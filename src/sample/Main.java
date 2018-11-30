@@ -16,10 +16,11 @@ import javafx.stage.Stage;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.io.*;
 import java.sql.SQLOutput;
-
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Main extends Application implements Runnable {
-//public class Main extends Application {
 
     Parent root;
 
@@ -28,6 +29,10 @@ public class Main extends Application implements Runnable {
     Controller controller;
     Stage PS;
     Scene mainScene;
+    boolean r;
+
+    int skinCo;
+
 
     @Override
     public void run(){
@@ -44,6 +49,64 @@ public class Main extends Application implements Runnable {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
+//        // Load the service account key JSON file
+//        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\vidit\\IdeaProjects\\SnakeVsBlockGame\\src\\sample\\snakevsblocks-1cec1-firebase-adminsdk-qxsp3-40d8eac8ba.json");
+//// Authenticate a Google credential with the service account
+//        GoogleCredential googleCred = GoogleCredential.fromStream(serviceAccount);
+//
+//// Add the required scopes to the Google credential
+//        GoogleCredential scoped = googleCred.createScoped(
+//                Arrays.asList(
+//                        "https://www.googleapis.com/auth/firebase.database",
+//                        "https://www.googleapis.com/auth/userinfo.email"
+//                )
+//        );
+//
+//// Use the Google credential to generate an access token
+//        scoped.
+//        String token = scoped.getAccessToken();
+//        try {
+//            String url = "https://snakevsblocks-1cec1.firebaseio.com/snakevsblocks-1cec1";
+//            Firebase firebase = new Firebase(url);
+////            FirebaseResponse response = firebase.delete();
+//
+//            FirebaseResponse response = firebase.get();
+//            System.out.println(response);
+//        }
+//        catch (FirebaseException f) {
+//
+//        }
+//        try {
+//            FileInputStream serviceAccount =
+//                    new FileInputStream("C:\\Users\\vidit\\IdeaProjects\\SnakeVsBlockGame\\src\\sample\\snakevsblocks-1cec1-firebase-adminsdk-qxsp3-40d8eac8ba.json");
+//
+//            FirebaseOptions options = new FirebaseOptions.Builder()
+//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                    .setDatabaseUrl("https://snakevsblocks-1cec1.firebaseio.com")
+//                    .build();
+//            defaultApp = FirebaseApp.initializeApp(options);
+////            defaultAuth = FirebaseAuth.getInstance(defaultApp);
+//            defaultDatabase = FirebaseDatabase.getInstance(defaultApp);
+//            dbRef = defaultDatabase.getReference();
+////            defaultAuth = FirebaseAuth.getInstance();
+//
+//            dbRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    System.out.println(dataSnapshot.child("move").getValue());
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+////            defaultDatabase.getReference().child("move").setValue(1,null);
+////            System.out.println(s);
+//        }
+//        catch (Exception e){
+//            System.out.println("doesn't work");
+//        }
         PS = primaryStage;
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
@@ -70,7 +133,7 @@ public class Main extends Application implements Runnable {
             coinLabel.setText("0");
         }
         startgame.setOnAction(e -> {
-            Scene scene1 = startGame(controller,false);
+            Scene scene1 = startGame(controller);
             controller.startAnimationTimers();
             primaryStage.setScene(scene1);
             primaryStage.show();
@@ -140,6 +203,9 @@ public class Main extends Application implements Runnable {
                         database.getController().getGrid().getSnake().setColor(0);
                         database.getCurrentUser().addSkins(0);
                     }
+                    skinCo = database.getController().getGrid().getSnake().colorNo;
+
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
                 });
                 s1.setOnAction(e1 -> {
                     if(database.getCurrentUser().getUnlockedSkins().contains(1)) database.getController().getGrid().getSnake().setColor(1);
@@ -147,6 +213,10 @@ public class Main extends Application implements Runnable {
                         database.getController().getGrid().getSnake().setColor(1);
                         database.getCurrentUser().addSkins(1);
                     }
+                    skinCo = database.getController().getGrid().getSnake().colorNo;
+
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+
                 });
                 s2.setOnAction(e1 -> {
                     if(database.getCurrentUser().getUnlockedSkins().contains(2)) database.getController().getGrid().getSnake().setColor(2);
@@ -154,6 +224,10 @@ public class Main extends Application implements Runnable {
                         database.getController().getGrid().getSnake().setColor(2);
                         database.getCurrentUser().addSkins(2);
                     }
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+                    skinCo = database.getController().getGrid().getSnake().colorNo;
+
+
                 });
                 s3.setOnAction(e1 -> {
                     if(database.getCurrentUser().getUnlockedSkins().contains(3)) database.getController().getGrid().getSnake().setColor(3);
@@ -161,20 +235,22 @@ public class Main extends Application implements Runnable {
                         database.getController().getGrid().getSnake().setColor(3);
                         database.getCurrentUser().addSkins(3);
                     }
-                    System.out.println("fdfs");
+                    skinCo = database.getController().getGrid().getSnake().colorNo;
+
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
 
                 });
                 int z = 0;
                 s4.setOnAction(e1 -> {
-                    System.out.println("fdfs");
                     if(database.getCurrentUser().getUnlockedSkins().contains(4)) database.getController().getGrid().getSnake().setColor(4);
                     else if(database.getCurrentUser().getCoins() >= 500) {
-                        System.out.println("ll");
                         database.getController().getGrid().getSnake().setColor(4);
-                        System.out.println("kk");
                         database.getCurrentUser().addSkins(4);
+                        System.out.println("skin 4");
                     }
-                    System.out.println("fdfs");
+                    skinCo = 4;
+                    coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
+                    System.out.println(skinCo + " fsd");
                 });
 //                storemm.setOnAction(e1 -> {
 //                        try{
@@ -244,7 +320,7 @@ public class Main extends Application implements Runnable {
         }catch (Exception lol){
             System.out.println("lol");
         }
-        Scene scene1 = startGame(database.getController(), true);
+        Scene scene1 = startGame(database.getController());
 //        database.getController().startAnimationTimers();
         return scene1;
     }
@@ -275,20 +351,23 @@ public class Main extends Application implements Runnable {
         return new Scene(root);
     }
 
-    public Scene startGame(Controller controller, boolean r){
+    public Scene startGame(Controller controller){
 //        System.out.println("lol");
         thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
         Controller Admin;
-        if(!r) {
+        if(this.r) {
             Admin = new Controller();
             this.controller = Admin;
             database.setController(Admin);
             this.controller.getGrid().setMain(this);
+            controller.getGrid().getSnake().setColor(skinCo);
+            System.out.println(skinCo + " is the color");
+            this.r = false;
         }
         else Admin = controller;
-
+        System.out.println(controller.getGrid().getSnake().getColorNo() + " skin");
         this.database.setController(Admin);
 
         if(Admin.getRoot() == null) {
@@ -296,8 +375,6 @@ public class Main extends Application implements Runnable {
             Admin.restore();
         }
         Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
-
-
         //KeyHandler for KeyPresses
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -372,5 +449,6 @@ public class Main extends Application implements Runnable {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
 

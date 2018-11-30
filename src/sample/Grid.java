@@ -101,6 +101,7 @@ public class Grid implements Serializable {
                         cb.setValue("");
                         try{
                             main.start(main.PS);
+                            main.r = true;
                         }catch (Exception e){
                             System.out.println("grid 99");
                         }
@@ -935,6 +936,8 @@ public class Grid implements Serializable {
                     System.out.println("error in 902 grid.java");
                 }
             });
+
+            main.r = true;
 
 
 
