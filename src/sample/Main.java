@@ -33,6 +33,9 @@ public class Main extends Application implements Runnable {
 
     int skinCo;
 
+    public Database getDatabase() {
+        return database;
+    }
 
     @Override
     public void run(){
@@ -337,17 +340,22 @@ public class Main extends Application implements Runnable {
     public void exitGame(){}
 
     public Scene startLB() throws IOException {
+        System.out.println("hello");
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
+
         String[][] tties  = database.getTopTenScores();
         int ttiesLength = database.getTtsLength();
+
+        System.out.println("lol");
         for (int i = 0; i < ttiesLength; i++) {
-            Label label = (Label) root.lookup("u" + i + 1);
+            Label label = (Label) root.lookup("#u" +  (i + 1));
             label.setText(tties[i][0]);
-            Label label1 = (Label) root.lookup("s" + i + 1);
+            Label label1 = (Label) root.lookup("#s" + (i + 1));
             label1.setText(tties[i][1]);
-            Label label2 = (Label) root.lookup("d" + i + 1);
+            Label label2 = (Label) root.lookup("#d" + (i + 1));
             label2.setText(tties[i][2]);
         }
+        System.out.println(ttiesLength);
         return new Scene(root);
     }
 

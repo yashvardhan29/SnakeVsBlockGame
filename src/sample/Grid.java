@@ -13,7 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import javafx.animation.Timeline;
 
@@ -913,6 +916,13 @@ public class Grid implements Serializable {
 //                System.out.println("lol");
 //            }
 //            if(snakeTimeline == null) System.out.println(1234);
+            String name = main.getDatabase().getCurrentUser().getName();
+            String newScore = Integer.toString(this.score);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime localDateTime = LocalDateTime.now();
+            String date = dateTimeFormatter.format(localDateTime);
+            main.getDatabase().updateTopTenScores(name,newScore,date);
+
             pauseTimelines();
             Text text1 = new Text(150,450,"YOU DIED");
             text1.setFill(Color.WHITE);
