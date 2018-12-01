@@ -33,9 +33,6 @@ public class Grid implements Serializable {
 
     private boolean isPaused = false;
 
-    private final Thread thisThread = Thread.currentThread();
-    private final int timeToRun = 12000;
-
     transient Main main;
     int Coin_count; //Number of coins currently on screen.
 
@@ -79,7 +76,8 @@ public class Grid implements Serializable {
     transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
     Block beingPounded;
-    int bpind;
+
+    int difficulty = 0;
 
 
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
@@ -351,7 +349,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks1[i] = curr;
                                 BlockR1IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -381,7 +379,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks2[j] = curr;
                                 BlockR2IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -411,7 +409,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks3[j] = curr;
                                 BlockR3IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -475,7 +473,7 @@ public class Grid implements Serializable {
             for(int i = 0;i<5;i++){
                 Coin currc = coins[i];
                 if(currc != null){
-                    currc.location.translate(0,1);
+                    currc.location.translate(0,1,difficulty);
                     currc.setPosition(currc.location);
                     if(currc.location.getY() >= 790){
                         root.getChildren().remove(currc.realg);
@@ -490,7 +488,7 @@ public class Grid implements Serializable {
 
     public void MoveMagnet(){
         if(MagnetIsPresent){
-            magnet.location.translate(0,1);
+            magnet.location.translate(0,1,difficulty);
             magnet.setPosition(magnet.location);
             if(magnet.location.getY() >= 790){
                 root.getChildren().remove(magnet.realg);
@@ -503,7 +501,7 @@ public class Grid implements Serializable {
 
     public void MoveShield(){
         if(ShieldIsPresent){
-            shield.location.translate(0,1);
+            shield.location.translate(0,1,difficulty);
             shield.setPosition(shield.location);
             if(shield.location.getY() >= 790){
                 root.getChildren().remove(shield.realg);
@@ -516,7 +514,7 @@ public class Grid implements Serializable {
 
     public void MoveDestructionToken(){
         if(DestructionIsPresent){
-            destruction.location.translate(0,1);
+            destruction.location.translate(0,1,difficulty);
             destruction.setPosition(destruction.location);
             if(destruction.location.getY() >= 790){
                 root.getChildren().remove(destruction.realg);
@@ -530,7 +528,7 @@ public class Grid implements Serializable {
     public void MoveWalls(){
         for(int i = 0;i<thewalls.size();i++){
             Wall currw = thewalls.get(i);
-            currw.location.translate(0,1);
+            currw.location.translate(0,1,difficulty);
             currw.setPosition(currw.location);
             if(currw.location.getY() >= 790){
                 root.getChildren().remove(currw.realg);
@@ -545,7 +543,7 @@ public class Grid implements Serializable {
         ArrayList<Circle> scircles = snake.circles;
         for(int i = 0;i<spoints.size();i++){
             Point currp = spoints.get(i);
-            currp.translate(snake.xvel,snake.yvel);
+            currp.translate(snake.xvel,snake.yvel,difficulty);
             Circle currc = scircles.get(i);
             currc.setLayoutX(currp.getX());
             currc.setLayoutY(currp.getY());
@@ -561,7 +559,7 @@ public class Grid implements Serializable {
                 if(i == 1){
 //                    System.out.println(currb.location.getY() + "loc");
                 }
-                currb.location.translate(0,1);
+                currb.location.translate(0,1,difficulty);
                 currb.setPosition(currb.location);
                 if(currb.location.getY() >= 980){
                     root.getChildren().remove(currb.realg);
@@ -661,6 +659,7 @@ public class Grid implements Serializable {
                             theblocks[i] = null;
                         }
                         else isAlive = false;
+                        adjustDifficulty();
                     }
                 }
             }
@@ -713,6 +712,7 @@ public class Grid implements Serializable {
             }
         }
         Coin_count--;
+        adjustDifficulty();
     }
 
     private void ConsumeMagnet(Token currt){
@@ -941,7 +941,10 @@ public class Grid implements Serializable {
         return isAlive;
     }
 
-    // Useless for now.
+    public void adjustDifficulty(){
+        difficulty = snake.length/10;
+    }
+
     public void CheckIfAlive(){
         if(!isAlive){
 //            try{

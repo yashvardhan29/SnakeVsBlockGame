@@ -23,7 +23,7 @@ public class Point implements Serializable {
     }
 
     //Changes hlocation according to the velocity.
-    public Point translate(double xvel,double yvel){
+    public Point translate(double xvel,double yvel,int offset){
         if(xvel == 1){
             x += 2;
             wrap();
@@ -33,11 +33,11 @@ public class Point implements Serializable {
             wrap();
         }
         if(yvel == 1){
-            y += 2;
+            y += 2 + offset;
             if(y >= 0 ) wrap();
         }
         if(yvel == -1){
-            y -= 2;
+            y -= 2 + offset;
             wrap();
         }
 
