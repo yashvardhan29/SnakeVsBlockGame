@@ -317,7 +317,10 @@ public class Main extends Application implements Runnable {
         root = FXMLLoader.load(getClass().getResource("profile.fxml"));
         return new Scene(root);
     }
-    public void exitGame(){}
+
+    public void exitGame(){
+        System.exit(0);
+    }
 
     public Scene startLB() throws IOException {
         System.out.println("hello");
