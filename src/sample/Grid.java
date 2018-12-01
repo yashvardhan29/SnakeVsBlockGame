@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.animation.KeyFrame;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 public class Grid implements Serializable {
@@ -27,8 +31,12 @@ public class Grid implements Serializable {
     int WIDTH = 500; // Width of grid in pixels.
     int HEIGHT = 800; // Height of grid in pixels.
 
-    transient Main main;
+    private boolean isPaused = false;
 
+    private final Thread thisThread = Thread.currentThread();
+    private final int timeToRun = 12000;
+
+    transient Main main;
     int Coin_count; //Number of coins currently on screen.
 
     Coin coins[]; // Array that stores references to the coins on screen.
@@ -59,6 +67,8 @@ public class Grid implements Serializable {
     private long ShieldActivatedAt = Long.MAX_VALUE;
     private  final int ShieldDuration = 10000;
 
+    int deccounter = 0;
+
     ArrayList<Token> TokensOnScreen;
 
     int score;
@@ -67,6 +77,9 @@ public class Grid implements Serializable {
     transient ChoiceBox<String> cb;
 
     transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+
+    Block beingPounded;
+    int bpind;
 
 
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
@@ -621,25 +634,30 @@ public class Grid implements Serializable {
                             theblocks[i] = null;
                         }
                         else if(val <= snake.length){
-                            if(val >= 2){
+                            if(val > 5){
                                 try{
-                                    snakeTimeline.pause();
-                                    blockTimeline.pause();
-                                    coinTimeline.pause();
-                                    omtimeline.pause();
+                                    pauseTimelines();
                                     snake.stopSnake();
-                                    System.out.println("works");
-                                    omtimeline.play();
-                                    snakeTimeline.play();
-                                    coinTimeline.play();
-                                    blockTimeline.play();
+                                    isPaused = true;
+
+                                    deccounter = val;
+                                    beingPounded = currb;
+
+                                    KeyFrame kf = new KeyFrame(Duration.millis(250),new SlowHandler());
+                                    Timeline slowTimeline = new Timeline(kf);
+                                    slowTimeline.setCycleCount(val);
+                                    slowTimeline.play();
+
+
                                 }catch (Exception e){
                                     System.out.println("null");
                                 }
                             }
-                            snake.decrLength(val);
                             score += val;
-                            root.getChildren().remove(theblocks[i].realg);
+                            if(val <= 5){
+                                root.getChildren().remove(theblocks[i].realg);
+                                snake.decrLength(val);
+                            }
                             theblocks[i] = null;
                         }
                         else isAlive = false;
@@ -888,6 +906,35 @@ public class Grid implements Serializable {
         shieldTimeline.pause();
         destructTimeline.pause();
         omtimeline.pause();
+    }
+
+    public void playTimelines(){
+        snakeTimeline.play();
+        coinTimeline.play();
+        blockTimeline.play();
+        magnetTimeline.play();
+        shieldTimeline.play();
+        destructTimeline.play();
+        omtimeline.play();
+    }
+
+    private class SlowHandler implements EventHandler<ActionEvent>{
+        public void handle(ActionEvent event){
+            beingPounded.valOfBlock--;
+            snake.decrLength(1);
+            deccounter--;
+        }
+    }
+
+    public void CheckForChange(){
+        if(isPaused){
+            beingPounded.setValue(beingPounded.valOfBlock);
+        }
+        if(deccounter <=  0 && isPaused){
+            playTimelines();
+            isPaused = false;
+            root.getChildren().remove(beingPounded.realg);
+        }
     }
 
     public boolean isAlive() {
