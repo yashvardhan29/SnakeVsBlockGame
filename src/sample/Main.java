@@ -48,19 +48,7 @@ public class Main extends Application implements Runnable {
             try{
                 saveState();
                 firebaseCommmand = getFirebaseCommands();
-                if(firebaseCommmand[0] == 1){
-                    if (firebaseCommmand[1] == 1) {
-                        database.getController().getGrid().getSnake().xvel = 1;
-                        Thread.sleep(10);
-                        database.getController().getGrid().getSnake().xvel = 0;
-                    } else if (firebaseCommmand[1] == -1) {
-                        database.getController().getGrid().getSnake().xvel = -1;
-                        Thread.sleep(10);
-                        database.getController().getGrid().getSnake().xvel = 0;
-                    } else if (firebaseCommmand[1] == 0) {
-                        database.getController().getGrid().getSnake().xvel = 0;
-                    }
-                }
+                if(firebaseCommmand[0] == 1) database.getController().getGrid().getSnake().xvel = firebaseCommmand[1];
                 Thread.sleep(10);
             }
             catch (Exception e){
