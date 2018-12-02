@@ -580,7 +580,7 @@ public class Main extends Application implements Runnable {
     }
 
     /**
-     * Deserializes just length the array storing local top ten scores
+     * Deserializes just length of the array storing local top ten scores
      * @return
      * @throws IOException
      */

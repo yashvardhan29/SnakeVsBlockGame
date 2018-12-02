@@ -7,10 +7,8 @@ import javafx.animation.KeyFrame;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -19,12 +17,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -1199,6 +1195,7 @@ public class Grid implements Serializable {
             });
 
             main.r = true;
+            main.database.setShowResumeButton(false);
         }
         else{
             if(root.getChildren().contains(text1)) root.getChildren().remove(text1);

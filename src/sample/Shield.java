@@ -7,25 +7,30 @@ import javafx.scene.layout.StackPane;
 import java.io.Serializable;
 
 public class Shield extends Token implements Serializable {
+    /**
+     * Holds picture of shield.
+     */
     transient ImageView icon;
-    int time;
 
+    /**
+     * Constructor for class.
+     * @param rx x co-ordinate of token.
+     */
     Shield(int rx){
         super(rx);
-        time = 0;
-
         Image img = new Image("file:src/antivirus.png");
         icon = new ImageView(img);
-
         super.realg.getChildren().add(icon);
 
     }
 
+    /**
+     * Restores state on game being resumed.
+     */
     public void restore(){
         super.restore();
         Image img = new Image("file:src/antivirus.png");
         icon = new ImageView(img);
-
         super.realg.getChildren().add(icon);
     }
 

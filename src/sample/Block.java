@@ -35,6 +35,7 @@ public class Block implements Serializable {
 
     }
 
+
     public void restore(){
         setupColors();
         Random rand = new Random();
