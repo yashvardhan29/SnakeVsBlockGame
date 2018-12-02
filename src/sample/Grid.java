@@ -81,8 +81,8 @@ public class Grid implements Serializable {
 
     int difficulty = 0;
 
-    Image img = new Image("file:src/Burst.gif",50,50,true,false);
-    ImageView icon = new ImageView(img);
+    transient Image img = new Image("file:src/Burst.gif",50,50,true,false);
+    transient ImageView icon = new ImageView(img);
 
     boolean gifonscreen = false;
     long gifstime = 0;

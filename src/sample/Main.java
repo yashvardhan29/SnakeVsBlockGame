@@ -325,12 +325,13 @@ public class Main extends Application implements Runnable {
         try{
             loadState();
         }catch (Exception lol){
-            System.out.println("lol");
+            System.out.println("line 328");
         }
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
 
         String[][] tties  = database.getTopTenScores();
         int ttiesLength = database.getTtsLength();
+
 
         System.out.println("lol");
         for (int i = 0; i < ttiesLength; i++) {
@@ -429,11 +430,15 @@ public class Main extends Application implements Runnable {
 
         try {
             in = new ObjectInputStream(new FileInputStream("data.txt"));
+            System.out.println("433");
             database = (Database) in.readObject();
+            System.out.println(435);
             controller = database.getController();
+            System.out.println(437);
         }
         catch (Exception e) {
-            System.out.println("here");
+            System.out.println("main.java 437 catch");
+            System.out.println(e.getMessage());
         }
         finally {
             in.close();
