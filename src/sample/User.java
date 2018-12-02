@@ -6,11 +6,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String name,password; //username and password for user
-    private int coins; //number of coins user has
-    ArrayList<Integer> unlockedSkins; //keeps track of skins user owns
-    private String[][] topTenScores; //list of top ten scores of user
-    private int ttsLength; // numner of top ten scores if less than 10
+    /**
+     * username and password for user
+     */
+    private String name,password;
+    /**
+     * number of coins user has
+     */
+    private int coins;
+    /**
+     * keeps track of skins user owns
+     */
+    ArrayList<Integer> unlockedSkins;
+    /**
+     * list of top ten scores of user
+     */
+    private String[][] topTenScores;
+    /**
+     * numner of top ten scores if less than 10
+     */
+    private int ttsLength;
 
     User(String n, String p){
         name = n;

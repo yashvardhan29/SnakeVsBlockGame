@@ -6,12 +6,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database implements Serializable {
-    private HashMap<String,User> users; //Stores list of users using username as key
-    private User currentUser; //current user
-    private Controller controller; //current controller
-    private String[][] topTenScores; //list of global top ten scores
-    private int ttsLength; //no of scores if less than 10
-    private boolean showResumeButton; //stores if previous game was complete or not
+    /**
+     * Stores list of users using username as key
+     */
+    private HashMap<String,User> users;
+    /**
+     * current user
+     */
+    private User currentUser;
+    /**
+     * current controller
+     */
+    private Controller controller;
+    /*
+    * list of global top ten scores
+     */
+    private String[][] topTenScores;
+    /**
+     * no of scores if less than 10
+     */
+    private int ttsLength;
+    /**
+     * stores if previous game was complete or not
+     */
+    private boolean showResumeButton;
 
     Database(){
         users = new HashMap<>();

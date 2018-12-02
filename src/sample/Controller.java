@@ -19,14 +19,26 @@ import java.util.Random;
 
 
 public class Controller implements Serializable {
-    transient Pane root; //root assocaited with the game
-    Grid grid; //component grid class
-
-    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline, changeCheckTimeline; //respective timelines
-
-    Database database; //parent database
-
-    int objectanimdur; //animation duration for object animation
+    /**
+     * root assocaited with the game
+     */
+    transient Pane root;
+    /**
+     * component grid class
+     */
+    Grid grid;
+    /**
+     * respective timelines
+     */
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline, changeCheckTimeline;
+    /**
+     * parent database
+     */
+    Database database;
+    /**
+     * animation duration for object animation
+     */
+    int objectanimdur;
 
     Controller(){
         root = new Pane();

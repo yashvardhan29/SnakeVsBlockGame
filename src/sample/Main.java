@@ -25,18 +25,42 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Main extends Application implements Runnable {
-
-    Parent root; //The main Parent
-
-    Database database; //Super class containing everything
-    Thread thread; //thread used to serialize and fetch commands from firebase
-    Controller controller; //controller for game
-    Stage PS; //Primary stage
-    Scene mainScene; //Main menu scene
-    int[] firebaseCommmand; //array used to store commands fetched from firebase
-    boolean r; //boolean true if returned to mainmenu after game end
-
-    int skinCo; //used to set snake's skin color
+    /**
+     * The main Parent
+     */
+    Parent root;
+    /**
+     * Super class containing everything
+     */
+    Database database;
+    /**
+     * thread used to serialize and fetch commands from firebase
+     */
+    Thread thread;
+    /**
+     * controller for game
+     */
+    Controller controller;
+    /**
+     * Primary stage
+     */
+    Stage PS;
+    /**
+     * Main menu scene
+     */
+    Scene mainScene;
+    /**
+     * array used to store commands fetched from firebase
+     */
+    int[] firebaseCommmand;
+    /**
+     * boolean true if returned to mainmenu after game end
+     */
+    boolean r;
+    /**
+     * used to set snake's skin color
+     */
+    int skinCo;
 
     /**
      * Used to return database
