@@ -97,6 +97,7 @@ public class Main extends Application implements Runnable {
         mainScene = scene;
         Button startgame = (Button) root.lookup("#game");
         Button lb = (Button) root.lookup("#lb");
+        Button llb = (Button) root.lookup("#llb");
         Button store = (Button) root.lookup("#store");
         Button profile = (Button) root.lookup("#profile");
         Button exit = (Button) root.lookup("#exit");
@@ -131,6 +132,25 @@ public class Main extends Application implements Runnable {
         lb.setOnAction(e -> {
             try{
                 Scene scene1 = startLB();
+                primaryStage.setScene(scene1);
+                primaryStage.show();
+
+                Button lbmm = (Button) root.lookup("#lb_mm");
+                lbmm.setOnAction(f -> {
+                    try{
+                        root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+                        primaryStage.setScene(scene);
+                        primaryStage.show();
+                    }
+                    catch (Exception g){}
+                });
+            }
+            catch (Exception as){}
+        });
+
+        llb.setOnAction(e -> {
+            try{
+                Scene scene1 = startLLB();
                 primaryStage.setScene(scene1);
                 primaryStage.show();
 
@@ -320,6 +340,25 @@ public class Main extends Application implements Runnable {
         return new Scene(root);
     }
 
+    public Scene startLLB() throws IOException {
+
+        root = FXMLLoader.load(getClass().getResource("LocalLeaderBoard.fxml"));
+
+        String[][] tties  = loadStateTTiesLocal();
+        int ttiesLength = loadStateTTiesLengthLocal();
+
+        for (int i = 0; i < ttiesLength; i++) {
+            Label label = (Label) root.lookup("#u" +  (i + 1));
+            label.setText(tties[ttiesLength - 1 - i][0]);
+            Label label1 = (Label) root.lookup("#s" + (i + 1));
+            label1.setText(tties[ttiesLength - 1 - i][1]);
+            Label label2 = (Label) root.lookup("#d" + (i + 1));
+            label2.setText(tties[ttiesLength - 1 - i][2]);
+        }
+        System.out.println(ttiesLength);
+        return new Scene(root);
+    }
+
     public Scene startGame(Controller controller){
         thread = new Thread(this);
         thread.setDaemon(true);
@@ -449,6 +488,41 @@ public class Main extends Application implements Runnable {
         return i;
     }
 
+    public String[][] loadStateTTiesLocal() throws IOException{
+        ObjectInputStream in = null;
+        String [][] tties1 = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            tties1 = ((Database) in.readObject()).getCurrentUser().getTopTenScores();
+        }
+        catch (Exception e) {
+            System.out.println("main.java 456 catch");
+            System.out.println(e.getMessage());
+        }
+        finally {
+            in.close();
+        }
+
+        return tties1;
+    }
+
+    public int loadStateTTiesLengthLocal() throws IOException{
+        ObjectInputStream in = null;
+        int i = 0;
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            i = ((Database) in.readObject()).getCurrentUser().getTtsLength();
+        }
+        catch (Exception e) {
+            System.out.println("main.java 474 catch");
+            System.out.println(e.getMessage());
+        }
+        finally {
+            in.close();
+        }
+
+        return i;
+    }
 
     public static void main(String[] args) {
         launch(args);

@@ -19,7 +19,8 @@
             </ImageView>
             <Button fx:id="resume" mnemonicParsing="false" text="Resume Game" />
             <Button fx:id="game" mnemonicParsing="false" text="Start New Game" />
-            <Button fx:id="lb" mnemonicParsing="false" text="LeaderBoard" />
+            <Button fx:id="lb" mnemonicParsing="false" text="Global LeaderBoard" />
+            <Button fx:id="llb" mnemonicParsing="false" text="Local Leaderboard" />
             <Button fx:id="store" mnemonicParsing="false" text="Store" />
             <Button fx:id="profile" mnemonicParsing="false" text="Profile" />
             <Button fx:id="exit" mnemonicParsing="false" text="Exit" />
