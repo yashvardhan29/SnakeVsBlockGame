@@ -11,11 +11,6 @@
    <children>
       <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="127.0" prefHeight="46.0" prefWidth="490.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
          <children>
-                <Button fx:id="gc0" mnemonicParsing="false" text="YELLOW" />
-            <Button fx:id="gc1" mnemonicParsing="false" text="GREEN" />
-             <Button fx:id="gc2" mnemonicParsing="false" text="PURPLE" />
-             <Button fx:id="gc3" mnemonicParsing="false" text="PINK" />
-             <Button fx:id="gc4" mnemonicParsing="false" text="WHITE" />
 
 
          </children></HBox>
@@ -35,25 +30,9 @@
            <Button fx:id="sc4" mnemonicParsing="false" text="WHITE" />
 
        </children></HBox>
-      <HBox alignment="TOP_CENTER" layoutX="40.0" layoutY="98.0" prefHeight="31.0" prefWidth="526.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
-         <children>
-            <Label text="Background Themes" textFill="WHITE">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Label>
-         </children>
-      </HBox>
+      <HBox alignment="TOP_CENTER" layoutX="40.0" layoutY="98.0" prefHeight="31.0" prefWidth="526.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
       <HBox alignment="CENTER" layoutX="58.0" layoutY="1.0" prefHeight="98.0" prefWidth="490.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="1.0">
-         <children>
-            <Ellipse fill="DODGERBLUE" radiusX="23.0" radiusY="23.0" stroke="BLACK" strokeType="INSIDE">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></Ellipse>
-            <Ellipse fill="DODGERBLUE" layoutX="33.0" layoutY="33.0" radiusX="23.0" radiusY="23.0" stroke="BLACK" strokeType="INSIDE" />
-            <Ellipse fill="DODGERBLUE" layoutX="33.0" layoutY="33.0" radiusX="23.0" radiusY="23.0" stroke="BLACK" strokeType="INSIDE" />
-            <Ellipse fill="DODGERBLUE" layoutX="79.0" layoutY="33.0" radiusX="23.0" radiusY="23.0" stroke="BLACK" strokeType="INSIDE" />
-            <Ellipse fill="DODGERBLUE" layoutX="125.0" layoutY="33.0" radiusX="23.0" radiusY="23.0" stroke="BLACK" strokeType="INSIDE" />
-         </children></HBox>
+        </HBox>
       <!--<Button fx:id="bt" layoutX="221.0" layoutY="167.0" mnemonicParsing="false" text="Buy Theme" />-->
       <!--<Button fx:id="bs" layoutX="221.0" layoutY="303.0" mnemonicParsing="false" text="Buy Color" />-->
       <Button fx:id="store_mm" layoutX="394.0" layoutY="459.0" mnemonicParsing="false" text="Main Menu" />
