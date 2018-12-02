@@ -1176,6 +1176,7 @@ public class Grid implements Serializable {
             LocalDateTime localDateTime = LocalDateTime.now();
             String date = dateTimeFormatter.format(localDateTime);
             main.getDatabase().updateTopTenScores(name,newScore,date);
+            main.getDatabase().getCurrentUser().updateTopTenScores(name,newScore,date);
 
             pauseTimelines();
             root.getChildren().add(text1);
