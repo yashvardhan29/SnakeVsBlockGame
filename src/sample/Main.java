@@ -26,22 +26,29 @@ import java.util.Map;
 
 public class Main extends Application implements Runnable {
 
-    Parent root;
+    Parent root; //The main Parent
 
-    Database database;
-    Thread thread;
-    Controller controller;
-    Stage PS;
-    Scene mainScene;
-    int[] firebaseCommmand;
-    boolean r;
+    Database database; //Super class containing everything
+    Thread thread; //thread used to serialize and fetch commands from firebase
+    Controller controller; //controller for game
+    Stage PS; //Primary stage
+    Scene mainScene; //Main menu scene
+    int[] firebaseCommmand; //array used to store commands fetched from firebase
+    boolean r; //boolean true if returned to mainmenu after game end
 
-    int skinCo;
+    int skinCo; //used to set snake's skin color
 
+    /**
+     * Used to return database
+     * @return
+     */
     public Database getDatabase() {
         return database;
     }
 
+    /**
+     * thread's run function used to serialize and fetch commands from firebase.
+     */
     @Override
     public void run(){
         while(true){
@@ -58,6 +65,12 @@ public class Main extends Application implements Runnable {
         }
     }
 
+    /**
+     * Used to parse input from bufferedreader and return it as a string
+     * @param rd
+     * @return
+     * @throws IOException
+     */
     private String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -67,6 +80,13 @@ public class Main extends Application implements Runnable {
         return sb.toString();
     }
 
+    /**
+     * Used to pull json and return a JSONObject from a url
+     * @param url Provides json
+     * @return required json as a JSONObject
+     * @throws IOException
+     * @throws JSONException
+     */
     public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
@@ -79,6 +99,11 @@ public class Main extends Application implements Runnable {
         }
     }
 
+    /**
+     * Fetches commands sent from the android app from firebase and returns them.
+     * @return int array contaning commands
+     * @throws IOException
+     */
     public int[] getFirebaseCommands() throws IOException {
         String url = "https://snakevsblocks-1cec1.firebaseio.com/foo.json";
         JSONObject json = readJsonFromUrl(url);
@@ -88,6 +113,11 @@ public class Main extends Application implements Runnable {
         return x;
     }
 
+    /**
+     * Sets stage for Main Menu
+     * @param primaryStage
+     * @throws IOException
+     */
     @Override
     public void start(Stage primaryStage) throws IOException{
         PS = primaryStage;
@@ -319,6 +349,10 @@ public class Main extends Application implements Runnable {
         });
     }
 
+    /**
+     * Resumes game if previous game was incomplete
+     * @return
+     */
     public Scene resumeGame()  {
         try{
             loadState();
@@ -329,19 +363,38 @@ public class Main extends Application implements Runnable {
         return scene1;
     }
 
+    /**
+     * returns scene after loading store.fxml into it
+     * @return
+     * @throws IOException
+     */
     public Scene startStore() throws IOException {
         root = FXMLLoader.load(getClass().getResource("Store.fxml"));
         return new Scene(root);
     }
 
+    /**
+     * returns scene after loading Profile.fxml into it
+     * @return
+     * @throws IOException
+     */
     public Scene openProfile() throws IOException {
         root = FXMLLoader.load(getClass().getResource("profile.fxml"));
         return new Scene(root);
     }
+
+    /**
+     * Exits game
+     */
     public void exitGame(){
         System.exit(0);
     }
 
+    /**
+     * returns scene after loading Leaderboard.fxml into it. Used for Global Leaderboard
+     * @return
+     * @throws IOException
+     */
     public Scene startLB() throws IOException {
 
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
@@ -361,6 +414,11 @@ public class Main extends Application implements Runnable {
         return new Scene(root);
     }
 
+    /**
+     * returns scene after loading LocalLeaderboard.fxml into it. Used for Local Leaderboard
+     * @return
+     * @throws IOException
+     */
     public Scene startLLB() throws IOException {
 
         root = FXMLLoader.load(getClass().getResource("LocalLeaderBoard.fxml"));
@@ -380,6 +438,11 @@ public class Main extends Application implements Runnable {
         return new Scene(root);
     }
 
+    /**
+     * returns the scene used to load the actual game
+     * @param controller null if new game and an object if previous game was incomplete
+     * @return
+     */
     public Scene startGame(Controller controller){
         thread = new Thread(this);
         thread.setDaemon(true);
@@ -444,6 +507,10 @@ public class Main extends Application implements Runnable {
         return scene;
     }
 
+    /**
+     * Used for serialization
+     * @throws IOException
+     */
     public void saveState() throws IOException {
         ObjectOutputStream out = null;
         try{
@@ -457,6 +524,10 @@ public class Main extends Application implements Runnable {
         }
     }
 
+    /**
+     * Used for deserialization
+     * @throws IOException
+     */
     public void loadState() throws IOException {
         ObjectInputStream in = null;
 
@@ -473,6 +544,11 @@ public class Main extends Application implements Runnable {
         }
     }
 
+    /**
+     * Deserializes just the array storing global top ten scores
+     * @return
+     * @throws IOException
+     */
     public String[][] loadStateTTies() throws IOException{
         ObjectInputStream in = null;
         String [][] tties1 = null;
@@ -491,6 +567,11 @@ public class Main extends Application implements Runnable {
         return tties1;
     }
 
+    /**
+     * Deserializes just length of the array storing global top ten scores
+     * @return
+     * @throws IOException
+     */
     public int loadStateTTiesLength() throws IOException{
         ObjectInputStream in = null;
         int i = 0;
@@ -509,6 +590,11 @@ public class Main extends Application implements Runnable {
         return i;
     }
 
+    /**
+     * Deserializes just the array storing local top ten scores
+     * @return
+     * @throws IOException
+     */
     public String[][] loadStateTTiesLocal() throws IOException{
         ObjectInputStream in = null;
         String [][] tties1 = null;
@@ -527,6 +613,11 @@ public class Main extends Application implements Runnable {
         return tties1;
     }
 
+    /**
+     * Deserializes just length the array storing local top ten scores
+     * @return
+     * @throws IOException
+     */
     public int loadStateTTiesLengthLocal() throws IOException{
         ObjectInputStream in = null;
         int i = 0;
@@ -545,6 +636,11 @@ public class Main extends Application implements Runnable {
         return i;
     }
 
+    /**
+     * Loads boolean used to check if last game was complete or not
+     * @return
+     * @throws IOException
+     */
     public boolean loadStateResume() throws IOException{
         ObjectInputStream in = null;
         boolean b =  false;
@@ -565,6 +661,10 @@ public class Main extends Application implements Runnable {
         return b;
     }
 
+    /**
+     * main
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
