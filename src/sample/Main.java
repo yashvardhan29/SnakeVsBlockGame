@@ -89,7 +89,6 @@ public class Main extends Application implements Runnable {
 
     @Override
     public void start(Stage primaryStage) throws IOException{
-//        firebaseCommmand = new int[2];
         PS = primaryStage;
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
@@ -235,22 +234,6 @@ public class Main extends Application implements Runnable {
                     coinLabel.setText(Integer.toString(database.getCurrentUser().getCoins()));
                     System.out.println(skinCo + " fsd");
                 });
-//                storemm.setOnAction(e1 -> {
-//                        try{
-//                            root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-//                            primaryStage.setScene(scene);
-//                            primaryStage.show();
-//                        }
-//                        catch (Exception g){
-//                            System.out.println("jkk");
-//                        }
-//
-//                });
-//
-//                        Button bt = (Button) root.lookup("bt");
-//                        Button bs = (Button) root.lookup("bs");
-//                primaryStage.setScene(scene);
-//                primaryStage.show();
             }
             catch (Exception as){
                 System.out.println(as.getStackTrace());
@@ -304,7 +287,6 @@ public class Main extends Application implements Runnable {
             System.out.println("lol");
         }
         Scene scene1 = startGame(database.getController());
-//        database.getController().startAnimationTimers();
         return scene1;
     }
 
@@ -320,18 +302,15 @@ public class Main extends Application implements Runnable {
     public void exitGame(){}
 
     public Scene startLB() throws IOException {
-        System.out.println("hello");
         try{
             loadState();
-        }catch (Exception lol){
-            System.out.println("lol");
+        }catch (Exception e){
         }
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
 
         String[][] tties  = database.getTopTenScores();
         int ttiesLength = database.getTtsLength();
 
-        System.out.println("lol");
         for (int i = 0; i < ttiesLength; i++) {
             Label label = (Label) root.lookup("#u" +  (i + 1));
             label.setText(tties[i][0]);
@@ -345,7 +324,6 @@ public class Main extends Application implements Runnable {
     }
 
     public Scene startGame(Controller controller){
-//        System.out.println("lol");
         thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
@@ -364,7 +342,6 @@ public class Main extends Application implements Runnable {
         this.database.setController(Admin);
 
         if(Admin.getRoot() == null) {
-            System.out.println("yhis happens");
             Admin.restore();
             Admin.grid.setMain(this);
         }

@@ -61,12 +61,12 @@ public class Grid implements Serializable {
     boolean isAlive; // True while snake is alive.
 
     private long MagnetActivatedAt = Long.MAX_VALUE;
-    private final int MagnetDuration = 7000;
+    private final int MagnetDuration = 5000;
 
     private long ShieldActivatedAt = Long.MAX_VALUE;
     private  final int ShieldDuration = 10000;
 
-    int deccounter = 0;
+    int deccounter;
 
     ArrayList<Token> TokensOnScreen;
 
@@ -81,14 +81,14 @@ public class Grid implements Serializable {
 
     int difficulty = 0;
 
-    Image img = new Image("file:src/Burst.gif",50,50,true,false);
-    ImageView icon = new ImageView(img);
+    transient Image img = new Image("file:src/Burst.gif",50,50,true,false);
+    transient ImageView icon = new ImageView(img);
 
     boolean gifonscreen = false;
-    long gifstime = 0;
+    long gifstime;
 
-    double bx = 0;
-    double by = 0;
+    double bx;
+    double by;
 
 
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
@@ -105,6 +105,9 @@ public class Grid implements Serializable {
 
         score = 0;
         Coin_count = 0;
+        bx = 0; by = 0;
+        gifstime = 0;
+        deccounter = 0;
 
         setupChoiceBox();
         setupSnake();
@@ -112,8 +115,6 @@ public class Grid implements Serializable {
         InitialiseBooleans();
         setupObjectArrays();
 
-
-        //root.getChildren().add(icon);
 
 
         cb.getSelectionModel()
@@ -173,6 +174,8 @@ public class Grid implements Serializable {
         this.root = root;
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
 
+        img = new Image("file:src/Burst.gif",50,50,true,false);
+        icon = new ImageView(img);
 
         for (Coin coin: coins) if(coin != null) coin.restore();
         for (Block block: theblocks1) if(block != null) {
@@ -915,10 +918,6 @@ public class Grid implements Serializable {
                 }
             }
         }
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public void pauseTimelines(){
