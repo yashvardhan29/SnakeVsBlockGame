@@ -1,8 +1,11 @@
 package sample;
 
 import javafx.scene.layout.StackPane;
-
 import java.io.Serializable;
+
+/**
+ * Token Class. Superclass for Magnet, Coin, Shield and Destruction.
+ */
 
 public class Token implements Serializable {
     /**

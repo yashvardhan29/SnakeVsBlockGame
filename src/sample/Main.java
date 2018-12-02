@@ -24,6 +24,9 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Main class.
+ */
 public class Main extends Application implements Runnable {
     /**
      * The main Parent
@@ -91,7 +94,7 @@ public class Main extends Application implements Runnable {
 
     /**
      * Fetches commands sent from the android app from firebase and returns them.
-     * @return int array contaning commands
+     * @return int array containing commands
      * @throws IOException
      */
     public int[] getFirebaseCommands() throws IOException {

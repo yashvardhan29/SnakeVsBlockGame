@@ -27,66 +27,211 @@ import javafx.util.Duration;
 
 
 public class Grid implements Serializable {
-    transient Pane root; // The Parent container that contains everything else. This is directly added to the scene.
-    int diameter = 20; // Diameter of snake
-    int WIDTH = 500; // Width of grid in pixels.
-    int HEIGHT = 800; // Height of grid in pixels.
+    /**
+     * The Parent container that contains everything else. This is directly added to the scene.
+     */
+    private transient Pane root;
 
+    /**
+     *  Diameter of snake head.
+     */
+    private final int diameter = 20;
+
+    /**
+     * Width of grid in pixels.
+     */
+    private final int WIDTH = 500;
+
+    /**
+     *  Height of grid in pixels.
+     */
+    private final int HEIGHT = 800;
+
+    /**
+     * True if animations are paused, false otherwise.
+     */
     private boolean isPaused = false;
 
-    transient Main main;
-    int Coin_count; //Number of coins currently on screen.
+    /**
+     * Reference to object of class Main.
+     */
+    private transient Main main;
 
-    Coin coins[]; // Array that stores references to the coins on screen.
-    Block theblocks1[]; // Array that stores references to the blocks on screen.
-    Block theblocks2[];
-    Block theblocks3[];
-    ArrayList<Wall> thewalls;
+    /**
+     * Number of coins currently on screen.
+     */
+    private int Coin_count;
 
-    Magnet magnet; // Reference to the magnet on screen.
-    Shield shield; // Reference to the shield on screen.
-    Destruction destruction; // Reference to the destruction token on screen.
+    /**
+     * Array that stores references to the coins on screen.
+     */
+    private Coin coins[];
 
-    Snake snake; //Reference to the snake.
+    /**
+     * First Array that stores references to the blocks on screen.
+     */
+    private Block theblocks1[];
 
-    boolean WallIsPresent;  // True if wall is present on screen.
-    boolean BlockR1IsPresent; // True if block row1 is present on screen.
-    boolean BlockR2IsPresent; // True if block row2 is present on screen.
-    boolean BlockR3IsPresent; // True if block row3 is present on screen.
-    boolean MagnetIsPresent; // True if Magnet is present on screen.
-    boolean ShieldIsPresent; // True if Shield is present on screen.
-    boolean DestructionIsPresent; // True if Destruction Token is present on screen.
+    /**
+     * Second Array that stores references to the blocks on screen.
+     */
+    private Block theblocks2[];
 
-    boolean isAlive; // True while snake is alive.
+    /**
+     * Third Array that stores references to the blocks on screen.
+     */
+    private Block theblocks3[];
 
+    /**
+     * Arraylist that stores references to the walls on screen.
+     */
+    private ArrayList<Wall> thewalls;
+
+    /**
+     * Reference to the magnet on screen.
+     */
+    private Magnet magnet;
+
+    /**
+     * Reference to the shield on screen.
+     */
+    private Shield shield;
+
+    /**
+     * Reference to the destruction token on screen.
+     */
+    private Destruction destruction;
+
+    /**
+     * Reference to the snake.
+     */
+    Snake snake;
+
+    /**
+     * True if wall is present on screen.
+     */
+    private boolean WallIsPresent;
+
+    /**
+     * True if block row1 is present on screen.
+     */
+    private boolean BlockR1IsPresent;
+
+    /**
+     *  True if block row2 is present on screen.
+     */
+    private boolean BlockR2IsPresent;
+
+    /**
+     * True if block row3 is present on screen.
+     */
+    private boolean BlockR3IsPresent;
+
+    /**
+     * True if Magnet is present on screen.
+     */
+    private boolean MagnetIsPresent;
+
+    /**
+     * True if Shield is present on screen.
+     */
+    private boolean ShieldIsPresent;
+
+    /**
+     * True if Destruction Token is present on screen.
+     */
+    private boolean DestructionIsPresent;
+
+    /**
+     * True while snake is alive.
+     */
+    boolean isAlive;
+
+    /**
+     * Time at which magnet was activated.
+     */
     private long MagnetActivatedAt = Long.MAX_VALUE;
+
+    /**
+     * Duration for which magnet remains active.
+     */
     private final int MagnetDuration = 5000;
 
+    /**
+     * Time at which shield was activated.
+     */
     private long ShieldActivatedAt = Long.MAX_VALUE;
+
+    /**
+     * Duration for which shield remains active.
+     */
     private  final int ShieldDuration = 10000;
 
-    int deccounter;
+    /**
+     * Counter for decreasing length of snake.
+     */
+    private int deccounter;
 
-    ArrayList<Token> TokensOnScreen;
+    /**
+     * Stores references to all tokens on screen.
+     */
+    private ArrayList<Token> TokensOnScreen;
 
-    int score;
-    transient Text score_text;
+    /**
+     * Score of player.
+     */
+    private int score;
 
-    transient ChoiceBox<String> cb;
+    /**
+     * Text box to display score of player.
+     */
+    private transient Text score_text;
 
-    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+    /**
+     * Choice box with options to return to Main Menu or Restart Game.
+     */
+    private transient ChoiceBox<String> cb;
 
-    Block beingPounded;
+    private transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
 
-    int difficulty = 0;
+    /**
+     * Reference to block of value greater than 5 on which collision is taking place.
+     */
+    private Block beingPounded;
 
-    transient Image img = new Image("file:src/Burst.gif",50,50,true,false);
-    transient ImageView icon = new ImageView(img);
+    /**
+     * Difficulty level of game.
+     */
+    private int difficulty = 0;
 
-    boolean gifonscreen = false;
-    long gifstime;
+    /**
+     * Loads burst GIF from src.
+     */
+    private transient Image img = new Image("file:src/Burst.gif",50,50,true,false);
 
+    /**
+     * Loads burst GIF into Image View.
+     */
+    private transient ImageView icon = new ImageView(img);
+
+    /**
+     * True if GIF is present on screen.
+     */
+    private boolean gifonscreen = false;
+
+    /**
+     * Time for which GIF has been on screen.
+     */
+    private long gifstime;
+
+    /**
+     * x co-ordinate for GIF
+     */
     double bx;
+
+    /**
+     * y co-ordinate for GIF
+     */
     double by;
 
 

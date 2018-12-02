@@ -1,10 +1,11 @@
 package sample;
 
-import javax.imageio.IIOException;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Database class.
+ */
 public class Database implements Serializable {
     /**
      * Stores list of users using username as key
@@ -37,7 +38,6 @@ public class Database implements Serializable {
         users.put("Guest", currentUser);
         topTenScores = new String[10][3];
         ttsLength = 0;
-//        for (int i = 0; i < 10; i++) for (int j = 0; j < 3; j++) topTenScores[i][j] = "";
     }
 
     /**
@@ -195,6 +195,5 @@ public class Database implements Serializable {
     public void setController(Controller c) {
         controller = c;
         c.setDatabase(this);
-//        grid = controller.getGrid();
     }
 }

@@ -3,16 +3,39 @@ package sample;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
 import java.io.Serializable;
 import java.util.Random;
 
-public class Coin extends Token implements Serializable {
-    int valOfCoin; //Value of coin
-    transient Circle coin; //Circle that represents the coin
-    transient Text value;
-    int radius;
+/**
+ * Coin class. Subclass of class Token.
+ */
 
+public class Coin extends Token implements Serializable {
+    /**
+     * Value of coin.
+     */
+    int valOfCoin;
+
+    /**
+     * Circle that represents the coin.
+     */
+    private transient Circle coin;
+
+    /**
+     * Text box that displays value of coin.
+     */
+    private transient Text value;
+
+    /**
+     * Radius of coin.
+     */
+    private int radius;
+
+    /**
+     * Constructor of class.
+     * @param rd Radius of coin.
+     * @param rx x co-ordinate of stack pane.
+     */
     Coin(int rd,int rx){
         super(rx);
         radius = rd;
@@ -30,6 +53,9 @@ public class Coin extends Token implements Serializable {
         super.realg.getChildren().addAll(coin,value);
     }
 
+    /**
+     * Restores coin if game is resumed.
+     */
     public void restore(){
         super.restore();
         coin = new Circle(radius);

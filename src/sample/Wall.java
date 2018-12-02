@@ -2,8 +2,11 @@ package sample;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.io.Serializable;
+
+/**
+ * Wall class.
+ */
 
 public class Wall implements Serializable {
     /**

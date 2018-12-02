@@ -17,10 +17,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Controller class.
+ */
 public class Controller implements Serializable {
     /**
-     * root assocaited with the game
+     * root associated with the game
      */
     transient Pane root;
     /**
@@ -42,7 +44,6 @@ public class Controller implements Serializable {
 
     Controller(){
         root = new Pane();
-//        startAnimationTimers();
         grid = new Grid(root,snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
         objectanimdur = 15;
     }
