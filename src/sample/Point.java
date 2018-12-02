@@ -46,19 +46,19 @@ public class Point implements Serializable {
 
     // Ensures new hlocation is within grid.
     public void wrap(){
-        if(this.getX() > 500) this.setX(0);
-        if(this.getX() < 0) this.setX(500);
-        if(this.getY() > 1000) this.setY(0);
-        if(this.getY() < 0) this.setY(1000);
+        if(this.getX() > 500) this.setX(x-2);
+        if(this.getX() < 0) this.setX(x+2);
+        if(this.getY() > 1000) this.setY(y-2);
+        if(this.getY() < 0) this.setY(y+2);
     }
 
     //Setter for x
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
     //Setter for y
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 

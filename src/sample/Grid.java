@@ -143,7 +143,7 @@ public class Grid implements Serializable {
     /**
      * Used for restart game functionality of drop down menu.
      */
-    public void resetGame(){
+    private void resetGame(){
         score = 0;
         Coin_count = 0;
 
@@ -653,6 +653,11 @@ public class Grid implements Serializable {
         snake.sldisp.setX(snake.hlocation.getX()-6);
     }
 
+    /**
+     * Helper method to implement MoveBlocks.
+     * @param theblocks Reference to block row to be moved.
+     * @return True if given row is still on screen, false otherwise.
+     */
     private boolean moveBlockRow(Block theblocks[]){
         boolean flag = true;
         for(int i = 0;i<theblocks.length;i++){
@@ -673,6 +678,9 @@ public class Grid implements Serializable {
         return flag;
     }
 
+    /**
+     * Calls helper methods to check for collisions between objects on screen and snake.
+     */
     public void CollisionCheck(){
         if(snake.hasMagnet){
             AttractCoins();
@@ -687,6 +695,9 @@ public class Grid implements Serializable {
         CheckWallCollision();
     }
 
+    /**
+     * Helper method to check for collision between Walls and snake.
+     */
     private void CheckWallCollision(){
         for(int i = 0;i<thewalls.size();i++){
             Wall currw = thewalls.get(i);
@@ -710,6 +721,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Helper method to check for collision between Blocks and snake.
+     */
     private void CheckBlockCollision(){
         blockRowCollision(theblocks1);
         blockRowCollision(theblocks2);
@@ -717,6 +731,10 @@ public class Grid implements Serializable {
         snake.updateSnakeLengthDisp();
     }
 
+    /**
+     * Helper method for taking action if collision between Blocks and snake.
+     * @param theblocks Reference to block row with which the snake may collide.
+     */
     private void blockRowCollision(Block theblocks[]){
         for(int i = 0;i<theblocks.length;i++){
             if(theblocks[i] != null){
@@ -774,6 +792,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Checks for collision between snake and tokens.
+     */
     private void CheckTokenCollision(){
         for(int i = 0;i<TokensOnScreen.size();i++){
             Token currt = TokensOnScreen.get(i);
@@ -807,6 +828,10 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Takes appropriate action if snake consumes a coin token.
+     * @param currt Coin with which snake collides.
+     */
     private void ConsumeCoin(Token currt){
         Coin currc = (Coin) currt;
         for(int j = 0;j<currc.valOfCoin;j++) {
@@ -824,6 +849,10 @@ public class Grid implements Serializable {
         adjustDifficulty();
     }
 
+    /**
+     * Takes appropriate action if snake consumes a magnet token.
+     * @param currt Magnet with which snake collides.
+     */
     private void ConsumeMagnet(Token currt){
         Magnet currm = (Magnet) currt;
         Activate("Magnet");
@@ -834,6 +863,10 @@ public class Grid implements Serializable {
         magnet = null;
     }
 
+    /**
+     * Takes appropriate action if snake consumes a shield token.
+     * @param currt Shield with which snake collides.
+     */
     private void ConsumeShield(Token currt){
         Shield currs = (Shield) currt;
         Activate("Shield");
@@ -844,6 +877,10 @@ public class Grid implements Serializable {
         shield = null;
     }
 
+    /**
+     * Takes appropriate action if snake consumes a destroy all token.
+     * @param currt Destruction token with which snake collides.
+     */
     private void ConsumeDestruction(Token currt){
         Destruction currd = (Destruction) currt;
         for(int i = 0;i<theblocks1.length;i++){
@@ -876,11 +913,18 @@ public class Grid implements Serializable {
         destruction = null;
     }
 
+    /**
+     * Updates the score in text box that displays the score.
+     */
     public void UpdateScore(){
         String scorestring = Integer.toString(score);
         score_text.setText(scorestring);
     }
 
+    /**
+     * Generates an x value for token to be spawned which is not occupied by any other token/block.
+     * @return Returns x value where spawning a token would lead to no overlap.
+     */
     private int assignRandomX(){
         Random rand = new Random();
         int rx = 0;
@@ -955,6 +999,10 @@ public class Grid implements Serializable {
         return rx;
     }
 
+    /**
+     * Assigns time to corresponding variable at which ability was activated.
+     * @param name Name of ability which is activated.
+     */
     private void Activate(String name){
         if(name.equals("Magnet")){
             MagnetActivatedAt = System.currentTimeMillis();
@@ -963,6 +1011,11 @@ public class Grid implements Serializable {
         if(name.equals("Shield")) ShieldActivatedAt = System.currentTimeMillis();
     }
 
+    /**
+     * Checks if an ability is active.
+     * @param name Name of ability for which status is to be checked.
+     * @return True if ability is active, else false.
+     */
     private boolean isActive(String name){
         if(name.equals("Magnet")){
             long activeFor = System.currentTimeMillis() - MagnetActivatedAt;
@@ -975,6 +1028,9 @@ public class Grid implements Serializable {
         return false;
     }
 
+    /**
+     * Updates token validity on basis of time elapsed.
+     */
     public void UpdateTokenValidity(){
         if(!isActive("Magnet")){
             snake.hasMagnet = false;
@@ -984,6 +1040,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Coins in vicinity of snake are attracted if snake has magnet.
+     */
     private void AttractCoins(){
         for(int i = 0;i<coins.length;i++){
             if(coins[i] != null){
@@ -1003,7 +1062,10 @@ public class Grid implements Serializable {
         }
     }
 
-    public void pauseTimelines(){
+    /**
+     * Pauses the timelines when required.
+     */
+    private void pauseTimelines(){
         snakeTimeline.pause();
         coinTimeline.pause();
         blockTimeline.pause();
@@ -1013,7 +1075,10 @@ public class Grid implements Serializable {
         omtimeline.pause();
     }
 
-    public void playTimelines(){
+    /**
+     * Plays the timelines when required.
+     */
+    private void playTimelines(){
         snakeTimeline.play();
         coinTimeline.play();
         blockTimeline.play();
@@ -1023,6 +1088,9 @@ public class Grid implements Serializable {
         omtimeline.play();
     }
 
+    /**
+     * Event handler for decreasing length of snake one by one.
+     */
     private class SlowHandler implements EventHandler<ActionEvent>{
         public void handle(ActionEvent event){
             beingPounded.valOfBlock--;
@@ -1031,6 +1099,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Acts as an observer and updates variables it observes.
+     */
     public void CheckForChange(){
         if(isPaused){
             beingPounded.setValue(beingPounded.valOfBlock);
@@ -1050,14 +1121,24 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Getter for parameter isAlive.
+     * @return Returns true if snake is alive, false otherwise.
+     */
     public boolean isAlive() {
         return isAlive;
     }
 
-    public void adjustDifficulty(){
+    /**
+     * Adjusts speed of game according to length of snake.
+     */
+    private void adjustDifficulty(){
         difficulty = snake.length/10;
     }
 
+    /**
+     * Checks if snake is alive. Stops game and displays score if snake dies.
+     */
     public void CheckIfAlive(){
         Text text1 = new Text(150,450,"YOU DIED");
         text1.setFill(Color.WHITE);
@@ -1123,7 +1204,12 @@ public class Grid implements Serializable {
         }
     }
 
-    public void playBurst(double x,double y){
+    /**
+     * Plays a burst animation if snake collides with block/token.
+     * @param x x co-ordinate of GIF.
+     * @param y y co-ordinate of GIF.
+     */
+    private void playBurst(double x,double y){
         icon.setX(x);
         icon.setY(y);
         if(!gifonscreen) root.getChildren().add(icon);
