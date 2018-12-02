@@ -39,10 +39,10 @@ public class Database implements Serializable {
             }
         }
         else{
-            if(Integer.parseInt(topTenScores[9][2]) < Integer.parseInt(score)){
-                topTenScores[9][0] = name;
-                topTenScores[9][1] = score;
-                topTenScores[9][2] = date;
+            if(Integer.parseInt(topTenScores[0][2]) < Integer.parseInt(score)){
+                topTenScores[0][0] = name;
+                topTenScores[0][1] = score;
+                topTenScores[0][2] = date;
             }
         }
         int[] numero = new int[ttsLength];
