@@ -4,6 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.Serializable;
 
+/**
+ * Magnet class. Subclass of class Token.
+ */
 public class Magnet extends Token implements Serializable {
     /**
      * Holds picture of magnet.

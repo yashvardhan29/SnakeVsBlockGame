@@ -2,8 +2,11 @@ package sample;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.Serializable;
+
+/**
+ * Desttruction class. Subclass of class Token.
+ */
 
 public class Destruction extends Token implements Serializable {
     /**

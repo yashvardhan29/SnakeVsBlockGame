@@ -4,33 +4,95 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
-import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+/**
+ * Snake class.
+ */
 public class Snake implements Serializable {
-    transient Circle head; //Shape that references head of snake.
+    /**
+     * Shape that references head of snake.
+     */
+    transient Circle head;
+
+    /**
+     * Text box for displaying length of snake on screen.
+     */
     transient Text sldisp;
-    int length; //Length of snake
-    Point hlocation; //Location of head of snake
-    ArrayList<Point> points; //Locations of all parts of the snake.
-    transient ArrayList<Circle> circles; //References to all circles that make up the snake.
-    transient Pane root; //Reference to root.
+
+    /**
+     * Length of snake
+     */
+    int length;
+
+    /**
+     * Location of head of snake
+     */
+    Point hlocation;
+
+    /**
+     * Locations of all parts of the snake.
+     */
+    ArrayList<Point> points;
+
+    /**
+     * References to all circles that make up the snake.
+     */
+    transient ArrayList<Circle> circles;
+
+    /**
+     * Reference to root.
+     */
+    private transient Pane root;
+
+    /**
+     * Color of body of snake.
+     */
     transient Color color;
+
+    /**
+     * True if snake has magnet.
+     */
     boolean hasMagnet;
+
+    /**
+     * True if snake has shield.
+     */
     boolean hasShield;
-    transient Color colorList[];
-    int side;
+
+    /**
+     * List of possible colors that body of snake can take.
+     */
+    private transient Color colorList[];
+
+    /**
+     * Radius of circles that make up the snake.
+     */
+    private int side;
+
+    /**
+     * Number corresponding to index in array of colors.
+     */
     int colorNo;
-    int xvel; // x-velocity of snake.
-    int yvel; // y-velocity of snake.
 
+    /**
+     * x-velocity of snake.
+     */
+    int xvel;
 
-    //   new
+    /**
+     * y-velocity of snake.
+     */
+    int yvel;
 
-
+    /**
+     * Constructor of class.
+     * @param WIDTH Width of Grid.
+     * @param HEIGHT Height of Grid.
+     * @param s Diameter of snake.
+     * @param root Reference to root pane.
+     */
     Snake(int WIDTH,int HEIGHT,int s,Pane root){
         length = 0;
         side = s;
@@ -49,25 +111,42 @@ public class Snake implements Serializable {
         this.root = root;
     }
 
+    /**
+     * Sets velocity to 0.
+     */
     public void stopSnake(){
         xvel = 0;
         yvel = 0;
     }
 
+    /**
+     * Getter for color number.
+     * @return Returns colorNo
+     */
     public int getColorNo() {
         return colorNo;
     }
 
+    /**
+     * Reverses direction of snake.
+     */
     public void reverseSnake(){
         yvel =0;
         xvel = xvel*(-1);
     }
 
+    /**
+     * Updates text box with length of snake.
+     */
     public void updateSnakeLengthDisp(){
         String sl = Integer.toString(length);
         sldisp.setText(sl);
     }
 
+    /**
+     * Restores snake if game is resumed.
+     * @param root
+     */
     public void restore(Pane root){
         setupHead(hlocation,side);
         colorList = new Color[]{Color.YELLOW, Color.GREEN,Color.PURPLE,Color.PINK,Color.WHITE};
@@ -91,12 +170,20 @@ public class Snake implements Serializable {
         this.root = root;
     }
 
+    /**
+     * Sets color of body of snake.
+     * @param c Integer corresponding to index of array of colors.
+     */
     public void setColor(int c) {
         color = colorList[c];
         System.out.println(c);
     }
 
-
+    /**
+     * Sets up head of snake.
+     * @param location Location of head of snake.
+     * @param side Diameter of head of snake.
+     */
     public void setupHead(Point location, int side){
         head = new Circle(side/2);
         head.setFill(Color.RED);
@@ -104,6 +191,10 @@ public class Snake implements Serializable {
         head.setLayoutY(location.getY());
     }
 
+    /**
+     * Increases length of snake.
+     * @param radius Radius of snake.
+     */
     public void incLength(int radius){
         if(length < 19){
             Point lpoint = points.get(points.size()-1);
@@ -124,7 +215,10 @@ public class Snake implements Serializable {
         }
     }
 
-    //Function to decrease length.
+    /**
+     * Decreases length of snake.
+     * @param todecr Amount by which length is to be decreased.
+     */
     public void decrLength(int todecr){
         int newlength = length - todecr;
         if(newlength < 19){

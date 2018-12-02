@@ -6,6 +6,9 @@ import javafx.scene.layout.StackPane;
 
 import java.io.Serializable;
 
+/**
+ * Shield class. Subclass of class Token.
+ */
 public class Shield extends Token implements Serializable {
     /**
      * Holds picture of shield.
