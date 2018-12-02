@@ -1215,8 +1215,10 @@ public class Grid implements Serializable {
                 Coin currc = coins[i];
                 Point cloc = currc.location;
                 Point sloc = snake.hlocation;
-                if(cloc.getY() == sloc.getY()){
-                    if((sloc.getX() > cloc.getX() && sloc.getX() - cloc.getX() <= 150) || (cloc.getX() > sloc.getX() && cloc.getX() - sloc.getX() <= 150)){
+                if(cloc.getY() - sloc.getY() <= 5 && cloc.getY() - sloc.getY() >=0 ){
+                    System.out.println("Stage1 crossed");
+                    if((sloc.getX() > cloc.getX() && sloc.getX() - cloc.getX() <= 175) || (cloc.getX() > sloc.getX() && cloc.getX() - sloc.getX() <= 175)){
+                        System.out.println("Close");
                         for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
                         root.getChildren().remove(currc.realg);
                         TokensOnScreen.remove(currc);
@@ -1316,26 +1318,6 @@ public class Grid implements Serializable {
         back2menu.setLayoutX(220);
         back2menu.setLayoutY(500);
         if(!isAlive){
-//            try{
-//                System.out.println("works");
-//                root.getChildren().removeAll();
-//                root = FXMLLoader.load(getClass().getResource("youded.fxml"));
-//                Label scoreLabel = (Label) root.lookup("#scoreLabel");
-//                scoreLabel.setText("Your Score: " + Integer.toString(score));
-//                Button mm = (Button) root.lookup("#mainMenu");
-//                Button exit = (Button) root.lookup("#exitGame");
-//                exit.setOnAction(e1 -> {
-//                    System.exit(0);
-//                });
-//                mm.setOnAction(e1 -> {
-//                    System.out.println("go to main menu");
-//                });
-//            }
-//            catch (Exception e){
-//                System.out.println("lol");
-//            }
-//            if(snakeTimeline == null) System.out.println(1234);
-            if(main == null) System.out.println("Hello12");
             String name = main.getDatabase().getCurrentUser().getName();
             String newScore = Integer.toString(this.score);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -1357,7 +1339,7 @@ public class Grid implements Serializable {
                 try{
                     main.start(main.PS);
                 }catch (Exception e1){
-                    System.out.println("error in 902 grid.java");
+                    System.out.println("error in 1340 grid.java");
                 }
             });
 

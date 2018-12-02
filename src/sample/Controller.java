@@ -149,7 +149,7 @@ public class Controller implements Serializable {
      * initializes magnetTimeline
      */
     public void MagnetAnimation(){
-        KeyFrame kf = new KeyFrame(Duration.seconds(15),new MagnetHandler());
+        KeyFrame kf = new KeyFrame(Duration.seconds(20),new MagnetHandler());
         magnetTimeline = new Timeline(kf);
         magnetTimeline.setCycleCount(Animation.INDEFINITE);
         magnetTimeline.play();
