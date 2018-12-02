@@ -22,7 +22,7 @@ public class Controller implements Serializable {
     transient Pane root;
     Grid grid;
 
-    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline;
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline, changeCheckTimeline;
 
     Database database;
 
@@ -60,7 +60,16 @@ public class Controller implements Serializable {
         this.DestructionAnimation();
         this.ObjectMover();
         this.CollisionCheckingTimer();
+        this.ChangeListener();
+
         grid.setTimelines(snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
+    }
+
+    public void ChangeListener(){
+        KeyFrame kf = new KeyFrame(Duration.millis(1),new ChangeObserver());
+        changeCheckTimeline = new Timeline(kf);
+        changeCheckTimeline.setCycleCount(Animation.INDEFINITE);
+        changeCheckTimeline.play();
     }
 
     public void SnakeAnimation(){
@@ -188,6 +197,12 @@ public class Controller implements Serializable {
             grid.MoveShield();
             grid.MoveDestructionToken();
             grid.MoveWalls();
+        }
+    }
+
+    private class ChangeObserver implements EventHandler<ActionEvent>{
+        public void handle(ActionEvent event){
+            grid.CheckForChange();
         }
     }
 

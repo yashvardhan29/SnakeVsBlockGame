@@ -1,10 +1,15 @@
 package sample;
 
+import javafx.animation.KeyFrame;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 public class Grid implements Serializable {
@@ -27,8 +33,9 @@ public class Grid implements Serializable {
     int WIDTH = 500; // Width of grid in pixels.
     int HEIGHT = 800; // Height of grid in pixels.
 
-    transient Main main;
+    private boolean isPaused = false;
 
+    transient Main main;
     int Coin_count; //Number of coins currently on screen.
 
     Coin coins[]; // Array that stores references to the coins on screen.
@@ -59,6 +66,8 @@ public class Grid implements Serializable {
     private long ShieldActivatedAt = Long.MAX_VALUE;
     private  final int ShieldDuration = 10000;
 
+    int deccounter = 0;
+
     ArrayList<Token> TokensOnScreen;
 
     int score;
@@ -67,6 +76,19 @@ public class Grid implements Serializable {
     transient ChoiceBox<String> cb;
 
     transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline;
+
+    Block beingPounded;
+
+    int difficulty = 0;
+
+    Image img = new Image("file:src/Burst.gif",50,50,true,false);
+    ImageView icon = new ImageView(img);
+
+    boolean gifonscreen = false;
+    long gifstime = 0;
+
+    double bx = 0;
+    double by = 0;
 
 
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
@@ -89,6 +111,10 @@ public class Grid implements Serializable {
         setupScoreDisplay();
         InitialiseBooleans();
         setupObjectArrays();
+
+
+        //root.getChildren().add(icon);
+
 
         cb.getSelectionModel()
                 .selectedItemProperty()
@@ -186,6 +212,7 @@ public class Grid implements Serializable {
 
         }
         if(snake != null) snake.restore(root);
+        root.getChildren().add(snake.sldisp);
 
 
         setupChoiceBox();
@@ -338,7 +365,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks1[i] = curr;
                                 BlockR1IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -368,7 +395,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks2[j] = curr;
                                 BlockR2IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -398,7 +425,7 @@ public class Grid implements Serializable {
                                 root.getChildren().add(curr.realg);
                                 theblocks3[j] = curr;
                                 BlockR3IsPresent = true;
-                                int val = rand.nextInt(5) + 1;
+                                int val = rand.nextInt(10) + 1;
                                 curr.setValue(val);
                                 curr.valOfBlock = val;
                             }
@@ -462,7 +489,7 @@ public class Grid implements Serializable {
             for(int i = 0;i<5;i++){
                 Coin currc = coins[i];
                 if(currc != null){
-                    currc.location.translate(0,1);
+                    currc.location.translate(0,1,difficulty);
                     currc.setPosition(currc.location);
                     if(currc.location.getY() >= 790){
                         root.getChildren().remove(currc.realg);
@@ -477,7 +504,7 @@ public class Grid implements Serializable {
 
     public void MoveMagnet(){
         if(MagnetIsPresent){
-            magnet.location.translate(0,1);
+            magnet.location.translate(0,1,difficulty);
             magnet.setPosition(magnet.location);
             if(magnet.location.getY() >= 790){
                 root.getChildren().remove(magnet.realg);
@@ -490,7 +517,7 @@ public class Grid implements Serializable {
 
     public void MoveShield(){
         if(ShieldIsPresent){
-            shield.location.translate(0,1);
+            shield.location.translate(0,1,difficulty);
             shield.setPosition(shield.location);
             if(shield.location.getY() >= 790){
                 root.getChildren().remove(shield.realg);
@@ -503,7 +530,7 @@ public class Grid implements Serializable {
 
     public void MoveDestructionToken(){
         if(DestructionIsPresent){
-            destruction.location.translate(0,1);
+            destruction.location.translate(0,1,difficulty);
             destruction.setPosition(destruction.location);
             if(destruction.location.getY() >= 790){
                 root.getChildren().remove(destruction.realg);
@@ -517,7 +544,7 @@ public class Grid implements Serializable {
     public void MoveWalls(){
         for(int i = 0;i<thewalls.size();i++){
             Wall currw = thewalls.get(i);
-            currw.location.translate(0,1);
+            currw.location.translate(0,1,difficulty);
             currw.setPosition(currw.location);
             if(currw.location.getY() >= 790){
                 root.getChildren().remove(currw.realg);
@@ -532,7 +559,7 @@ public class Grid implements Serializable {
         ArrayList<Circle> scircles = snake.circles;
         for(int i = 0;i<spoints.size();i++){
             Point currp = spoints.get(i);
-            currp.translate(snake.xvel,snake.yvel);
+            currp.translate(snake.xvel,snake.yvel,difficulty);
             Circle currc = scircles.get(i);
             currc.setLayoutX(currp.getX());
             currc.setLayoutY(currp.getY());
@@ -548,7 +575,7 @@ public class Grid implements Serializable {
                 if(i == 1){
 //                    System.out.println(currb.location.getY() + "loc");
                 }
-                currb.location.translate(0,1);
+                currb.location.translate(0,1,difficulty);
                 currb.setPosition(currb.location);
                 if(currb.location.getY() >= 980){
                     root.getChildren().remove(currb.realg);
@@ -621,28 +648,40 @@ public class Grid implements Serializable {
                             theblocks[i] = null;
                         }
                         else if(val <= snake.length){
-                            if(val >= 2){
+                            if(val > 5){
                                 try{
-                                    snakeTimeline.pause();
-                                    blockTimeline.pause();
-                                    coinTimeline.pause();
-                                    omtimeline.pause();
+                                    pauseTimelines();
                                     snake.stopSnake();
-                                    System.out.println("works");
-                                    omtimeline.play();
-                                    snakeTimeline.play();
-                                    coinTimeline.play();
-                                    blockTimeline.play();
+                                    isPaused = true;
+
+                                    deccounter = val;
+                                    beingPounded = currb;
+
+                                    KeyFrame kf = new KeyFrame(Duration.millis(250),new SlowHandler());
+                                    Timeline slowTimeline = new Timeline(kf);
+                                    slowTimeline.setCycleCount(val);
+                                    slowTimeline.play();
+
+
                                 }catch (Exception e){
                                     System.out.println("null");
                                 }
                             }
-                            snake.decrLength(val);
                             score += val;
-                            root.getChildren().remove(theblocks[i].realg);
+                            bx = ((lbx+ubx)/2) - 25;
+                            by = currb.location.getY();
+
+                            if(val <= 5){
+                                root.getChildren().remove(theblocks[i].realg);
+                                snake.decrLength(val);
+                                playBurst(bx,by);
+                            }
+
                             theblocks[i] = null;
+
                         }
                         else isAlive = false;
+                        adjustDifficulty();
                     }
                 }
             }
@@ -677,6 +716,7 @@ public class Grid implements Serializable {
                 else if(currt instanceof Destruction){
                     ConsumeDestruction(currt);
                 }
+                playBurst(tloc.getX() - 15,tloc.getY() - 50);
             }
         }
     }
@@ -695,6 +735,7 @@ public class Grid implements Serializable {
             }
         }
         Coin_count--;
+        adjustDifficulty();
     }
 
     private void ConsumeMagnet(Token currt){
@@ -890,11 +931,51 @@ public class Grid implements Serializable {
         omtimeline.pause();
     }
 
+    public void playTimelines(){
+        snakeTimeline.play();
+        coinTimeline.play();
+        blockTimeline.play();
+        magnetTimeline.play();
+        shieldTimeline.play();
+        destructTimeline.play();
+        omtimeline.play();
+    }
+
+    private class SlowHandler implements EventHandler<ActionEvent>{
+        public void handle(ActionEvent event){
+            beingPounded.valOfBlock--;
+            snake.decrLength(1);
+            deccounter--;
+        }
+    }
+
+    public void CheckForChange(){
+        if(isPaused){
+            beingPounded.setValue(beingPounded.valOfBlock);
+        }
+        if(deccounter <=  0 && isPaused){
+            playTimelines();
+            isPaused = false;
+            root.getChildren().remove(beingPounded.realg);
+            playBurst(bx,by);
+        }
+        if(gifonscreen){
+            long currtime = System.currentTimeMillis();
+            if(currtime - gifstime > 150){
+                root.getChildren().remove(icon);
+                gifonscreen = false;
+            }
+        }
+    }
+
     public boolean isAlive() {
         return isAlive;
     }
 
-    // Useless for now.
+    public void adjustDifficulty(){
+        difficulty = snake.length/10;
+    }
+
     public void CheckIfAlive(){
         if(!isAlive){
 //            try{
@@ -916,6 +997,7 @@ public class Grid implements Serializable {
 //                System.out.println("lol");
 //            }
 //            if(snakeTimeline == null) System.out.println(1234);
+            if(main == null) System.out.println("Hello12");
             String name = main.getDatabase().getCurrentUser().getName();
             String newScore = Integer.toString(this.score);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -953,5 +1035,13 @@ public class Grid implements Serializable {
 
 //            System.exit(0);
         }
+    }
+
+    public void playBurst(double x,double y){
+        icon.setX(x);
+        icon.setY(y);
+        if(!gifonscreen) root.getChildren().add(icon);
+        gifonscreen = true;
+        gifstime = System.currentTimeMillis();
     }
 }

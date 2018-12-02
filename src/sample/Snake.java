@@ -27,6 +27,7 @@ public class Snake implements Serializable {
     int xvel; // x-velocity of snake.
     int yvel; // y-velocity of snake.
 
+
     //   new
 
 
@@ -85,7 +86,6 @@ public class Snake implements Serializable {
             dup.setLayoutY(duploc.getY());
             circles.add(dup);
             root.getChildren().add(dup);
-
         }
 
         this.root = root;
@@ -96,18 +96,6 @@ public class Snake implements Serializable {
         System.out.println(c);
     }
 
-    //    public void changeColor(Color color1){
-//        for(int i = 1;i<points.size();i++){
-//            Circle dup = new Circle(10);
-//            dup.setFill(color1);
-//            Point duploc = points.get(i);
-//            dup.setLayoutX(duploc.getX());
-//            dup.setLayoutY(duploc.getY());
-//            circles.add(dup);
-//            root.getChildren().add(dup);
-//
-//        }
-//    }
 
     public void setupHead(Point location, int side){
         head = new Circle(side/2);
@@ -117,7 +105,7 @@ public class Snake implements Serializable {
     }
 
     public void incLength(int radius){
-        if(length < 7){
+        if(length < 19){
             Point lpoint = points.get(points.size()-1);
             double newx = lpoint.getX();
             double newy = lpoint.getY() + 2*radius;
@@ -139,9 +127,9 @@ public class Snake implements Serializable {
     //Function to decrease length.
     public void decrLength(int todecr){
         int newlength = length - todecr;
-        if(newlength < 7){
-            if(length >= 8){
-             todecr = 7 - newlength;
+        if(newlength < 19){
+            if(length >= 20){
+             todecr = 19 - newlength;
             }
             for(int i = circles.size()-1;i > circles.size()-todecr-1;i--){
                 root.getChildren().remove(circles.get(i));
