@@ -84,7 +84,6 @@ public class Main extends Application implements Runnable {
                 firebaseCommmand = getFirebaseCommands();
                 if(firebaseCommmand[0] == 1) database.getController().getGrid().getSnake().xvel = firebaseCommmand[1];
                 Thread.sleep(10);
-                System.out.println("save");
             }
             catch (Exception e){
 
