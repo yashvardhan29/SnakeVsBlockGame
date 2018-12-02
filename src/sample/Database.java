@@ -8,6 +8,10 @@ import java.util.HashMap;
  */
 public class Database implements Serializable {
     /**
+     * static database instance
+     */
+    private static Database database = null;
+    /**
      * Stores list of users using username as key
      */
     private HashMap<String,User> users;
@@ -32,7 +36,12 @@ public class Database implements Serializable {
      */
     private boolean showResumeButton;
 
-    Database(){
+    public static Database getInstance(){
+        if(database == null) database = new Database();
+        return database;
+    }
+
+    private Database(){
         users = new HashMap<>();
         currentUser = new User("Guest","");
         users.put("Guest", currentUser);

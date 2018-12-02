@@ -128,7 +128,7 @@ public class Main extends Application implements Runnable {
         Button resume = (Button) root.lookup("#resume");
         Label userLabel = (Label) root.lookup("#user");
         Label coinLabel = (Label) root.lookup("#coins");
-        if(database == null) database = new Database();
+        if(database == null) database = Database.getInstance();
         database.setController(controller);
 
         if(!loadStateResume()) {
