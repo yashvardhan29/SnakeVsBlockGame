@@ -1192,6 +1192,7 @@ public class Grid implements Serializable {
             });
 
             main.r = true;
+            main.database.setShowResumeButton(false);
         }
         else{
             if(root.getChildren().contains(text1)) root.getChildren().remove(text1);
