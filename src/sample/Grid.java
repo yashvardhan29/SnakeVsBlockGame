@@ -976,6 +976,15 @@ public class Grid implements Serializable {
     }
 
     public void CheckIfAlive(){
+        Text text1 = new Text(150,450,"YOU DIED");
+        text1.setFill(Color.WHITE);
+        text1.setFont(new Font(50));
+        Text text2 = new Text(175,480,"Your Score: " + Integer.toString(score));
+        text2.setFill(Color.WHITE);
+        text2.setFont(new Font(30));
+        Button back2menu = new Button("MainMenu");
+        back2menu.setLayoutX(220);
+        back2menu.setLayoutY(500);
         if(!isAlive){
 //            try{
 //                System.out.println("works");
@@ -1005,19 +1014,12 @@ public class Grid implements Serializable {
             main.getDatabase().updateTopTenScores(name,newScore,date);
 
             pauseTimelines();
-            Text text1 = new Text(150,450,"YOU DIED");
-            text1.setFill(Color.WHITE);
-            text1.setFont(new Font(50));
             root.getChildren().add(text1);
 
-            Text text2 = new Text(175,480,"Your Score: " + Integer.toString(score));
-            text2.setFill(Color.WHITE);
-            text2.setFont(new Font(30));
+
             root.getChildren().add(text2);
 
-            Button back2menu = new Button("MainMenu");
-            back2menu.setLayoutX(220);
-            back2menu.setLayoutY(500);
+
             root.getChildren().add(back2menu);
 
             back2menu.setOnAction(e -> {
@@ -1029,10 +1031,12 @@ public class Grid implements Serializable {
             });
 
             main.r = true;
+        }
+        else{
+            if(root.getChildren().contains(text1)) root.getChildren().remove(text1);
+            if(root.getChildren().contains(text2)) root.getChildren().remove(text2);
+            if(root.getChildren().contains(back2menu)) root.getChildren().remove(back2menu);
 
-
-
-//            System.exit(0);
         }
     }
 

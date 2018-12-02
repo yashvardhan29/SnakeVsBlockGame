@@ -302,22 +302,19 @@ public class Main extends Application implements Runnable {
     public void exitGame(){}
 
     public Scene startLB() throws IOException {
-        try{
-            loadState();
-        }catch (Exception e){
-        }
+
         root = FXMLLoader.load(getClass().getResource("LeaderBoard.fxml"));
 
-        String[][] tties  = database.getTopTenScores();
-        int ttiesLength = database.getTtsLength();
+        String[][] tties  = loadStateTTies();
+        int ttiesLength = loadStateTTiesLength();
 
         for (int i = 0; i < ttiesLength; i++) {
             Label label = (Label) root.lookup("#u" +  (i + 1));
-            label.setText(tties[i][0]);
+            label.setText(tties[ttiesLength - 1 - i][0]);
             Label label1 = (Label) root.lookup("#s" + (i + 1));
-            label1.setText(tties[i][1]);
+            label1.setText(tties[ttiesLength - 1 - i][1]);
             Label label2 = (Label) root.lookup("#d" + (i + 1));
-            label2.setText(tties[i][2]);
+            label2.setText(tties[ttiesLength - 1 - i][2]);
         }
         System.out.println(ttiesLength);
         return new Scene(root);
@@ -414,8 +411,44 @@ public class Main extends Application implements Runnable {
         finally {
             in.close();
         }
-
     }
+
+    public String[][] loadStateTTies() throws IOException{
+        ObjectInputStream in = null;
+        String [][] tties1 = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            tties1 = ((Database) in.readObject()).getTopTenScores();
+        }
+        catch (Exception e) {
+            System.out.println("main.java 456 catch");
+            System.out.println(e.getMessage());
+        }
+        finally {
+            in.close();
+        }
+
+        return tties1;
+    }
+
+    public int loadStateTTiesLength() throws IOException{
+        ObjectInputStream in = null;
+        int i = 0;
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            i = ((Database) in.readObject()).getTtsLength();
+        }
+        catch (Exception e) {
+            System.out.println("main.java 474 catch");
+            System.out.println(e.getMessage());
+        }
+        finally {
+            in.close();
+        }
+
+        return i;
+    }
+
 
     public static void main(String[] args) {
         launch(args);
