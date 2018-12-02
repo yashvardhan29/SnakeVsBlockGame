@@ -581,19 +581,43 @@ public class Grid implements Serializable {
                 if(b3 != null) b3pos = b3.location.getY();
                 if( b2pos >= HEIGHT/3 || b2pos == -1 ){
                     if(b3pos == -1 || b3pos >= HEIGHT/3){
+                        int count = 0;
+                        int min = 1000;
                         for(int i = 0;i<theblocks1.length;i++){
-                            //50% chance of block spawning.
                             Random rand = new Random();
                             int decide = rand.nextInt(2);
                             if(decide == 1){
-                                Point bloc = new Point(i*(WIDTH/7),0);
-                                Block curr = new Block(WIDTH,bloc);
-                                root.getChildren().add(curr.realg);
-                                theblocks1[i] = curr;
-                                BlockR1IsPresent = true;
-                                int val = rand.nextInt(10) + 1;
-                                curr.setValue(val);
-                                curr.valOfBlock = val;
+                                count++;
+                                int val;
+                                boolean sure = true;
+                                if(snake.length < 10){
+                                    val = rand.nextInt(10) + 1;
+                                }
+                                else{
+                                    val = rand.nextInt(snake.length) + 5;
+                                }
+                                if(val < min) min = val;
+                                if(i == theblocks1.length-1){
+                                   if(count == 6){
+                                       if(snake.length < min){
+                                           if(snake.length == 0){
+                                               sure = false;
+                                           }
+                                           else{
+                                               val = snake.length;
+                                           }
+                                       }
+                                   }
+                                }
+                                if(sure){
+                                    Point bloc = new Point(i*(WIDTH/7),0);
+                                    Block curr = new Block(WIDTH,bloc);
+                                    root.getChildren().add(curr.realg);
+                                    theblocks1[i] = curr;
+                                    BlockR1IsPresent = true;
+                                    curr.setValue(val);
+                                    curr.valOfBlock = val;
+                                }
                             }
                         }
                     }
@@ -611,19 +635,44 @@ public class Grid implements Serializable {
             if(r1rep != null){
                 if(!BlockR2IsPresent){
                     if(r1rep.location.getY() >= HEIGHT/3){
+                        int count = 0;
+                        int min = 1000;
                         for(int j = 0;j<theblocks2.length;j++){
                             //50% chance of block spawning.
                             Random rand = new Random();
                             int decide = rand.nextInt(2);
                             if(decide == 1){
-                                Point bloc = new Point(j*(WIDTH/7),0);
-                                Block curr = new Block(WIDTH,bloc);
-                                root.getChildren().add(curr.realg);
-                                theblocks2[j] = curr;
-                                BlockR2IsPresent = true;
-                                int val = rand.nextInt(10) + 1;
-                                curr.setValue(val);
-                                curr.valOfBlock = val;
+                                count ++;
+                                int val;
+                                boolean sure = true;
+                                if(snake.length < 10){
+                                    val = rand.nextInt(10) + 1;
+                                }
+                                else{
+                                    val = rand.nextInt(snake.length) + 5;
+                                }
+                                if(val < min) min = val;
+                                if(j == theblocks2.length-1){
+                                    if(count == 6){
+                                        if(snake.length < min){
+                                            if(snake.length == 0){
+                                                sure = false;
+                                            }
+                                            else{
+                                                val = snake.length;
+                                            }
+                                        }
+                                    }
+                                }
+                                if(sure){
+                                    Point bloc = new Point(j*(WIDTH/7),0);
+                                    Block curr = new Block(WIDTH,bloc);
+                                    root.getChildren().add(curr.realg);
+                                    theblocks2[j] = curr;
+                                    BlockR2IsPresent = true;
+                                    curr.setValue(val);
+                                    curr.valOfBlock = val;
+                                }
                             }
                         }
                     }
@@ -641,19 +690,45 @@ public class Grid implements Serializable {
             if(r2rep != null && r1rep != null){
                 if(!BlockR3IsPresent){
                     if(r2rep.location.getY() >= HEIGHT/3){
+                        int count = 0;
+                        int min = 1000;
                         for(int j = 0;j<theblocks3.length;j++){
                             //50% chance of block spawning.
                             Random rand = new Random();
                             int decide = rand.nextInt(2);
                             if(decide == 1){
-                                Point bloc = new Point(j*(WIDTH/7),0);
-                                Block curr = new Block(WIDTH,bloc);
-                                root.getChildren().add(curr.realg);
-                                theblocks3[j] = curr;
-                                BlockR3IsPresent = true;
-                                int val = rand.nextInt(10) + 1;
-                                curr.setValue(val);
-                                curr.valOfBlock = val;
+                                count++;
+
+                                int val;
+                                boolean sure = true;
+                                if(snake.length < 10){
+                                    val = rand.nextInt(10) + 1;
+                                }
+                                else{
+                                    val = rand.nextInt(snake.length) + 5;
+                                }
+                                if(val < min) min = val;
+                                if(j == theblocks2.length-1){
+                                    if(count == 6){
+                                        if(snake.length < min){
+                                            if(snake.length == 0){
+                                                sure = false;
+                                            }
+                                            else{
+                                                val = snake.length;
+                                            }
+                                        }
+                                    }
+                                }
+                                if(sure){
+                                    Point bloc = new Point(j*(WIDTH/7),0);
+                                    Block curr = new Block(WIDTH,bloc);
+                                    root.getChildren().add(curr.realg);
+                                    theblocks3[j] = curr;
+                                    BlockR3IsPresent = true;
+                                    curr.setValue(val);
+                                    curr.valOfBlock = val;
+                                }
                             }
                         }
                     }
@@ -1221,9 +1296,7 @@ public class Grid implements Serializable {
                 Point cloc = currc.location;
                 Point sloc = snake.hlocation;
                 if(cloc.getY() - sloc.getY() <= 5 && cloc.getY() - sloc.getY() >=0 ){
-                    System.out.println("Stage1 crossed");
                     if((sloc.getX() > cloc.getX() && sloc.getX() - cloc.getX() <= 175) || (cloc.getX() > sloc.getX() && cloc.getX() - sloc.getX() <= 175)){
-                        System.out.println("Close");
                         for(int j = 0;j<currc.valOfCoin;j++) snake.incLength(diameter /2);
                         root.getChildren().remove(currc.realg);
                         TokensOnScreen.remove(currc);
