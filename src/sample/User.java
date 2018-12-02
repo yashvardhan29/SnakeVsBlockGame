@@ -52,6 +52,7 @@ public class User implements Serializable {
                 topTenScores[0][2] = date;
             }
         }
+        addCoins(Integer.parseInt(score));
         int[] numero = new int[ttsLength];
         for (int i = 0; i < ttsLength; i++) numero[i] = Integer.parseInt(topTenScores[i][1]);
         quicksort(numero,0,ttsLength - 1,topTenScores);
