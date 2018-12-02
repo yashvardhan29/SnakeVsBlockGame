@@ -11,6 +11,8 @@ public class Database implements Serializable {
     private Controller controller;
     private String[][] topTenScores;
     private int ttsLength;
+    private static boolean showResumeButton;
+
     Database(){
         users = new HashMap<>();
         currentUser = new User("Guest","");
@@ -18,6 +20,14 @@ public class Database implements Serializable {
         topTenScores = new String[10][3];
         ttsLength = 0;
 //        for (int i = 0; i < 10; i++) for (int j = 0; j < 3; j++) topTenScores[i][j] = "";
+    }
+
+    public boolean isShowResumeButton() {
+        return showResumeButton;
+    }
+
+    public void setShowResumeButton(boolean b){
+        showResumeButton = b;
     }
 
     public void updateTopTenScores(String name, String score, String date){

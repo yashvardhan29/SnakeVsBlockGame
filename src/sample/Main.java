@@ -50,6 +50,7 @@ public class Main extends Application implements Runnable {
                 firebaseCommmand = getFirebaseCommands();
                 if(firebaseCommmand[0] == 1) database.getController().getGrid().getSnake().xvel = firebaseCommmand[1];
                 Thread.sleep(10);
+                System.out.println("save");
             }
             catch (Exception e){
 
@@ -90,6 +91,7 @@ public class Main extends Application implements Runnable {
     @Override
     public void start(Stage primaryStage) throws IOException{
         PS = primaryStage;
+        if(loadStateResume()) System.out.println("djhfcbsdknsdacjladnkak");
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -106,6 +108,7 @@ public class Main extends Application implements Runnable {
         Label coinLabel = (Label) root.lookup("#coins");
         if(database == null) database = new Database();
         database.setController(controller);
+
 
         if(database.getCurrentUser() != null){
             userLabel.setText(database.getCurrentUser().getName());
@@ -298,6 +301,17 @@ public class Main extends Application implements Runnable {
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(e123 -> {
+            database.setShowResumeButton(true);
+            System.out.println("lol");
+            try{
+                saveState();
+            }
+            catch (Exception e){
+                System.out.println(312);
+            }
+        });
     }
 
     public Scene resumeGame()  {
@@ -524,6 +538,25 @@ public class Main extends Application implements Runnable {
         }
 
         return i;
+    }
+
+    public boolean loadStateResume() throws IOException{
+        ObjectInputStream in = null;
+        boolean b =  false;
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            b = ((Database) in.readObject()).isShowResumeButton();
+            System.out.println(b + "resume");
+        }
+        catch (Exception e) {
+            System.out.println("main.java 541 catch");
+            System.out.println(e.getMessage());
+        }
+        finally {
+            in.close();
+        }
+
+        return b;
     }
 
     public static void main(String[] args) {
