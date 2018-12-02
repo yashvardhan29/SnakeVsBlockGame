@@ -19,14 +19,14 @@ import java.util.Random;
 
 
 public class Controller implements Serializable {
-    transient Pane root;
-    Grid grid;
+    transient Pane root; //root assocaited with the game
+    Grid grid; //component grid class
 
-    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline, changeCheckTimeline;
+    transient Timeline snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline,collTimeline, changeCheckTimeline; //respective timelines
 
-    Database database;
+    Database database; //parent database
 
-    int objectanimdur;
+    int objectanimdur; //animation duration for object animation
 
     Controller(){
         root = new Pane();
@@ -35,7 +35,9 @@ public class Controller implements Serializable {
         objectanimdur = 15;
     }
 
-
+    /**
+     * Used to restore controller class after deserialization
+     */
     public void restore(){
         root = new Pane();
         grid.restore(root);
@@ -43,14 +45,25 @@ public class Controller implements Serializable {
         grid.setTimelines(snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
     }
 
+    /**
+     * mutator function for database
+     * @param database
+     */
     public void setDatabase(Database database) {
         this.database = database;
     }
 
+    /**
+     * Getter function for Grid
+     * @return
+     */
     public Grid getGrid() {
         return grid;
     }
 
+    /**
+     * starts animation timers
+     */
     public void startAnimationTimers(){
         this.SnakeAnimation();
         this.CoinAnimation();
@@ -65,6 +78,9 @@ public class Controller implements Serializable {
         grid.setTimelines(snakeTimeline, coinTimeline, blockTimeline, magnetTimeline, shieldTimeline, destructTimeline, omtimeline);
     }
 
+    /**
+     * initializes checkChangeTimeline
+     */
     public void ChangeListener(){
         KeyFrame kf = new KeyFrame(Duration.millis(1),new ChangeObserver());
         changeCheckTimeline = new Timeline(kf);
@@ -72,6 +88,9 @@ public class Controller implements Serializable {
         changeCheckTimeline.play();
     }
 
+    /**
+     * initializes snakeTimes
+     */
     public void SnakeAnimation(){
         //Calls the class SnakeHandler
         KeyFrame kf = new KeyFrame(Duration.millis(7.5),new SnakeHandler());
@@ -80,6 +99,9 @@ public class Controller implements Serializable {
         snakeTimeline.play();
     }
 
+    /**
+     * initializes collTimeline
+     */
     public void CollisionCheckingTimer(){
         KeyFrame kf = new KeyFrame(Duration.millis(1),new CollHandler());
         collTimeline = new Timeline(kf);
@@ -87,6 +109,9 @@ public class Controller implements Serializable {
         collTimeline.play();
     }
 
+    /**
+     * initializes coinTimeline
+     */
     public void CoinAnimation(){
         //Calls the class CoinHandler
         KeyFrame kf = new KeyFrame(Duration.millis(1200),new CoinHandler());
@@ -96,6 +121,9 @@ public class Controller implements Serializable {
 
     }
 
+    /**
+     * intializes blockTimeline
+     */
     public void BlockAnimation(){
         //Calls the class BlockHandler
         KeyFrame kf = new KeyFrame(Duration.millis(100),new BlockHandler());
@@ -104,6 +132,9 @@ public class Controller implements Serializable {
         blockTimeline.play();
     }
 
+    /**
+     * initializes magnetTimeline
+     */
     public void MagnetAnimation(){
         KeyFrame kf = new KeyFrame(Duration.seconds(15),new MagnetHandler());
         magnetTimeline = new Timeline(kf);
@@ -111,6 +142,9 @@ public class Controller implements Serializable {
         magnetTimeline.play();
     }
 
+    /**
+     * initializes shieldTimeline
+     */
     public void ShieldAnimation(){
         KeyFrame kf = new KeyFrame(Duration.seconds(30),new ShieldHandler());
         shieldTimeline = new Timeline(kf);
@@ -118,6 +152,9 @@ public class Controller implements Serializable {
         shieldTimeline.play();
     }
 
+    /**
+     * initializes destructionTimeline
+     */
     public void DestructionAnimation(){
         KeyFrame kf = new KeyFrame(Duration.seconds(45),new DestructionHandler());
         destructTimeline = new Timeline(kf);
@@ -125,6 +162,9 @@ public class Controller implements Serializable {
         destructTimeline.play();
     }
 
+    /**
+     * initializes omTimeline
+     */
     public void ObjectMover(){
         //Calls the class ObjectHandler
         KeyFrame kf = new KeyFrame(Duration.millis(15),new ObjectHandler()); //Prev Value 100
@@ -134,8 +174,10 @@ public class Controller implements Serializable {
     }
 
     private class SnakeHandler implements EventHandler<ActionEvent>{
-        /*Checks the velocity of snake and moves it accordingly.
-          Also calls the collision checker.
+        /**
+         * Checks the velocity of snake and moves it accordingly.
+         * Also calls the collision checker.
+         * @param event
          */
         public void handle(ActionEvent event){
             grid.MoveSnake();
@@ -146,21 +188,28 @@ public class Controller implements Serializable {
     }
 
     private class CollHandler implements EventHandler<ActionEvent>{
-
+        /**
+         * checks collisions with objects
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.CollisionCheck();
         }
     }
 
     private class CoinHandler implements EventHandler<ActionEvent>{
-        //Calls the SpawnCoins() method
+        /**
+         * Calls the SpawnCoins() method
+         */
         public void handle(ActionEvent event){
             grid.SpawnCoins();
         }
     }
 
     private class BlockHandler implements EventHandler<ActionEvent>{
-        //Calls the SpawnBLocks() and SpawnWalls() method.
+        /**
+         * Calls the SpawnBLocks() and SpawnWalls() method.
+         */
         public void handle(ActionEvent event){
             grid.SpawnBlocks();
             grid.SpawnWalls();
@@ -168,28 +217,40 @@ public class Controller implements Serializable {
     }
 
     private class MagnetHandler implements EventHandler<ActionEvent>{
-        //Calls the SpawnMagnet() method
+        /**
+         *Calls the SpawnMagnet() method
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.SpawnMagnet();
         }
     }
 
     private class ShieldHandler implements EventHandler<ActionEvent>{
-        //Calls the SpawnShield() method
+        /**
+         * Calls the SpawnShield() method
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.SpawnShield();
         }
     }
 
     private class DestructionHandler implements EventHandler<ActionEvent>{
-        //Calls the SpawnDestructionToken() method
+        /**
+         * Calls the SpawnDestructionToken() method
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.SpawnDestructionToken();
         }
     }
 
     private class ObjectHandler implements EventHandler<ActionEvent>{
-        // Calls methods to move both Blocks and Coins.
+        /**
+         * Calls methods to move both Blocks and Coins.
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.MoveBlocks();
             grid.MoveCoins();
@@ -201,11 +262,19 @@ public class Controller implements Serializable {
     }
 
     private class ChangeObserver implements EventHandler<ActionEvent>{
+        /**
+         * checks for changes
+         * @param event
+         */
         public void handle(ActionEvent event){
             grid.CheckForChange();
         }
     }
 
+    /**
+     * Getter method for root
+     * @return
+     */
     public Pane getRoot(){
         return root;
     }
