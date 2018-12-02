@@ -1,10 +1,11 @@
 package sample;
 
-import javafx.scene.paint.Color;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * User class.
+ */
 public class User implements Serializable {
     /**
      * username and password for user
@@ -23,7 +24,7 @@ public class User implements Serializable {
      */
     private String[][] topTenScores;
     /**
-     * numner of top ten scores if less than 10
+     * number of top ten scores if less than 10
      */
     private int ttsLength;
 
