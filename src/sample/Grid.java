@@ -245,6 +245,28 @@ public class Grid implements Serializable {
 
         setupChoiceBox();
         restoreScoreDisplay();
+
+        cb.getSelectionModel()
+                .selectedItemProperty()
+                .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+
+                    if(newValue.equals("Restart Game")) {
+                        //insert code here
+                        resetGame();
+                        cb.setValue("");
+
+                    }
+                    else {
+                        cb.setValue("");
+                        try{
+                            main.start(main.PS);
+                            main.r = true;
+                        }catch (Exception e){
+                            System.out.println("grid 99");
+                        }
+                    }
+                } );
+
     }
 
     /**
