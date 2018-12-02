@@ -41,9 +41,9 @@ public class Database implements Serializable {
     /**
      * checks if new score is greater than any score in the top ten scores
      * and replaces the least if yes
-     * @param name
-     * @param score
-     * @param date
+     * @param name of user
+     * @param score of user
+     * @param date and time
      */
     public void updateTopTenScores(String name, String score, String date){
         if(ttsLength == 0){
@@ -93,10 +93,10 @@ public class Database implements Serializable {
 
     /**
      * Used to Partition array for quicksort
-     * @param arr
-     * @param l
-     * @param h
-     * @param orig
+     * @param arr array to partioan
+     * @param l lower index
+     * @param h upper inde
+     * @param orig String array to partition
      * @return
      */
     int partirion(int arr[], int l, int h, String orig[][]){
@@ -127,11 +127,11 @@ public class Database implements Serializable {
     }
 
     /**
-     * sorts array using quicksort
-     * @param arr
-     * @param l
-     * @param h
-     * @param orig
+     * sorts array using quicksort on basis of score
+     * @param arr array to sort
+     * @param l lower index
+     * @param h upper index
+     * @param orig original string array
      */
     void quicksort(int arr[], int l, int h, String orig[][]){
         if(l < h) {
@@ -143,8 +143,8 @@ public class Database implements Serializable {
 
     /**
      * Used to login to a profile or create one
-     * @param n
-     * @param p
+     * @param n username
+     * @param p password
      */
     public void login(String n, String p){
         if(users.containsKey(n) && users.get(n).getPassword().equals(p)) currentUser = users.get(n);
@@ -172,7 +172,7 @@ public class Database implements Serializable {
 
     /**
      * mutator method for controller
-     * @param c
+     * @param c controller for game gui
      */
     public void setController(Controller c) {
         controller = c;

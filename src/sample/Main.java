@@ -66,40 +66,6 @@ public class Main extends Application implements Runnable {
     }
 
     /**
-     * Used to parse input from bufferedreader and return it as a string
-     * @param rd
-     * @return
-     * @throws IOException
-     */
-    private String readAll(Reader rd) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        int cp;
-        while ((cp = rd.read()) != -1) {
-            sb.append((char) cp);
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Used to pull json and return a JSONObject from a url
-     * @param url Provides json
-     * @return required json as a JSONObject
-     * @throws IOException
-     * @throws JSONException
-     */
-    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-        InputStream is = new URL(url).openStream();
-        try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-            String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
-            return json;
-        } finally {
-            is.close();
-        }
-    }
-
-    /**
      * Fetches commands sent from the android app from firebase and returns them.
      * @return int array contaning commands
      * @throws IOException
@@ -667,6 +633,42 @@ public class Main extends Application implements Runnable {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    /**
+     * Used to parse input from bufferedreader and return it as a string
+     * source: https://stackoverflow.com/questions/4308554/simplest-way-to-read-json-from-a-url-in-java
+     * @param rd
+     * @return
+     * @throws IOException
+     */
+    private String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Used to pull json and return a JSONObject from a url
+     * source: https://stackoverflow.com/questions/4308554/simplest-way-to-read-json-from-a-url-in-java
+     * @param url Provides json
+     * @return required json as a JSONObject
+     * @throws IOException
+     * @throws JSONException
+     */
+    public JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
     }
 
 }

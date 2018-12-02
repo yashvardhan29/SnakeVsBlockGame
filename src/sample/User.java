@@ -6,24 +6,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String name,password;
-    private int coins;
-    ArrayList<Integer> scores;
-    ArrayList<Integer> unlockedThemes, unlockedSkins;
-    private String[][] topTenScores;
-    private int ttsLength;
+    private String name,password; //username and password for user
+    private int coins; //number of coins user has
+    ArrayList<Integer> unlockedSkins; //keeps track of skins user owns
+    private String[][] topTenScores; //list of top ten scores of user
+    private int ttsLength; // numner of top ten scores if less than 10
 
     User(String n, String p){
         name = n;
         password = p;
         coins = 50000;
-        scores = new ArrayList<>();
         unlockedSkins = new ArrayList<>();
-        unlockedThemes = new ArrayList<>();
         topTenScores = new String[10][3];
         ttsLength = 0;
     }
 
+    /**
+     *
+     * @param name
+     * @param score
+     * @param date
+     */
     public void updateTopTenScores(String name, String score, String date){
         if(ttsLength == 0){
             topTenScores[0][0] = name;
@@ -105,10 +108,6 @@ public class User implements Serializable {
         return name;
     }
 
-    public ArrayList<Integer> getScores() {
-        return scores;
-    }
-
     public int getCoins() {
         return coins;
     }
@@ -121,20 +120,9 @@ public class User implements Serializable {
         return unlockedSkins;
     }
 
-    public ArrayList<Integer> getUnlockedThemes() {
-        return unlockedThemes;
-    }
-
     public void addSkins(int c){
         coins -= 500;
         unlockedSkins.add(c);
     }
 
-    public void addThemes(int c){
-        unlockedThemes.add(c);
-    }
-
-    public void addScores(int i){
-        scores.add(i);
-    }
 }
