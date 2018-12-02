@@ -73,14 +73,30 @@ public class User implements Serializable {
         quicksort(numero,0,ttsLength - 1,topTenScores);
     }
 
+    /**
+     * returns list of top ten scores of user
+     * @return
+     */
     public String[][] getTopTenScores() {
         return topTenScores;
     }
 
+    /**
+     * returns number of scores if less than 10
+     * @return
+     */
     public int getTtsLength() {
         return ttsLength;
     }
 
+    /**
+     * used to partition array for quicksort
+     * @param arr array to partition
+     * @param l lower index
+     * @param h higher index
+     * @param orig original array
+     * @return
+     */
     int partirion(int arr[], int l, int h, String orig[][]){
         int pivot = arr[h];
         int i = l - 1;
@@ -108,6 +124,13 @@ public class User implements Serializable {
         return i + 1;
     }
 
+    /**
+     * Used to sort list of top ten scores using quicksort
+     * @param arr
+     * @param l
+     * @param h
+     * @param orig
+     */
     void quicksort(int arr[], int l, int h, String orig[][]){
         if(l < h) {
             int p = partirion(arr,l,h,orig);
@@ -116,26 +139,50 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * getter function for password
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * getter function for name
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * getter function for coins
+     * @return
+     */
     public int getCoins() {
         return coins;
     }
 
+    /**
+     * mutator function for coins
+     * @param coins
+     */
     public void addCoins(int coins) {
         this.coins += coins;
     }
 
+    /**
+     * getting function for unlockedSkins
+     * @return
+     */
     public ArrayList<Integer> getUnlockedSkins() {
         return unlockedSkins;
     }
 
+    /**
+     * used to add skins to user
+     * @param c
+     */
     public void addSkins(int c){
         coins -= 500;
         unlockedSkins.add(c);
