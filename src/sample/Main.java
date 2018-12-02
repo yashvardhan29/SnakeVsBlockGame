@@ -91,7 +91,6 @@ public class Main extends Application implements Runnable {
     @Override
     public void start(Stage primaryStage) throws IOException{
         PS = primaryStage;
-        //if(loadStateResume()) System.out.println("djhfcbsdknsdacjladnkak");
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -109,6 +108,10 @@ public class Main extends Application implements Runnable {
         if(database == null) database = new Database();
         database.setController(controller);
 
+        if(!loadStateResume()) {
+            resume.setOpacity(0);
+            database.setShowResumeButton(false);
+        }
 
         if(database.getCurrentUser() != null){
             userLabel.setText(database.getCurrentUser().getName());
