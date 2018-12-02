@@ -139,6 +139,10 @@ public class Grid implements Serializable {
                 } );
     }
 
+
+    /**
+     * Used for restart game functionality of drop down menu.
+     */
     public void resetGame(){
         score = 0;
         Coin_count = 0;
@@ -152,6 +156,16 @@ public class Grid implements Serializable {
         setupObjectArrays();
     }
 
+    /**
+     * Setter method to set timeline variables of the class.
+     * @param t1 Snake Timeline
+     * @param t2 Coin Timeline
+     * @param t3 Block Timeline
+     * @param t4 Magnet Timeline
+     * @param t5 Shield Timeline
+     * @param t6 Destruction Timeline
+     * @param t7 ObjectMover Timeline
+     */
     public void setTimelines(Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7) {
         snakeTimeline = t1;
         coinTimeline = t2;
@@ -162,14 +176,26 @@ public class Grid implements Serializable {
         omtimeline = t7;
     }
 
+    /**
+     * Setter method to set main variable of class.
+     * @param m Reference of main object.
+     */
     public void setMain(Main m){
         main = m;
     }
 
+    /**
+     * Getter method for snake variable.
+     * @return Returns reference to the snake which is a part of this grid.
+     */
     public Snake getSnake() {
         return snake;
     }
 
+    /**
+     * Used to implement resume game functionality by restoring non-serialisable objects to their old state.
+     * @param root Reference to root pane.
+     */
     public void restore(Pane root){
         this.root = root;
         root.setStyle("-fx-background-color: black"); //Setting colour of Pane to Black.
@@ -222,6 +248,9 @@ public class Grid implements Serializable {
         restoreScoreDisplay();
     }
 
+    /**
+     * Initialises Arrays and Arraylists of objects that live in the grid.
+     */
     private void setupObjectArrays(){
         theblocks1 = new Block[7];
         theblocks2 = new Block[7];
@@ -232,6 +261,9 @@ public class Grid implements Serializable {
         TokensOnScreen = new ArrayList<>();
     }
 
+    /**
+     * Initialises boolean class variables.
+     */
     private void InitialiseBooleans(){
         BlockR1IsPresent = false;
         BlockR2IsPresent = false;
@@ -243,6 +275,9 @@ public class Grid implements Serializable {
         isAlive = true;
     }
 
+    /**
+     * Initialises text box for displaying score.
+     */
     private void setupScoreDisplay(){
         score_text = new Text(475,13,"0");
         score_text.setFill(Color.WHITE);
@@ -250,6 +285,9 @@ public class Grid implements Serializable {
         root.getChildren().add(score_text);
     }
 
+    /**
+     * Restores score text box on resume game.
+     */
     private void restoreScoreDisplay(){
         String scorestring = Integer.toString(score);
         score_text = new Text(475,13,scorestring);
@@ -258,6 +296,9 @@ public class Grid implements Serializable {
         root.getChildren().add(score_text);
     }
 
+    /**
+     * Sets up the the snake variable of the grid.
+     */
     private void setupSnake(){
         snake = new Snake(WIDTH,HEIGHT,diameter,root);
         snake.xvel = 0;
@@ -266,6 +307,9 @@ public class Grid implements Serializable {
         root.getChildren().add(snake.sldisp);
     }
 
+    /**
+     * Initialises the choice box for drop-down functionality.
+     */
     private void setupChoiceBox(){
         cb = new ChoiceBox<>();
         cb.getItems().addAll("","Restart Game", "Quit Game");
@@ -278,6 +322,9 @@ public class Grid implements Serializable {
         root.getChildren().add(cb);
     }
 
+    /**
+     * Spawns Walls on screen when called.
+     */
     public void SpawnWalls(){
         double length = 310 - WIDTH/7;
         ArrayList<Integer> OnScreenInd1 = new ArrayList<>();
@@ -318,6 +365,9 @@ public class Grid implements Serializable {
 
     }
 
+    /**
+     * Spawns Coins on screen when called.
+     */
     public void SpawnCoins(){
         // Spawns new Coins
         if(Coin_count < 5){
@@ -334,6 +384,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Spawns Blocks on screen when called.
+     */
     public void SpawnBlocks(){
         // Spawns blocks
         boolean to_proceed = true;
@@ -439,6 +492,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Spawns Shield token on screen when called.
+     */
     public void SpawnShield(){
         if(!ShieldIsPresent){
             int rx = assignRandomX();
@@ -450,6 +506,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Spawns Magnet token on screen when called.
+     */
     public void SpawnMagnet(){
         if(!MagnetIsPresent){
             int rx = assignRandomX();
@@ -461,6 +520,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Spawns destroy blocks token when called.
+      */
     public void SpawnDestructionToken(){
         if(!DestructionIsPresent){
             int rx = assignRandomX();
@@ -473,6 +535,9 @@ public class Grid implements Serializable {
 
     }
 
+    /**
+     * Translates blocks currently on screen downwards.
+     */
     public void MoveBlocks(){
         //Moves the blocks downwards.
         if(BlockR1IsPresent){
@@ -486,6 +551,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates coins currently on screen downwards.
+     */
     public void MoveCoins(){
         //Moves the coins downwards
         if(Coin_count != 0){
@@ -505,6 +573,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates magnet token downwards if on screen.
+      */
     public void MoveMagnet(){
         if(MagnetIsPresent){
             magnet.location.translate(0,1,difficulty);
@@ -518,6 +589,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates shield token downwards if on screen.
+      */
     public void MoveShield(){
         if(ShieldIsPresent){
             shield.location.translate(0,1,difficulty);
@@ -531,6 +605,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates destroy all token downwards if on screen.
+     */
     public void MoveDestructionToken(){
         if(DestructionIsPresent){
             destruction.location.translate(0,1,difficulty);
@@ -544,6 +621,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates walls on screen downwards.
+     */
     public void MoveWalls(){
         for(int i = 0;i<thewalls.size();i++){
             Wall currw = thewalls.get(i);
@@ -556,6 +636,9 @@ public class Grid implements Serializable {
         }
     }
 
+    /**
+     * Translates the snake left or right according to it's velocity.
+     */
     public void MoveSnake(){
         //Shifts all parts of the snakes body left or right.
         ArrayList<Point> spoints = snake.points;

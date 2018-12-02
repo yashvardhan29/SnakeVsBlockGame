@@ -11,7 +11,7 @@ public class Database implements Serializable {
     private Controller controller;
     private String[][] topTenScores;
     private int ttsLength;
-    private static boolean showResumeButton;
+    private boolean showResumeButton;
 
     Database(){
         users = new HashMap<>();

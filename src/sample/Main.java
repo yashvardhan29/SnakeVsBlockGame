@@ -303,8 +303,10 @@ public class Main extends Application implements Runnable {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(e123 -> {
-            database.setShowResumeButton(true);
-            System.out.println("lol");
+            if(controller.grid.snake != null && controller.grid.isAlive){
+                database.setShowResumeButton(true);
+                System.out.println("lol");
+            }
             try{
                 saveState();
             }
@@ -545,7 +547,8 @@ public class Main extends Application implements Runnable {
         boolean b =  false;
         try {
             in = new ObjectInputStream(new FileInputStream("data.txt"));
-            b = ((Database) in.readObject()).isShowResumeButton();
+            Database temp = (Database) in.readObject();
+            b = temp.isShowResumeButton();
             System.out.println(b + "resume");
         }
         catch (Exception e) {
