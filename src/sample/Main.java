@@ -334,11 +334,11 @@ public class Main extends Application implements Runnable {
         System.out.println("lol");
         for (int i = 0; i < ttiesLength; i++) {
             Label label = (Label) root.lookup("#u" +  (i + 1));
-            label.setText(tties[i][0]);
+            label.setText(tties[ttiesLength - 1 - i][0]);
             Label label1 = (Label) root.lookup("#s" + (i + 1));
-            label1.setText(tties[i][1]);
+            label1.setText(tties[ttiesLength - 1 - i][1]);
             Label label2 = (Label) root.lookup("#d" + (i + 1));
-            label2.setText(tties[i][2]);
+            label2.setText(tties[ttiesLength - 1 - i][2]);
         }
         System.out.println(ttiesLength);
         return new Scene(root);
