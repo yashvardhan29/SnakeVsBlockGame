@@ -86,7 +86,6 @@ public class Snake implements Serializable {
             dup.setLayoutY(duploc.getY());
             circles.add(dup);
             root.getChildren().add(dup);
-
         }
 
         this.root = root;

@@ -366,6 +366,7 @@ public class Main extends Application implements Runnable {
         if(Admin.getRoot() == null) {
             System.out.println("yhis happens");
             Admin.restore();
+            Admin.grid.setMain(this);
         }
         Scene scene = new Scene(Admin.getRoot(), 500, 800, Color.BLACK);
         //KeyHandler for KeyPresses

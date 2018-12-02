@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -79,6 +81,15 @@ public class Grid implements Serializable {
 
     int difficulty = 0;
 
+    Image img = new Image("file:src/Burst.gif",50,50,true,false);
+    ImageView icon = new ImageView(img);
+
+    boolean gifonscreen = false;
+    long gifstime = 0;
+
+    double bx = 0;
+    double by = 0;
+
 
     Grid(Pane root, Timeline t1, Timeline t2, Timeline t3, Timeline t4, Timeline t5, Timeline t6, Timeline t7){
         this.root = root;
@@ -100,6 +111,10 @@ public class Grid implements Serializable {
         setupScoreDisplay();
         InitialiseBooleans();
         setupObjectArrays();
+
+
+        //root.getChildren().add(icon);
+
 
         cb.getSelectionModel()
                 .selectedItemProperty()
@@ -197,6 +212,7 @@ public class Grid implements Serializable {
 
         }
         if(snake != null) snake.restore(root);
+        root.getChildren().add(snake.sldisp);
 
 
         setupChoiceBox();
@@ -652,11 +668,17 @@ public class Grid implements Serializable {
                                 }
                             }
                             score += val;
+                            bx = ((lbx+ubx)/2) - 25;
+                            by = currb.location.getY();
+
                             if(val <= 5){
                                 root.getChildren().remove(theblocks[i].realg);
                                 snake.decrLength(val);
+                                playBurst(bx,by);
                             }
+
                             theblocks[i] = null;
+
                         }
                         else isAlive = false;
                         adjustDifficulty();
@@ -694,6 +716,7 @@ public class Grid implements Serializable {
                 else if(currt instanceof Destruction){
                     ConsumeDestruction(currt);
                 }
+                playBurst(tloc.getX() - 15,tloc.getY() - 50);
             }
         }
     }
@@ -934,6 +957,14 @@ public class Grid implements Serializable {
             playTimelines();
             isPaused = false;
             root.getChildren().remove(beingPounded.realg);
+            playBurst(bx,by);
+        }
+        if(gifonscreen){
+            long currtime = System.currentTimeMillis();
+            if(currtime - gifstime > 150){
+                root.getChildren().remove(icon);
+                gifonscreen = false;
+            }
         }
     }
 
@@ -966,6 +997,7 @@ public class Grid implements Serializable {
 //                System.out.println("lol");
 //            }
 //            if(snakeTimeline == null) System.out.println(1234);
+            if(main == null) System.out.println("Hello12");
             String name = main.getDatabase().getCurrentUser().getName();
             String newScore = Integer.toString(this.score);
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -1003,5 +1035,13 @@ public class Grid implements Serializable {
 
 //            System.exit(0);
         }
+    }
+
+    public void playBurst(double x,double y){
+        icon.setX(x);
+        icon.setY(y);
+        if(!gifonscreen) root.getChildren().add(icon);
+        gifonscreen = true;
+        gifstime = System.currentTimeMillis();
     }
 }
