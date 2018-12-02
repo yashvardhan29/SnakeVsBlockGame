@@ -4,19 +4,53 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Block class.
+ */
 public class Block implements Serializable {
-    transient Text value; //Displays numerical valOfCoin of block and is added to StackPane.
-    int valOfBlock; //Integer storing numerical valOfCoin of block.
-    transient Rectangle block; //Rectangle representing block that is added to StackPane.
-    transient StackPane realg; // StackPane that is added to the pane.
-    Point location; //Stores location of top left corner of block.
-    transient Color colors[]; //Array that has 7 colors. Helps in generation of random colours for blocks.
-    int DIM;
+    /**
+     * Displays numerical valOfCoin of block and is added to StackPane.
+     */
+    private transient Text value;
+    /**
+     * Integer storing numerical valOfCoin of block.
+     */
+    int valOfBlock;
 
+    /**
+     * Rectangle representing block that is added to StackPane.
+     */
+    private transient Rectangle block;
+
+    /**
+     * StackPane that is added to the pane.
+     */
+    transient StackPane realg;
+
+    /**
+     * Stores location of top left corner of block.
+     */
+    Point location;
+
+    /**
+     * Array that has 7 colors. Helps in generation of random colours for blocks.
+     */
+    private transient Color colors[];
+
+    /**
+     * Width of Grid.
+     */
+    private int DIM;
+
+
+    /**
+     * Constructor of class.
+     * @param D Width of grid.
+     * @param p Starting location of StackPane.
+     */
     Block(int D,Point p){
 
         location = p;
@@ -36,6 +70,9 @@ public class Block implements Serializable {
     }
 
 
+    /**
+     * Restores block if resume game is called.
+     */
     public void restore(){
         setupColors();
         Random rand = new Random();
@@ -48,6 +85,12 @@ public class Block implements Serializable {
         realg.getChildren().addAll(block,value); //Adding Rectangle and TextHolder to StackPane.
     }
 
+    /**
+     * Helper method to setup block
+     * @param DIM Width of grid.
+     * @param col Number associated with color.
+     * @param p Location of block.
+     */
     private void setupRectangle(int DIM,int col,Point p){
         block = new Rectangle(DIM/7,DIM/7);
         block.setLayoutX(p.getX());
@@ -58,12 +101,19 @@ public class Block implements Serializable {
 
     }
 
+    /**
+     * Setter for position.
+     * @param p Point.
+     */
     public void setPosition(Point p){
        realg.setLayoutX(p.getX());
        realg.setLayoutY(p.getY());
     }
 
-    public void setupColors(){
+    /**
+     * Sets up array of colors
+     */
+    private void setupColors(){
         colors = new Color[7];
         colors[0] = Color.ALICEBLUE;
         colors[1] = Color.ANTIQUEWHITE;
@@ -74,6 +124,10 @@ public class Block implements Serializable {
         colors[6] = Color.BROWN;
     }
 
+    /**
+     * Sets value of block.
+     * @param val
+     */
     public void setValue(int val){
         String toSet = Integer.toString(val);
         value.setText(toSet);

@@ -280,6 +280,7 @@ public class Grid implements Serializable {
                         try{
                             main.start(main.PS);
                             main.r = true;
+                            main.database.setShowResumeButton(false);
                         }catch (Exception e){
                             System.out.println("grid 99");
                         }

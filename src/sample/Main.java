@@ -113,6 +113,18 @@ public class Main extends Application implements Runnable {
     @Override
     public void start(Stage primaryStage) throws IOException{
         PS = primaryStage;
+        ObjectInputStream in = null;
+
+        try {
+            in = new ObjectInputStream(new FileInputStream("data.txt"));
+            database = (Database) in.readObject();
+        }
+        catch (Exception e) {
+            System.out.println("here1");
+        }
+        finally {
+            in.close();
+        }
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
@@ -535,6 +547,7 @@ public class Main extends Application implements Runnable {
             in.close();
         }
     }
+
 
     /**
      * Deserializes just the array storing global top ten scores
