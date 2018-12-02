@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database implements Serializable {
-    private HashMap<String,User> users;
-    private User currentUser;
-    private Controller controller;
-    private String[][] topTenScores;
-    private int ttsLength;
-    private boolean showResumeButton;
+    private HashMap<String,User> users; //Stores list of users using username as key
+    private User currentUser; //current user
+    private Controller controller; //current controller
+    private String[][] topTenScores; //list of global top ten scores
+    private int ttsLength; //no of scores if less than 10
+    private boolean showResumeButton; //stores if previous game was complete or not
 
     Database(){
         users = new HashMap<>();
@@ -22,14 +22,29 @@ public class Database implements Serializable {
 //        for (int i = 0; i < 10; i++) for (int j = 0; j < 3; j++) topTenScores[i][j] = "";
     }
 
+    /**
+     * returns showResumeButton
+     * @return
+     */
     public boolean isShowResumeButton() {
         return showResumeButton;
     }
 
+    /**
+     * mutator method for showResumeButton
+     * @param b
+     */
     public void setShowResumeButton(boolean b){
         showResumeButton = b;
     }
 
+    /**
+     * checks if new score is greater than any score in the top ten scores
+     * and replaces the least if yes
+     * @param name
+     * @param score
+     * @param date
+     */
     public void updateTopTenScores(String name, String score, String date){
         if(ttsLength == 0){
             topTenScores[0][0] = name;
@@ -60,14 +75,30 @@ public class Database implements Serializable {
         quicksort(numero,0,ttsLength - 1,topTenScores);
     }
 
+    /**
+     * returns topTenScores
+     * @return
+     */
     public String[][] getTopTenScores() {
         return topTenScores;
     }
 
+    /**
+     * return ttsLength
+     * @return
+     */
     public int getTtsLength() {
         return ttsLength;
     }
 
+    /**
+     * Used to Partition array for quicksort
+     * @param arr
+     * @param l
+     * @param h
+     * @param orig
+     * @return
+     */
     int partirion(int arr[], int l, int h, String orig[][]){
         int pivot = arr[h];
         int i = l - 1;
@@ -95,6 +126,13 @@ public class Database implements Serializable {
         return i + 1;
     }
 
+    /**
+     * sorts array using quicksort
+     * @param arr
+     * @param l
+     * @param h
+     * @param orig
+     */
     void quicksort(int arr[], int l, int h, String orig[][]){
         if(l < h) {
             int p = partirion(arr,l,h,orig);
@@ -103,6 +141,11 @@ public class Database implements Serializable {
         }
     }
 
+    /**
+     * Used to login to a profile or create one
+     * @param n
+     * @param p
+     */
     public void login(String n, String p){
         if(users.containsKey(n) && users.get(n).getPassword().equals(p)) currentUser = users.get(n);
         else {
@@ -111,14 +154,26 @@ public class Database implements Serializable {
         }
     }
 
+    /**
+     * returns controller
+     * @return
+     */
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * returns currentUser
+     * @return
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * mutator method for controller
+     * @param c
+     */
     public void setController(Controller c) {
         controller = c;
         c.setDatabase(this);
