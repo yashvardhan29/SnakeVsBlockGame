@@ -91,7 +91,7 @@ public class Main extends Application implements Runnable {
     @Override
     public void start(Stage primaryStage) throws IOException{
         PS = primaryStage;
-        if(loadStateResume()) System.out.println("djhfcbsdknsdacjladnkak");
+        //if(loadStateResume()) System.out.println("djhfcbsdknsdacjladnkak");
         if(controller == null) controller = new Controller();
         controller.getGrid().setMain(this);
         root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
