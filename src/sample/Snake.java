@@ -225,9 +225,11 @@ public class Snake implements Serializable {
             if(length >= 20){
              todecr = 19 - newlength;
             }
-            for(int i = circles.size()-1;i > circles.size()-todecr-1;i--){
-                root.getChildren().remove(circles.get(i));
-            }
+            int k = circles.size()-1;
+            while(k > circles.size()-todecr-1){
+                root.getChildren().remove(circles.get(k));
+                k--;
+            }    
             int i = points.size()-1;
             int bound = points.size()- todecr -1;
             while(i > bound){
